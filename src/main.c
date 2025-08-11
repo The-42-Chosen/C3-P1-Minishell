@@ -6,18 +6,14 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 10:57:36 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/19 16:44:53 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/22 11:45:12 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-int	g_exit_code = 0;
-
 int	main(int ac, char **av, char **env)
 {
-	t_msh	msh;
 	(void)ac;
 	(void)av;
 	(void)env;
