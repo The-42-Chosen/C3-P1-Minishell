@@ -6,7 +6,7 @@
 #    By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 02:58:34 by erpascua          #+#    #+#              #
-#    Updated: 2025/08/11 10:45:26 by erpascua         ###   ########.fr        #
+#    Updated: 2025/08/11 19:26:05 by erpascua         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,16 +24,15 @@ RM			=	/bin/rm -f
 LIBFT_DIR	=	libft
 LIBFT       =	$(LIBFT_DIR)/libft.a
 
-# DEV: To be removed
-SRCS        = 	$(wildcard $(SRC_DIR)/*.c)
+# DEV: WARNING WILDCARD - To be removed
+SRCS        = 	$(shell find src -name "*.c")
 
 MAIN_SRC    = 	src/main.c
 
 OBJ_DIR     =	obj
-OBJS        =	$(SRCS:src/%.c=$(OBJ_DIR)/src/%.o)
-MAIN_OBJ    =	$(MAIN_SRC:src/%.c=$(OBJ_DIR)/src/%.o)
+OBJS        =	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 BONUS_OBJS  =	$(BONUS_SRCS:bonus/%.c=$(OBJ_DIR)/bonus/%.o)
-ALL_OBJS    =	$(OBJS) $(MAIN_OBJ) $(BONUS_OBJS)
+ALL_OBJS    =	$(OBJS) $(BONUS_OBJS)
 
 #******************************************************************************#
 #									   RULES								   #
@@ -44,8 +43,8 @@ all: $(NAME)
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR) 1>/dev/null
 
-$(NAME): $(LIBFT) $(OBJS) $(MAIN_OBJ)
-	@$(CC) $(CFLAGS) $(OBJS) $(MAIN_OBJ) $(LIBFT) -o $(NAME)
+$(NAME): $(LIBFT) $(OBJS)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 	@echo "✅  $@ built"
 
 $(OBJ_DIR)/src/%.o: src/%.c
