@@ -6,15 +6,7 @@
 #    By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 02:58:34 by erpascua          #+#    #+#              #
-<<<<<<< HEAD
-<<<<<<< HEAD
-#    Updated: 2025/08/22 11:05:07 by erpascua         ###   ########.fr        #
-=======
-#    Updated: 2025/08/11 19:26:05 by erpascua         ###   ########.fr        #
->>>>>>> df10aac ((feat) Minishell program launch setup on progress)
-=======
-#    Updated: 2025/08/12 16:20:06 by erpascua         ###   ########.fr        #
->>>>>>> 2b5c00a ((feat) Gitignore added for files .a/.o & Makefile & Header added)
+#    Updated: 2025/08/22 11:19:21 by erpascua         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +18,11 @@
 
 NAME		= 	minishell
 CC			=	cc
+<<<<<<< HEAD
 CFLAGS		=	-Wall -Wextra -Werror -Iinclude -I$(LIBFT_DIR) -MMD -MP
+=======
+CFLAGS		=	-Wall -Wextra -Werror -Iinclude -I$(LIBFT_DIR)
+>>>>>>> 80dea0a ((chore) flags for msh added)
 LDFLAGS		=	-lreadline -ltermcap -lncurses
 RM			=	/bin/rm -f
 
@@ -52,7 +48,7 @@ $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR) 1>/dev/null
 
 $(NAME): $(LIBFT) $(OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LDFLAGS)
 	@echo "✅  $@ built"
 
 $(OBJ_DIR)/src/%.o: src/%.c
