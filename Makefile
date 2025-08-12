@@ -6,7 +6,7 @@
 #    By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 02:58:34 by erpascua          #+#    #+#              #
-#    Updated: 2025/08/12 16:20:06 by erpascua         ###   ########.fr        #
+#    Updated: 2025/08/12 18:49:12 by erpascua         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@
 NAME		= 	minishell
 CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror -Iinclude -I$(LIBFT_DIR)
+LDFLAGS		=	-lreadline -ltermcap -lncurses
 RM			=	/bin/rm -f
 
 LIBFT_DIR	=	libft
@@ -43,7 +44,7 @@ $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR) 1>/dev/null
 
 $(NAME): $(LIBFT) $(OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LDFLAGS)
 	@echo "✅  $@ built"
 
 $(OBJ_DIR)/src/%.o: src/%.c
