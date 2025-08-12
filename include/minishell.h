@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/12 14:31:08 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/12 20:10:21 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <stdio.h>
 # include <string.h>
 # include <term.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 // DEV: Eric: J'ai creer une premiere structure qui reprend le path de pipex
 // et qui nous permettra de faire quelques tests. Au moment je redige ceci
@@ -44,11 +46,13 @@ typedef struct s_msh
 {
 	t_env			*env;
 	int				last_status;
+	char			*history;
 	bool			is_heredoc;
 	bool			is_builtin;
 }					t_msh;
 
-int					launch_program(void);
+int					launch_program(t_msh *msh);
 void				print_banner(void);
+void				struct_init(t_msh *msh);
 
 #endif
