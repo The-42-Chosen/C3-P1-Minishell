@@ -6,11 +6,11 @@
 #    By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 02:58:34 by erpascua          #+#    #+#              #
-#    Updated: 2025/08/11 19:26:05 by erpascua         ###   ########.fr        #
+#    Updated: 2025/08/12 16:20:06 by erpascua         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# .SILENT:
+.SILENT:
 
 #******************************************************************************#
 #									  CONFIG								   #
@@ -20,7 +20,7 @@ NAME		= 	minishell
 CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror -Iinclude -I$(LIBFT_DIR)
 RM			=	/bin/rm -f
-                   
+
 LIBFT_DIR	=	libft
 LIBFT       =	$(LIBFT_DIR)/libft.a
 
@@ -31,8 +31,7 @@ MAIN_SRC    = 	src/main.c
 
 OBJ_DIR     =	obj
 OBJS        =	$(SRCS:%.c=$(OBJ_DIR)/%.o)
-BONUS_OBJS  =	$(BONUS_SRCS:bonus/%.c=$(OBJ_DIR)/bonus/%.o)
-ALL_OBJS    =	$(OBJS) $(BONUS_OBJS)
+ALL_OBJS    =	$(OBJS)
 
 #******************************************************************************#
 #									   RULES								   #
@@ -51,17 +50,6 @@ $(OBJ_DIR)/src/%.o: src/%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJ_DIR)/bonus/%.o: bonus/%.c
-	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -c $< -o $@
-
-# DEV: Should probably be removed
-bonus: $(NAME_BONUS)
-
-$(NAME_BONUS): $(LIBFT) $(OBJS) $(BONUS_OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) $(BONUS_OBJS) $(LIBFT) -o $(NAME_BONUS)
-	@echo "✅  $@ built"
-
 clean:
 	@$(MAKE) -C $(LIBFT_DIR) clean 1>/dev/null
 	@$(RM) -rf $(OBJ_DIR)
@@ -74,9 +62,9 @@ fclean: clean
 
 re: fclean all
 
-dev: 
+dev:
 	@make re 1>/dev/null
 	@make clean 1>/dev/null
 	@echo "✅  Libraries created and objects deleted"
 
-.PHONY: all clean fclean re bonus dev
+.PHONY: all clean fclean re dev
