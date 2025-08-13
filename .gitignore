@@ -2,3 +2,5 @@
 *.o
 */*.a
 */*.b
+minishell
+tmp_fd
