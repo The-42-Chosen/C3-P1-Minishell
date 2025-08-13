@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/13 12:58:27 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/13 19:30:20 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ int	launch_program(t_msh *msh)
 		if (!entry)
 			break ;
 		else
+		{
 			update_history(msh, entry);
+			is_builtin(msh, entry);
+		}
 		write(tmp_fd, entry, ft_strlen(entry));
 		free(entry);
 	}
