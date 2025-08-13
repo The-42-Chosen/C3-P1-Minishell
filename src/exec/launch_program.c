@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/22 11:50:51 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/22 11:51:39 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	launch_program(void)
 		free(entry_no_nl);
 	}
 	close(tmp_fd);
+	free(msh->history);
 	unlink("tmp_fd");
 	return (0);
 }
