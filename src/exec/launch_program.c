@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/22 11:51:39 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/22 11:53:08 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ int	launch_program(void)
 		entry = get_next_line(0);
 		if (!entry)
 			break ;
-		entry_no_nl = ft_strtrim(entry, "\n");
-		if (!entry_no_nl)
-			return (free(entry), 1);
+		else
+		{
+			update_history(msh, entry);
+			is_builtin(msh, entry);
+		}
 		write(tmp_fd, entry, ft_strlen(entry));
 		free(entry);
 		free(entry_no_nl);
