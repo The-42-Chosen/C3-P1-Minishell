@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 17:07:49 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/13 19:31:41 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/14 18:47:49 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool	is_builtin(t_msh *msh, char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < NB_BUILTINS)

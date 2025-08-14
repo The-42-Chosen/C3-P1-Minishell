@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 12:00:26 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/13 17:39:31 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/14 18:47:17 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ void	print_banner(void)
 	const char	**colors;
 	int			i;
 
-	if (!isatty(STDOUT_FILENO) || getenv("MS_NO_BANNER"))
+	if (!isatty(STDOUT_FILENO) || !isatty(STDIN_FILENO)
+		|| getenv("MS_NO_BANNER"))
 		return ;
 	banner = get_banner_lines();
 	colors = get_banner_colors();
