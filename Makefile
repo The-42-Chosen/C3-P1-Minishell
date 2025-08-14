@@ -6,7 +6,7 @@
 #    By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 02:58:34 by erpascua          #+#    #+#              #
-#    Updated: 2025/08/12 18:49:12 by erpascua         ###   ########.fr        #
+#    Updated: 2025/08/14 15:18:39 by erpascua         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@
 
 NAME		= 	minishell
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -Iinclude -I$(LIBFT_DIR)
+CFLAGS		=	-Wall -Wextra -Werror -Iinclude -I$(LIBFT_DIR) -MMD -MP
 LDFLAGS		=	-lreadline -ltermcap -lncurses
 RM			=	/bin/rm -f
 
