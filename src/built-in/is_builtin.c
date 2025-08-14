@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 17:07:49 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/22 11:53:49 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/22 11:55:09 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 bool	is_builtin(t_msh *msh, char *s)
 {
+	int	i;
 	int	i;
 
 	i = 0;

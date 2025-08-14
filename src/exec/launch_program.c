@@ -6,26 +6,29 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/22 11:53:08 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/22 11:55:32 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	launch_program(void)
+void	update_history(t_msh *msh, char *entry)
+{
+	add_history(entry);
+	append_history(1, msh->history);
+}
+
+void	repl(t_msh *msh, int tmp_fd)
 {
 	char	*entry;
-	int		tmp_fd;
 
-	read_history(msh->history);
-	tmp_fd = open("tmp_fd", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (tmp_fd < 0)
-		return (perror("open"), 1);
 	while (1)
 	{
-		write(1, "\033[1;92mMinishell > \033[0m", 23);
-		entry = get_next_line(0);
-		if (!entry)
+		if (isatty(STDIN_FILENO))
+			entry = readline("\033[1;92mMinishell > \033[0m");
+		else
+			entry = get_next_line(0);
+		if (!entry && is_eof())
 			break ;
 		else
 		{
@@ -36,8 +39,19 @@ int	launch_program(void)
 		free(entry);
 		free(entry_no_nl);
 	}
+}
+
+int	launch_program(t_msh *msh)
+{
+	int	tmp_fd;
+
+	read_history(msh->history);
+	tmp_fd = open("tmp_fd", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (tmp_fd < 0)
+		return (perror("open"), 1);
+	repl(msh, tmp_fd);
 	close(tmp_fd);
 	free(msh->history);
 	unlink("tmp_fd");
-	return (0);
+	return (msh->last_status);
 }
