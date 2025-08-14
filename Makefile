@@ -6,7 +6,7 @@
 #    By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 02:58:34 by erpascua          #+#    #+#              #
-#    Updated: 2025/08/22 11:19:21 by erpascua         ###   ########.fr        #
+#    Updated: 2025/08/22 11:54:26 by erpascua         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,11 +18,7 @@
 
 NAME		= 	minishell
 CC			=	cc
-<<<<<<< HEAD
 CFLAGS		=	-Wall -Wextra -Werror -Iinclude -I$(LIBFT_DIR) -MMD -MP
-=======
-CFLAGS		=	-Wall -Wextra -Werror -Iinclude -I$(LIBFT_DIR)
->>>>>>> 80dea0a ((chore) flags for msh added)
 LDFLAGS		=	-lreadline -ltermcap -lncurses
 RM			=	/bin/rm -f
 
