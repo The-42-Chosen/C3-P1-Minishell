@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/22 11:52:19 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/22 11:54:49 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,7 @@ int					bi_pwd(void);
 int					bi_export(void);
 int					bi_unset(void);
 int					bi_env(void);
+// SIGNALS
+bool				is_eof(void);
 
 #endif
