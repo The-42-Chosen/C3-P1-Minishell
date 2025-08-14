@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/14 18:48:25 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/14 19:30:58 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ typedef struct s_msh
 	char			*history;
 	bool			is_heredoc;
 	bool			is_builtin;
-	bool			is_tty;
 	char			*builtin_names[NB_BUILTINS];
 	int				(*builtin_funcs[NB_BUILTINS])(void);
 }					t_msh;
