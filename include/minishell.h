@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/13 19:14:59 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/14 18:48:25 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ typedef enum e_builtin
 	NB_BUILTINS
 }	t_builtin;
 
-
 typedef struct s_msh
 {
 	t_env			*env;
@@ -88,5 +87,7 @@ int					bi_pwd(void);
 int					bi_export(void);
 int					bi_unset(void);
 int					bi_env(void);
+// SIGNALS
+bool				is_eof(void);
 
 #endif
