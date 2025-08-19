@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 20:02:25 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/14 19:30:49 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/19 17:50:27 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	struct_init(t_msh *msh)
 {
 	msh->env = NULL;
 	msh->history = NULL;
-	msh->last_status = 0;
 	msh->is_builtin = 0;
 	msh->is_heredoc = 0;
 	link_builtins(msh);

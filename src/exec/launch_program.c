@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/14 18:55:27 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/19 17:00:57 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	update_history(t_msh *msh, char *entry)
 void	repl(t_msh *msh, int tmp_fd)
 {
 	char	*entry;
+	int		process;
 
+	process = getpid();
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
@@ -42,7 +45,7 @@ void	repl(t_msh *msh, int tmp_fd)
 
 int	launch_program(t_msh *msh)
 {
-	int		tmp_fd;
+	int	tmp_fd;
 
 	read_history(msh->history);
 	tmp_fd = open("tmp_fd", O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -52,5 +55,5 @@ int	launch_program(t_msh *msh)
 	close(tmp_fd);
 	free(msh->history);
 	unlink("tmp_fd");
-	return (msh->last_status);
+	return (g_exit_code);
 }
