@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/19 16:44:29 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/19 19:20:45 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef enum e_builtin
 typedef struct s_msh
 {
 	t_env			*env;
+	char			*entry;
 	char			*history;
 	bool			is_heredoc;
 	bool			is_builtin;
@@ -80,7 +81,7 @@ void				print_banner(void);
 void				struct_init(t_msh *msh);
 
 // BUILT-IN
-bool				is_builtin(t_msh *msh, char *s);
+bool				is_builtin(t_msh *msh);
 int					bi_exit(void);
 int					bi_echo(void);
 int					bi_cd(void);
@@ -90,6 +91,6 @@ int					bi_unset(void);
 int					bi_env(void);
 // SIGNALS
 bool				is_eof(void);
-void				is_sig_quit(int process);
+void				sigint_handler(int process);
 
 #endif

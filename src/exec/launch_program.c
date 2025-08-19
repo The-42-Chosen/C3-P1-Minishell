@@ -6,40 +6,41 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/19 17:00:57 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/19 19:21:00 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <signal.h>
 
-void	update_history(t_msh *msh, char *entry)
+void	update_history(t_msh *msh)
 {
-	add_history(entry);
+	add_history(msh->entry);
 	append_history(1, msh->history);
 }
 
 void	repl(t_msh *msh, int tmp_fd)
 {
-	char	*entry;
-	int		process;
+	int	process;
 
 	process = getpid();
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, sigint_handler);
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
-			entry = readline("\033[1;92mMinishell > \033[0m");
+			msh->entry = readline("\033[1;92mMinishell > \033[0m");
 		else
-			entry = get_next_line(0);
-		if (!entry && is_eof())
+			msh->entry = get_next_line(0);
+		if (!msh->entry && is_eof())
 			break ;
 		else
 		{
-			update_history(msh, entry);
-			is_builtin(msh, entry);
+			update_history(msh);
+			is_builtin(msh);
 		}
-		write(tmp_fd, entry, ft_strlen(entry));
-		free(entry);
+		write(tmp_fd, msh->entry, ft_strlen(msh->entry));
+		free(msh->entry);
 	}
 }
 
