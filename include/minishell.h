@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/22 11:55:57 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/22 11:56:19 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <string.h>
 # include <term.h>
+
+extern int			g_exit_code;
 
 extern int			g_exit_code;
 // DEV: Eric: J'ai creer une premiere structure qui reprend le path de pipex
@@ -62,11 +65,12 @@ typedef enum e_builtin
 	BI_EXIT,
 	NB_BUILTINS
 }					t_builtin;
+}
+t_builtin;
 
 typedef struct s_msh
 {
 	t_env			*env;
-	int				last_status;
 	char			*history;
 	bool			is_heredoc;
 	bool			is_builtin;
@@ -89,5 +93,6 @@ int					bi_unset(void);
 int					bi_env(void);
 // SIGNALS
 bool				is_eof(void);
+void				is_sig_quit(int process);
 
 #endif
