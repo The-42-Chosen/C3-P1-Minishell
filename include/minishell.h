@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/12 14:31:08 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/11 19:40:47 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <string.h>
-# include <term.h>
 
 // DEV: Eric: J'ai creer une premiere structure qui reprend le path de pipex
 // et qui nous permettra de faire quelques tests. Au moment je redige ceci
@@ -49,6 +48,5 @@ typedef struct s_msh
 }					t_msh;
 
 int					launch_program(void);
-void				print_banner(void);
 
 #endif
