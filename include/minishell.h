@@ -15,6 +15,7 @@
 
 # include "libft.h"
 # include <fcntl.h>
+
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -24,7 +25,6 @@
 # include <term.h>
 
 extern int			g_exit_code;
-
 // DEV: Eric: J'ai creer une premiere structure qui reprend le path de pipex
 // et qui nous permettra de faire quelques tests. Au moment je redige ceci
 // je ne m'en suis pas encore servi donc n'hesites pas a
@@ -44,14 +44,6 @@ typedef struct s_env
 
 // Pour traiter les $? il nous faudra mettre a jour constamment nos retours
 // de fonction d'ou le last_status;
-
-// # define BI_ECHO "echo"
-// # define BI_CD "cd"
-// # define BI_PWD "pwd"
-// # define BI_EXPORT "export"
-// # define BI_UNSET "unset"
-// # define BI_ENV "env"
-// # define BI_EXIT "exit"
 
 typedef enum e_builtin
 {

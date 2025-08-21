@@ -12,12 +12,12 @@
 
 #include "minishell.h"
 
+
 int	g_exit_code = 0;
 
 int	main(int ac, char **av, char **env)
 {
 	t_msh	msh;
-
 	(void)ac;
 	(void)av;
 	(void)env;
