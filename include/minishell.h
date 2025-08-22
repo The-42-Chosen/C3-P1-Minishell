@@ -6,7 +6,11 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/19 19:20:45 by erpascua         ###   ########.fr       */
+<<<<<<< HEAD
+/*   Updated: 2025/08/12 14:31:08 by erpascua         ###   ########.fr       */
+=======
+/*   Updated: 2025/08/11 19:40:47 by erpascua         ###   ########.fr       */
+>>>>>>> df10aac ((feat) Minishell program launch setup on progress)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +19,13 @@
 
 # include "libft.h"
 # include <fcntl.h>
-
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <string.h>
+<<<<<<< HEAD
 # include <term.h>
+=======
+>>>>>>> df10aac ((feat) Minishell program launch setup on progress)
 
 extern int			g_exit_code;
 // DEV: Eric: J'ai creer une premiere structure qui reprend le path de pipex
@@ -68,21 +71,10 @@ typedef struct s_msh
 	int				(*builtin_funcs[NB_BUILTINS])(void);
 }					t_msh;
 
-int					launch_program(t_msh *msh);
+int					launch_program(void);
+<<<<<<< HEAD
 void				print_banner(void);
-void				struct_init(t_msh *msh);
-
-// BUILT-IN
-bool				is_builtin(t_msh *msh);
-int					bi_exit(void);
-int					bi_echo(void);
-int					bi_cd(void);
-int					bi_pwd(void);
-int					bi_export(void);
-int					bi_unset(void);
-int					bi_env(void);
-// SIGNALS
-bool				is_eof(void);
-void				sigint_handler(int process);
+=======
+>>>>>>> df10aac ((feat) Minishell program launch setup on progress)
 
 #endif

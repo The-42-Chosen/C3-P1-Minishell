@@ -6,7 +6,11 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 10:57:36 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/22 11:45:12 by erpascua         ###   ########.fr       */
+<<<<<<< HEAD
+/*   Updated: 2025/08/22 11:06:36 by erpascua         ###   ########.fr       */
+=======
+/*   Updated: 2025/08/11 18:40:38 by erpascua         ###   ########.fr       */
+>>>>>>> df10aac ((feat) Minishell program launch setup on progress)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +21,9 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	(void)env;
+<<<<<<< HEAD
 	print_banner();
-	struct_init(&msh);
-	launch_program(&msh);
+=======
+>>>>>>> df10aac ((feat) Minishell program launch setup on progress)
+	launch_program();
 }

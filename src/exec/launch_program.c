@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/19 19:21:00 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/22 11:47:19 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,40 +21,15 @@ void	update_history(t_msh *msh)
 
 void	repl(t_msh *msh, int tmp_fd)
 {
-	int	process;
+	char	*entry;
+	char	*entry_no_nl;
+	int		tmp_fd;
 
-	process = getpid();
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, sigint_handler);
-	while (1)
-	{
-		if (isatty(STDIN_FILENO))
-			msh->entry = readline("\033[1;92mMinishell > \033[0m");
-		else
-			msh->entry = get_next_line(0);
-		if (!msh->entry && is_eof())
-			break ;
-		else
-		{
-			update_history(msh);
-			is_builtin(msh);
-		}
-		write(tmp_fd, msh->entry, ft_strlen(msh->entry));
-		free(msh->entry);
-	}
-}
-
-int	launch_program(t_msh *msh)
-{
-	int	tmp_fd;
-
-	read_history(msh->history);
 	tmp_fd = open("tmp_fd", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (tmp_fd < 0)
 		return (perror("open"), 1);
 	repl(msh, tmp_fd);
 	close(tmp_fd);
-	free(msh->history);
 	unlink("tmp_fd");
-	return (g_exit_code);
+	return (0);
 }
