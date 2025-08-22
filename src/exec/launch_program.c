@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_program.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/22 13:09:17 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/22 14:42:22 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	repl(t_msh *msh, int tmp_fd)
 			is_builtin(msh);
 		}
 		write(tmp_fd, msh->entry, ft_strlen(msh->entry));
+		write(tmp_fd, "\n", 1);
 		free(msh->entry);
 	}
 }
@@ -49,12 +50,12 @@ int	launch_program(t_msh *msh)
 	int	tmp_fd;
 
 	read_history(msh->history);
-	tmp_fd = open("tmp_fd", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	tmp_fd = open("tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (tmp_fd < 0)
 		return (perror("open"), 1);
 	repl(msh, tmp_fd);
 	close(tmp_fd);
 	free(msh->history);
-	unlink("tmp_fd");
+	unlink("tmp");
 	return (g_exit_code);
 }
