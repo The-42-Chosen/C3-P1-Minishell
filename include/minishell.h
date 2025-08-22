@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/22 13:09:07 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/22 13:40:48 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 
 extern int			g_exit_code;
 
-extern int			g_exit_code;
 // DEV: Eric: J'ai creer une premiere structure qui reprend le path de pipex
 // et qui nous permettra de faire quelques tests. Au moment je redige ceci
 // je ne m'en suis pas encore servi donc n'hesites pas a
@@ -42,17 +41,6 @@ typedef struct s_env
 	char			*value;
 	struct s_env	*next;
 }					t_env;
-
-// Pour traiter les $? il nous faudra mettre a jour constamment nos retours
-// de fonction d'ou le last_status;
-
-// # define BI_ECHO "echo"
-// # define BI_CD "cd"
-// # define BI_PWD "pwd"
-// # define BI_EXPORT "export"
-// # define BI_UNSET "unset"
-// # define BI_ENV "env"
-// # define BI_EXIT "exit"
 
 typedef enum e_builtin
 {
