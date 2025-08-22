@@ -6,7 +6,7 @@
 #    By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 02:58:34 by erpascua          #+#    #+#              #
-#    Updated: 2025/08/22 11:55:46 by erpascua         ###   ########.fr        #
+#    Updated: 2025/08/22 13:08:53 by erpascua         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,9 +62,6 @@ fclean: clean
 	@echo "✅  Binaries deleted"
 
 re: fclean all
-
-valgrind: all
-	valgrind --suppressions=./_dev_tools/.ignore_rl_leaks.supp --leak-check=full --track-origins=yes -s ./minishell
 
 valgrind: all
 	valgrind --suppressions=./_dev_tools/.ignore_rl_leaks.supp --leak-check=full --track-origins=yes -s ./minishell

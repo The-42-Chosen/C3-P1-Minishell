@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/22 11:58:56 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/22 13:09:17 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	repl(t_msh *msh, int tmp_fd)
 
 int	launch_program(t_msh *msh)
 {
-	int	tmp_fd;
 	int	tmp_fd;
 
 	read_history(msh->history);
