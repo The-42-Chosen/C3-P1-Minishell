@@ -20,6 +20,7 @@ NAME		= 	minishell
 CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror -Iinclude -I$(LIBFT_DIR) -MMD -MP
 LDFLAGS		=	-lreadline -ltermcap -lncurses
+
 RM			=	/bin/rm -f
 
 LIBFT_DIR	=	libft
