@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/11 10:57:36 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/22 11:36:29 by erpascua         ###   ########.fr       */
+/*   Created: 2025/08/13 19:01:32 by erpascua          #+#    #+#             */
+/*   Updated: 2025/08/13 19:02:03 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_exit_code = 0;
-
-int	main(int ac, char **av, char **env)
+int	bi_echo(void)
 {
-	t_msh	msh;
-	(void)ac;
-	(void)av;
-	(void)env;
-	print_banner();
-	struct_init(&msh);
-	launch_program(&msh);
+	ft_putendl_fd("echo", 1);
+	return (0);
 }

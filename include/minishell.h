@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/12 20:10:21 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/22 13:09:07 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,17 @@
 
 # include "libft.h"
 # include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <string.h>
 # include <term.h>
-# include <readline/readline.h>
-# include <readline/history.h>
 
+extern int			g_exit_code;
+
+extern int			g_exit_code;
 // DEV: Eric: J'ai creer une premiere structure qui reprend le path de pipex
 // et qui nous permettra de faire quelques tests. Au moment je redige ceci
 // je ne m'en suis pas encore servi donc n'hesites pas a
@@ -42,17 +46,52 @@ typedef struct s_env
 // Pour traiter les $? il nous faudra mettre a jour constamment nos retours
 // de fonction d'ou le last_status;
 
+// # define BI_ECHO "echo"
+// # define BI_CD "cd"
+// # define BI_PWD "pwd"
+// # define BI_EXPORT "export"
+// # define BI_UNSET "unset"
+// # define BI_ENV "env"
+// # define BI_EXIT "exit"
+
+typedef enum e_builtin
+{
+	BI_ECHO,
+	BI_CD,
+	BI_PWD,
+	BI_EXPORT,
+	BI_UNSET,
+	BI_ENV,
+	BI_EXIT,
+	NB_BUILTINS
+}					t_builtin;
+
 typedef struct s_msh
 {
 	t_env			*env;
-	int				last_status;
+	char			*entry;
 	char			*history;
 	bool			is_heredoc;
 	bool			is_builtin;
+	char			*builtin_names[NB_BUILTINS];
+	int				(*builtin_funcs[NB_BUILTINS])(void);
 }					t_msh;
 
 int					launch_program(t_msh *msh);
 void				print_banner(void);
 void				struct_init(t_msh *msh);
+
+// BUILT-IN
+bool				is_builtin(t_msh *msh);
+int					bi_exit(void);
+int					bi_echo(void);
+int					bi_cd(void);
+int					bi_pwd(void);
+int					bi_export(void);
+int					bi_unset(void);
+int					bi_env(void);
+// SIGNALS
+bool				is_eof(void);
+void				sigint_handler(int process);
 
 #endif

@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   is_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/11 10:57:36 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/22 11:36:29 by erpascua         ###   ########.fr       */
+/*   Created: 2025/08/13 17:07:49 by erpascua          #+#    #+#             */
+/*   Updated: 2025/08/22 13:09:25 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_exit_code = 0;
-
-int	main(int ac, char **av, char **env)
+bool	is_builtin(t_msh *msh)
 {
-	t_msh	msh;
-	(void)ac;
-	(void)av;
-	(void)env;
-	print_banner();
-	struct_init(&msh);
-	launch_program(&msh);
+	int	i;
+
+	i = 0;
+	while (i < NB_BUILTINS)
+	{
+		if (!ft_strncmp(msh->builtin_names[i], msh->entry, ft_strlen(msh->entry)
+				+ 1))
+		{
+			msh->builtin_funcs[i]();
+			msh->is_builtin = 1;
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }
