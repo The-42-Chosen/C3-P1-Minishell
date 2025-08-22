@@ -7,14 +7,18 @@
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 02:58:34 by erpascua          #+#    #+#              #
 <<<<<<< HEAD
+<<<<<<< HEAD
 #    Updated: 2025/08/22 11:05:07 by erpascua         ###   ########.fr        #
 =======
 #    Updated: 2025/08/11 19:26:05 by erpascua         ###   ########.fr        #
 >>>>>>> df10aac ((feat) Minishell program launch setup on progress)
+=======
+#    Updated: 2025/08/12 16:20:06 by erpascua         ###   ########.fr        #
+>>>>>>> 2b5c00a ((feat) Gitignore added for files .a/.o & Makefile & Header added)
 #                                                                              #
 # **************************************************************************** #
 
-# .SILENT:
+.SILENT:
 
 #******************************************************************************#
 #									  CONFIG								   #
@@ -36,8 +40,7 @@ MAIN_SRC    = 	src/main.c
 
 OBJ_DIR     =	obj
 OBJS        =	$(SRCS:%.c=$(OBJ_DIR)/%.o)
-BONUS_OBJS  =	$(BONUS_SRCS:bonus/%.c=$(OBJ_DIR)/bonus/%.o)
-ALL_OBJS    =	$(OBJS) $(BONUS_OBJS)
+ALL_OBJS    =	$(OBJS)
 
 #******************************************************************************#
 #									   RULES								   #
@@ -55,17 +58,6 @@ $(NAME): $(LIBFT) $(OBJS)
 $(OBJ_DIR)/src/%.o: src/%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
-
-$(OBJ_DIR)/bonus/%.o: bonus/%.c
-	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -c $< -o $@
-
-# DEV: Should probably be removed
-bonus: $(NAME_BONUS)
-
-$(NAME_BONUS): $(LIBFT) $(OBJS) $(BONUS_OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) $(BONUS_OBJS) $(LIBFT) -o $(NAME_BONUS)
-	@echo "✅  $@ built"
 
 clean:
 	@$(MAKE) -C $(LIBFT_DIR) clean 1>/dev/null
@@ -87,4 +79,4 @@ dev:
 	@make clean 1>/dev/null
 	@echo "✅  Libraries created and objects deleted"
 
-.PHONY: all clean fclean re bonus dev
+.PHONY: all clean fclean re dev
