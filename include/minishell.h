@@ -6,15 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-<<<<<<< HEAD
-<<<<<<< HEAD
-/*   Updated: 2025/08/12 14:31:08 by erpascua         ###   ########.fr       */
-=======
-/*   Updated: 2025/08/11 19:40:47 by erpascua         ###   ########.fr       */
->>>>>>> df10aac ((feat) Minishell program launch setup on progress)
-=======
-/*   Updated: 2025/08/12 14:31:08 by erpascua         ###   ########.fr       */
->>>>>>> 2b5c00a ((feat) Gitignore added for files .a/.o & Makefile & Header added)
+/*   Updated: 2025/08/22 11:50:26 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +15,12 @@
 
 # include "libft.h"
 # include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <string.h>
-<<<<<<< HEAD
-<<<<<<< HEAD
 # include <term.h>
-=======
->>>>>>> df10aac ((feat) Minishell program launch setup on progress)
-=======
-# include <term.h>
->>>>>>> 2b5c00a ((feat) Gitignore added for files .a/.o & Makefile & Header added)
 
 extern int			g_exit_code;
 // DEV: Eric: J'ai creer une premiere structure qui reprend le path de pipex
@@ -71,7 +58,7 @@ typedef enum e_builtin
 typedef struct s_msh
 {
 	t_env			*env;
-	char			*entry;
+	int				last_status;
 	char			*history;
 	bool			is_heredoc;
 	bool			is_builtin;
@@ -79,14 +66,8 @@ typedef struct s_msh
 	int				(*builtin_funcs[NB_BUILTINS])(void);
 }					t_msh;
 
-int					launch_program(void);
-<<<<<<< HEAD
-<<<<<<< HEAD
+int					launch_program(t_msh *msh);
 void				print_banner(void);
-=======
->>>>>>> df10aac ((feat) Minishell program launch setup on progress)
-=======
-void				print_banner(void);
->>>>>>> 2b5c00a ((feat) Gitignore added for files .a/.o & Makefile & Header added)
+void				struct_init(t_msh *msh);
 
 #endif
