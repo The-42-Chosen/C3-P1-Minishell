@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/22 13:40:48 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/08/22 18:08:16 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,6 @@
 # include <term.h>
 
 extern int			g_exit_code;
-
-// DEV: Eric: J'ai creer une premiere structure qui reprend le path de pipex
-// et qui nous permettra de faire quelques tests. Au moment je redige ceci
-// je ne m'en suis pas encore servi donc n'hesites pas a
-// changer/adapter/supprimer :) Il me semble qu'avant de partir en vacances
-// tu m'avais montre une structure :)
-
-// Eric: Pour pouvoir traiter les differentes variables de l'env il va falloir
-// creer une struct cle/valeur car nous aurons pas gerer uniquement le "PATH="
-// Principalement pour les built-in;
 
 typedef struct s_env
 {
@@ -54,10 +44,17 @@ typedef enum e_builtin
 	NB_BUILTINS
 }					t_builtin;
 
+typedef struct s_node
+{
+	char			*content;
+	struct s_node	*next;
+}					t_node;
+
 typedef struct s_msh
 {
 	t_env			*env;
 	char			*entry;
+	t_node			*nodes;
 	char			*history;
 	bool			is_heredoc;
 	bool			is_builtin;
@@ -68,6 +65,9 @@ typedef struct s_msh
 int					launch_program(t_msh *msh);
 void				print_banner(void);
 void				struct_init(t_msh *msh);
+
+// PARSING
+int					lexer(t_msh *msh);
 
 // BUILT-IN
 bool				is_builtin(t_msh *msh);
