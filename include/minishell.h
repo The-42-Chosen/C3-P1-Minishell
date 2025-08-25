@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/22 18:08:16 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/08/25 19:00:07 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,17 @@ typedef enum e_builtin
 	NB_BUILTINS
 }					t_builtin;
 
-typedef struct s_node
+typedef struct s_stack
 {
 	char			*content;
-	struct s_node	*next;
-}					t_node;
+	struct s_stack	*next;
+}					t_stack;
 
 typedef struct s_msh
 {
 	t_env			*env;
 	char			*entry;
-	t_node			*nodes;
+	t_stack			*stack;
 	char			*history;
 	bool			is_heredoc;
 	bool			is_builtin;
@@ -65,10 +65,13 @@ typedef struct s_msh
 int					launch_program(t_msh *msh);
 void				print_banner(void);
 void				struct_init(t_msh *msh);
-
 // PARSING
 int					lexer(t_msh *msh);
-
+// ADDING TO STACK
+void				fill_node(t_msh *msh, char *word);
+t_stack				*new_stack(char *content);
+int					fill_stack(t_stack **a, char *word);
+void				stack_destroy(t_stack *head);
 // BUILT-IN
 bool				is_builtin(t_msh *msh);
 int					bi_exit(void);
