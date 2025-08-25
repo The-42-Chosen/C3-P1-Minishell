@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/25 19:00:07 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/08/25 20:06:59 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef enum e_builtin
 typedef struct s_stack
 {
 	char			*content;
+	char			*token;
 	struct s_stack	*next;
 }					t_stack;
 
@@ -65,13 +66,16 @@ typedef struct s_msh
 int					launch_program(t_msh *msh);
 void				print_banner(void);
 void				struct_init(t_msh *msh);
-// PARSING
+// LEXER
 int					lexer(t_msh *msh);
 // ADDING TO STACK
 void				fill_node(t_msh *msh, char *word);
 t_stack				*new_stack(char *content);
 int					fill_stack(t_stack **a, char *word);
 void				stack_destroy(t_stack *head);
+void				stack_add_back(t_stack **s, t_stack *new);
+// TOKEN
+void				identity_token(t_msh *msh);
 // BUILT-IN
 bool				is_builtin(t_msh *msh);
 int					bi_exit(void);

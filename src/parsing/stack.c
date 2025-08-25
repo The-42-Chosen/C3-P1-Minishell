@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:43:16 by gpollast          #+#    #+#             */
-/*   Updated: 2025/08/25 19:08:31 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/08/25 19:45:59 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,31 @@ t_stack	*new_stack(char *content)
     }
     new->next = NULL;
     return (new);
+}
+
+static  t_stack *stack_last(t_stack *s)
+{
+	while (s)
+	{
+		if (s -> next != 0)
+			s = s -> next;
+		if (s -> next == 0)
+			return (s);
+	}
+	return (NULL);
+}
+
+void	stack_add_back(t_stack **s, t_stack *new)
+{
+	if (!s || !new)
+		return ;
+	if (*s == NULL)
+	{
+		*s = new;
+		return ;
+	}
+	else
+		stack_last(*s)->next = new;
 }
 
 int	fill_stack(t_stack **s, char *word)

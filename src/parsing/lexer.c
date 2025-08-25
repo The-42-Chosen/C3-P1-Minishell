@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/08/25 19:07:26 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/08/25 20:08:10 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int	lexer(t_msh *msh)
 {
 	int 	i;
 	char	*word;
+	t_stack	*tmp;
 	
 	if (!msh->entry)
 		return (0);
@@ -121,14 +122,15 @@ int	lexer(t_msh *msh)
             break;
         if (!msh->stack)
             msh->stack = new_stack(word);
-        else if (!fill_stack(&msh->stack, word))
-        {
-            free(word);
-            return (1);
-        }
+		else
+		{
+			tmp = new_stack(word);
+			stack_add_back(&msh->stack, tmp);
+		}
         free(word);
     }
-    print_stack(msh->stack);
+    // print_stack(msh->stack);
+	identity_token(msh);
     stack_destroy(msh->stack);
     msh->stack = NULL;
     return (0);
