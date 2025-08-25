@@ -6,65 +6,113 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/08/22 20:13:36 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/08/25 17:24:40 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+bool	is_delimeter(char c)
+{
+	if (c == '>' || c == '<' || c == '&' || c == '|')
+		return (true);
+	return (false);
+}
+
+bool	is_redirection(char c)
+{
+	if (c == '>' || c == '<')
+		return (true);
+	return (false);
+}
+
+bool	is_operator(char c)
+{
+	if (c == '&' || c == '|')
+		return (true);
+	return (false);
+}
+
+void	check_redirection(char *s, int *i)
+{
+	while (s[*i] && is_redirection(s[*i]))
+		(*i)++;
+}
+
+void	check_operator(char *s, int *i)
+{
+	while (s[*i] && is_operator(s[*i]))
+		(*i)++;
+}
+
 char	*read_entry(char *s, int *i)
 {
-	int 	start;
-	char 	*word;
-	
-	if (!s)
-		return (NULL);
-	while (is_space(s[*i]))
-		(*i)++;
-	start = *i;
-	// ft_printf("start : %d\n", start);
-	while (s[*i])
+    int 	start;
+    char 	*word;
+    int		len;
+    
+    if (!s)
+        return (NULL);
+    while (is_space(s[*i]))
+        (*i)++;
+    start = *i;
+	if (is_redirection(s[*i]))
+		check_redirection(s, i);
+	else if (is_operator(s[*i]))
+		check_operator(s, i);
+	else if (s[*i] == '\"')
 	{
-		if (s[*i] == '\"' || s[*i] == '\'')
-		{
-			return (NULL);
-		}
-		if (s[*i + 1] == '\0' || is_space(s[*i + 1]))
-		{
-			word = malloc(sizeof(char) * (*i - start + 1));
-			if (!word)
-				return (NULL);
-			// ft_printf("&s[start] : %s\n", &s[start]);
-			ft_strlcpy(word, s + start, *i - start);
-			return (word);
-		}
+		(*i)++;
+		while (s[*i] != '\"')
+			(*i)++;
 		(*i)++;
 	}
-	return (NULL);
+	else if (s[*i] == '\'')
+	{
+		(*i)++;
+		while (s[*i] != '\'')
+			(*i)++;
+		(*i)++;
+	}
+	else
+    	while (s[*i] && !is_space(s[*i]))
+		{
+    	    (*i)++;
+			if (is_delimeter(s[*i]))
+				break ;
+		}
+    if (*i == start)
+	{
+    	return (NULL);
+	}
+    len = *i - start;
+    word = malloc(sizeof(char) * (len + 1));
+    if (!word)
+        return (NULL);
+    ft_memcpy(word, s + start, len);
+    word[len] = '\0';
+    return (word);
 }
 
 int	lexer(t_msh *msh)
 {
 	int 	i;
-	char	*status;
+	char	*word;
+	int		tour;
 	
+	tour = 0;
 	if (!msh->entry)
 		return (0);
 	i = 0;
-	// ft_printf("%s\n", read_entry(&msh->entry[i]));
-	// ft_printf("%s\n", &msh->entry[i]);
-	msh->nodes = malloc(sizeof(t_node));
 	while (1)
 	{
-		// ft_printf("entry : %s\n", &msh->entry[i]);
-		status = read_entry(&msh->entry[i], &i);
-		ft_printf("status : %s\n", status);
-		if (!status)
+		// ft_printf("Tour[%d]\n", tour);
+		tour++;
+		word = read_entry(msh->entry, &i);
+		ft_printf("%s\n", word);
+		if (!word)
 			break ;
-		ft_printf("%s\n", status);
-		free(status);
-		// msh->nodes->content = read_entry(&msh->entry[i], &i);
-		// msh->nodes->content = msh->nodes->next->content;
+		free(word);
 	}
 	return (0);
 }
