@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/08/25 17:24:40 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/08/25 19:07:26 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,25 +94,42 @@ char	*read_entry(char *s, int *i)
     return (word);
 }
 
+void	print_stack(t_stack *s)
+{
+	t_stack *tmp;
+
+	tmp = s;
+	while (tmp)
+	{
+		ft_printf("%s\n", tmp->content);
+		tmp = tmp->next;
+	}
+}
+
 int	lexer(t_msh *msh)
 {
 	int 	i;
 	char	*word;
-	int		tour;
 	
-	tour = 0;
 	if (!msh->entry)
 		return (0);
 	i = 0;
-	while (1)
-	{
-		// ft_printf("Tour[%d]\n", tour);
-		tour++;
-		word = read_entry(msh->entry, &i);
-		ft_printf("%s\n", word);
-		if (!word)
-			break ;
-		free(word);
-	}
-	return (0);
+    while (1)
+    {
+        word = read_entry(msh->entry, &i);
+        if (!word)
+            break;
+        if (!msh->stack)
+            msh->stack = new_stack(word);
+        else if (!fill_stack(&msh->stack, word))
+        {
+            free(word);
+            return (1);
+        }
+        free(word);
+    }
+    print_stack(msh->stack);
+    stack_destroy(msh->stack);
+    msh->stack = NULL;
+    return (0);
 }
