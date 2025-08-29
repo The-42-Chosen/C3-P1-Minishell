@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/22 18:12:44 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/08/29 15:09:25 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	update_history(t_msh *msh)
 	append_history(1, msh->history);
 }
 
-void	repl(t_msh *msh, int tmp_fd)
+static int	repl(t_msh *msh, int tmp_fd)
 {
 	int	process;
 
@@ -39,11 +39,13 @@ void	repl(t_msh *msh, int tmp_fd)
 			update_history(msh);
 			is_builtin(msh);
 		}
-		lexer(msh);
+		if (!lexer(msh))
+			return (0);
 		write(tmp_fd, msh->entry, ft_strlen(msh->entry));
 		write(tmp_fd, "\n", 1);
 		free(msh->entry);
 	}
+	return (1);
 }
 
 int	launch_program(t_msh *msh)
@@ -54,9 +56,10 @@ int	launch_program(t_msh *msh)
 	tmp_fd = open("tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (tmp_fd < 0)
 		return (perror("open"), 1);
-	repl(msh, tmp_fd);
+	if (repl(msh, tmp_fd))
+		return (0);
 	close(tmp_fd);
 	free(msh->history);
 	unlink("tmp");
-	return (g_exit_code);
+	return (1);
 }
