@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 10:57:36 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/22 11:36:29 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/08/29 15:02:42 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,5 @@ int	main(int ac, char **av, char **env)
 	print_banner();
 	struct_init(&msh);
 	launch_program(&msh);
+	return (g_exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/29 10:53:21 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/08/29 18:40:30 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,39 @@ typedef enum e_builtin
 	NB_BUILTINS
 }					t_builtin;
 
+typedef enum e_token
+{
+	WORD,
+	REDIR,
+	PIPE,
+	OPERATOR,
+	NB_TOKENS
+}					t_token;
+
+typedef enum e_subtoken
+{
+	HEREDOC,
+	APPEND,
+	IN,
+	OUT,
+	AND,
+	OR,
+	NB_SUBTOKENS
+}					t_subtoken;
+
 typedef struct s_stack
 {
 	char			*content;
-	char			*token;
-	char			*sub_token;
+	t_token			token;
+	t_subtoken		sub_token;
 	struct s_stack	*next;
 }					t_stack;
+
+typedef struct s_cmd
+{
+	char			**cmd;
+	struct s_cmd	*next;
+}					t_cmd;
 
 typedef struct s_msh
 {
@@ -58,6 +84,7 @@ typedef struct s_msh
 	char			*entry;
 	t_stack			*stack;
 	char			*history;
+	t_token			*token_type;
 	bool			is_heredoc;
 	bool			is_builtin;
 	char			*builtin_names[NB_BUILTINS];
@@ -74,9 +101,9 @@ void				fill_node(t_msh *msh, char *word);
 t_stack				*new_stack(char *content);
 int					fill_stack(t_stack **a, char *word);
 void				stack_destroy(t_stack *head);
-void				stack_add_back(t_stack **s, t_stack *new);
+void				stack_add_back(t_stack **s, t_stack *new_s);
 // TOKEN
-void				identity_token(t_msh *msh);
+int					identity_token(t_msh *msh);
 // BUILT-IN
 bool				is_builtin(t_msh *msh);
 int					bi_exit(void);
