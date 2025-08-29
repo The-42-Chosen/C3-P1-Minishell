@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/25 20:06:59 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/08/29 10:53:21 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_stack
 {
 	char			*content;
 	char			*token;
+	char			*sub_token;
 	struct s_stack	*next;
 }					t_stack;
 

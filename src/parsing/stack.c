@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:43:16 by gpollast          #+#    #+#             */
-/*   Updated: 2025/08/25 19:45:59 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/08/29 11:55:33 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ t_stack	*new_stack(char *content)
         free(new);
         return (NULL);
     }
+	new->token = NULL;
+	new->sub_token = NULL;
     new->next = NULL;
     return (new);
 }
