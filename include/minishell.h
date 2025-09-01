@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/29 18:40:30 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/01 13:14:45 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef enum e_token
 
 typedef enum e_subtoken
 {
+	NONE,
 	HEREDOC,
 	APPEND,
 	IN,
@@ -104,6 +105,8 @@ void				stack_destroy(t_stack *head);
 void				stack_add_back(t_stack **s, t_stack *new_s);
 // TOKEN
 int					identity_token(t_msh *msh);
+// PARSING
+int					parse(t_msh *msh);
 // BUILT-IN
 bool				is_builtin(t_msh *msh);
 int					bi_exit(void);

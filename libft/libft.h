@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:56:34 by erpascua          #+#    #+#             */
-/*   Updated: 2025/07/28 17:47:06 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/09/01 13:52:32 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,16 @@ char				*ft_strdup(const char *s);
 char				*gnl_join(char *stash, char *buf, size_t n);
 
 // FT_PRINTF
-int					ft_printf(const char *fmt, ...);
+int					ft_fprintf(int fd, const char *fmt, ...);
 size_t				pf_strlen(const char *s);
-int					printf_char(int c);
-int					printf_str(char *s);
-int					printf_address(void *ptr);
-int					printf_int(int n);
-int					printf_unsigned(unsigned int n);
-int					printf_hex_low(unsigned int n);
-int					printf_hex_upp(unsigned int n);
-int					printf_percent(void);
+int					printf_char(int c, int fd);
+int					printf_str(char *s, int fd);
+int					printf_address(void *ptr, int fd);
+int					printf_int(int n, int fd);
+int					printf_unsigned(unsigned int n, int fd);
+int					printf_hex_low(unsigned int n, int fd);
+int					printf_hex_upp(unsigned int n, int fd);
+int					printf_percent(int fd);
 
 // LIBFT
 int					ft_isalpha(int c);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ep <ep@student.42.fr>                      +#+  +:+       +#+         #
+#    By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/25 00:19:30 by erpascua          #+#    #+#              #
-#    Updated: 2025/07/19 03:04:04 by ep               ###   ########.fr        #
+#    Updated: 2025/09/01 13:28:18 by gpollast         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,7 +72,7 @@ SRC			=	ft_isalpha.c \
 				ft_lstmap_bonus.c \
 				ft_lstnew_bonus.c \
 				ft_lstsize_bonus.c \
-				ft_printf.c \
+				ft_fprintf.c \
 				ft_printf_utils.c \
 				ft_putstr.c \
 				ft_sqrt.c \
