@@ -74,7 +74,7 @@ bool	is_valid_pipe(t_stack *s)
 {
 	if (!s || !s->content)
 		return (false);
-	if (!ft_strncmp(s->content, "|", 1) && ft_strlen(s->content) == 1)
+	if (s->content[0] == '|' && s->content[1] == '\0')
 	{
 		return (true);
 	}
