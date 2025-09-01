@@ -16,7 +16,7 @@ int	err_next_token(t_stack *stack, t_token t)
 {
 	if (stack->token == t)
 	{
-		if (stack->next->token == t)
+		if (stack->next && stack->next->token == t)
 		{
 			g_exit_code = 2;
 			ft_fprintf(2, "bash: syntax error near unexpected token `%s'\n",
