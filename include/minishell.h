@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/01 13:14:45 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/01 17:55:55 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,20 @@ void				print_banner(void);
 void				struct_init(t_msh *msh);
 // LEXER
 int					lexer(t_msh *msh);
+char				*read_entry(char *s, int *i);
+// LEXER UTILS
+bool				is_delimeter(char c);
+bool				is_redirection(char c);
+bool				is_operator(char c);
+void				check_redirection(char *s, int *i);
+void				check_operator(char *s, int *i);
+// TOKEN HANDLERS
+int					handle_quotes(char *s, int *i, char quote_char);
+void				handle_word(char *s, int *i);
+char				*extract_word(char *s, int start, int end);
+// STACK UTILS
+void				print_stack(t_stack *s);
+void				add_word_to_stack(t_msh *msh, char *word);
 // ADDING TO STACK
 void				fill_node(t_msh *msh, char *word);
 t_stack				*new_stack(char *content);
@@ -105,6 +119,18 @@ void				stack_destroy(t_stack *head);
 void				stack_add_back(t_stack **s, t_stack *new_s);
 // TOKEN
 int					identity_token(t_msh *msh);
+// TOKEN VALIDATION
+bool				check_heredoc_append(t_stack *s);
+bool				check_in_out(t_stack *s);
+bool				is_valid_redir(t_stack *s);
+bool				is_valid_operator(t_stack *s);
+bool				is_valid_pipe(t_stack *s);
+// TOKEN CLASSIFICATION
+bool				is_redir_symbol(t_stack *s);
+bool				is_operation_symb(t_stack *s);
+void				handle_redirection_token(t_stack *tmp);
+void				handle_operator_token(t_stack *tmp);
+void				classify_single_token(t_stack *tmp);
 // PARSING
 int					parse(t_msh *msh);
 // BUILT-IN
