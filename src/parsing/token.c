@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 19:11:56 by gpollast          #+#    #+#             */
-/*   Updated: 2025/08/29 18:53:51 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/01 14:06:20 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,10 @@ int	identity_token(t_msh *msh)
 			else
 			{
 				g_exit_code = 2;
-				ft_putendl_fd("bash: syntax error near unexpected token `>>'",
-					2);
+				ft_fprintf(2, "bash: syntax error near unexpected token `>>'");
 			}
 		}
-        else if (is_valid_pipe(tmp))
+		else if (is_valid_pipe(tmp))
 			tmp->token = PIPE;
 		else if (is_operation_symb(tmp))
 		{
@@ -116,13 +115,15 @@ int	identity_token(t_msh *msh)
 			else
 			{
 				g_exit_code = 2;
-				ft_putstr_fd("bash: syntax error near unexpected token `", 2);
-				ft_putchar_fd(tmp->content[0], 2);
-				ft_putstr_fd("'\n", 2);
+				ft_fprintf(2, "bash: syntax error near unexpected token `%c'\n",
+					tmp->content[0]);
 			}
 		}
 		else
+		{
 			tmp->token = WORD;
+			tmp->sub_token = NONE;
+		}
 		tmp = tmp->next;
 	}
 	tmp = msh->stack;
