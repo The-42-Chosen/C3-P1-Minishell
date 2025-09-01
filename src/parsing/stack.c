@@ -36,14 +36,11 @@ t_stack	*new_stack(char *content)
 
 static t_stack	*stack_last(t_stack *s)
 {
-	while (s)
-	{
-		if (s->next != 0)
-			s = s->next;
-		if (s->next == 0)
-			return (s);
-	}
-	return (NULL);
+	if (!s)
+		return (NULL);
+	while (s->next)
+		s = s->next;
+	return (s);
 }
 
 void	stack_add_back(t_stack **s, t_stack *new_s)
