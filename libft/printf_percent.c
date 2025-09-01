@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   printf_percent.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 03:34:13 by ep                #+#    #+#             */
-/*   Updated: 2025/06/17 00:38:44 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/01 13:52:21 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	printf_percent(void)
+int	printf_percent(int fd)
 {
-	return (printf_char('%'));
+	return (printf_char('%', fd));
 }

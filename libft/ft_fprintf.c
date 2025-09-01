@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_fprintf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 11:10:56 by erpascua          #+#    #+#             */
-/*   Updated: 2025/06/17 00:38:44 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/01 13:21:45 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,31 +27,31 @@ static char	is_fmt(int c)
 	return (0);
 }
 
-static int	interpretor(const char **fmt, va_list args)
+static int	interpretor(const char **fmt, va_list args, int fd)
 {
 	int	written;
 
 	written = 0;
 	if (**fmt == 'c')
-		written = printf_char(va_arg(args, int));
+		written = printf_char(va_arg(args, int), fd);
 	else if (**fmt == 's')
-		written = printf_str(va_arg(args, char *));
+		written = printf_str(va_arg(args, char *), fd);
 	else if (**fmt == 'p')
-		written = printf_address(va_arg(args, void *));
+		written = printf_address(va_arg(args, void *), fd);
 	else if (**fmt == 'd' || **fmt == 'i')
-		written = printf_int(va_arg(args, int));
+		written = printf_int(va_arg(args, int), fd);
 	else if (**fmt == 'u')
-		written = printf_unsigned(va_arg(args, unsigned int));
+		written = printf_unsigned(va_arg(args, unsigned int), fd);
 	else if (**fmt == 'x')
-		written = printf_hex_low(va_arg(args, unsigned int));
+		written = printf_hex_low(va_arg(args, unsigned int), fd);
 	else if (**fmt == 'X')
-		written = printf_hex_upp(va_arg(args, unsigned int));
+		written = printf_hex_upp(va_arg(args, unsigned int), fd);
 	else if (**fmt == '%')
-		written = printf_percent();
+		written = printf_percent(fd);
 	return (written);
 }
 
-int	ft_printf(const char *fmt, ...)
+int	ft_fprintf(int fd, const char *fmt, ...)
 {
 	va_list	args;
 	int		count;
@@ -65,12 +65,12 @@ int	ft_printf(const char *fmt, ...)
 		if (*fmt == '%' && is_fmt(*(fmt + 1)))
 		{
 			fmt++;
-			count += interpretor(&fmt, args);
+			count += interpretor(&fmt, args, fd);
 			fmt++;
 		}
 		else
 		{
-			write(1, fmt, 1);
+			write(fd, fmt, 1);
 			count++;
 			fmt++;
 		}
