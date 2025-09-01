@@ -12,11 +12,8 @@
 
 #include "minishell.h"
 
-void	stack_destroy(t_stack *head)
-{
-	if (!head)
-		return ;
 	stack_destroy(head->next);
+	free(head->content);
 	free(head);
 }
 
