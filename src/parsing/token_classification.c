@@ -14,14 +14,14 @@
 
 bool	is_redir_symbol(t_stack *s)
 {
-	if (s->content[0] == '<' || s->content[0] == '>')
+	if (s->content && (s->content[0] == '<' || s->content[0] == '>'))
 		return (true);
 	return (false);
 }
 
 bool	is_operation_symb(t_stack *s)
 {
-	if (s->content[0] == '|' || s->content[0] == '&')
+	if (s->content && (s->content[0] == '|' || s->content[0] == '&'))
 		return (true);
 	return (false);
 }
