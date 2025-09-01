@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:43:16 by gpollast          #+#    #+#             */
-/*   Updated: 2025/08/29 18:44:04 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/01 16:26:03 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,28 @@ void	stack_destroy(t_stack *head)
 
 t_stack	*new_stack(char *content)
 {
-    t_stack	*new;
+	t_stack	*new;
 
-    new = malloc(sizeof(t_stack));
-    if (!new)
-        return (NULL);
-    new->content = ft_strdup(content);
-    if (!new->content)
-    {
-        free(new);
-        return (NULL);
-    }
-    new->next = NULL;
-    return (new);
+	new = malloc(sizeof(t_stack));
+	if (!new)
+		return (NULL);
+	new->content = ft_strdup(content);
+	if (!new->content)
+	{
+		free(new);
+		return (NULL);
+	}
+	new->next = NULL;
+	return (new);
 }
 
-static  t_stack *stack_last(t_stack *s)
+static t_stack	*stack_last(t_stack *s)
 {
 	while (s)
 	{
-		if (s -> next != 0)
-			s = s -> next;
-		if (s -> next == 0)
+		if (s->next != 0)
+			s = s->next;
+		if (s->next == 0)
 			return (s);
 	}
 	return (NULL);

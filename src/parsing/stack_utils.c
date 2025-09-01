@@ -1,28 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   stack_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/11 10:57:36 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/01 16:25:36 by gpollast         ###   ########.fr       */
+/*   Created: 2025/09/01 16:10:00 by gpollast          #+#    #+#             */
+/*   Updated: 2025/09/01 16:14:29 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_exit_code = 0;
-
-int	main(int ac, char **av, char **env)
+void	print_stack(t_stack *s)
 {
-	t_msh	msh;
+	t_stack	*tmp;
 
-	(void)ac;
-	(void)av;
-	(void)env;
-	print_banner();
-	struct_init(&msh);
-	launch_program(&msh);
-	return (g_exit_code);
+	tmp = s;
+	while (tmp)
+	{
+		ft_fprintf(1, "%s\n", tmp->content);
+		tmp = tmp->next;
+	}
+}
+
+void	add_word_to_stack(t_msh *msh, char *word)
+{
+	t_stack	*tmp;
+
+	if (!msh->stack)
+		msh->stack = new_stack(word);
+	else
+	{
+		tmp = new_stack(word);
+		stack_add_back(&msh->stack, tmp);
+	}
 }

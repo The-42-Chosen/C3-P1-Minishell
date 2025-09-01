@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:53:38 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/01 14:44:19 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/01 16:33:37 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	parse(t_msh *msh)
 	while (tmp && tmp->next)
 	{
 		if (err_next_token(tmp, REDIR) || err_next_token(tmp, OPERATOR))
-            return (0);
+			return (0);
 		tmp = tmp->next;
 	}
 	return (1);
