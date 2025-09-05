@@ -6,7 +6,7 @@
 /*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 20:02:25 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/17 01:55:39 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/19 15:18:01 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ void	link_builtins(t_msh *msh)
 	msh->builtin_funcs[BI_UNSET] = &bi_unset;
 }
 
-void	struct_init(t_msh *msh)
+int	struct_init(t_msh *msh)
 {
 	ft_memset(msh, 0, sizeof(*msh));
 	link_builtins(msh);
+	return (1);
 }

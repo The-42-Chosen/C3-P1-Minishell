@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:35:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/01 17:25:53 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/05 11:30:16 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,14 @@ void	handle_operator_token(t_stack *tmp)
 	}
 }
 
+void	identify_word(t_stack *tmp)
+{
+	if (tmp->content[0] == '\"')
+		tmp->sub_token = DQUOTE;
+	else
+		tmp->sub_token = NONE;
+}
+
 void	classify_single_token(t_stack *tmp)
 {
 	if (is_redir_symbol(tmp))
@@ -65,6 +73,6 @@ void	classify_single_token(t_stack *tmp)
 	else
 	{
 		tmp->token = WORD;
-		tmp->sub_token = NONE;
+		identify_word(tmp);
 	}
 }

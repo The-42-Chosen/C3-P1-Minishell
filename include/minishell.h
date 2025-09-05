@@ -6,7 +6,7 @@
 /*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/19 07:04:14 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/19 15:20:15 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@
 # include <string.h>
 # include <term.h>
 
-extern int				g_exit_code;
+extern int			g_exit_code;
 
 typedef struct s_env
 {
-	char				*key;
-	char				*value;
-	struct s_env		*next;
-}						t_env;
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}					t_env;
 
 typedef enum e_builtin
 {
@@ -43,7 +43,7 @@ typedef enum e_builtin
 	BI_ENV,
 	BI_EXIT,
 	NB_BUILTINS
-}						t_builtin;
+}					t_builtin;
 
 typedef enum e_token
 {
@@ -52,7 +52,7 @@ typedef enum e_token
 	PIPE,
 	OPERATOR,
 	NB_TOKENS
-}						t_token;
+}					t_token;
 
 typedef enum e_subtoken
 {
@@ -63,106 +63,142 @@ typedef enum e_subtoken
 	OUT,
 	AND,
 	OR,
+	QUOTE,
 	NB_SUBTOKENS
-}						t_subtoken;
+}					t_subtoken;
+
+typedef enum e_group
+{
+	G_REDIR_IN,
+	G_REDIR_OUT,
+	G_REDIR_HEREDOC,
+	G_REDIR_APPEND,
+	G_CMD,
+	G_PIPE,
+	G_INVALID,
+	NB_GROUPS
+}					t_group;
 
 typedef struct s_stack
 {
-	char				*content;
-	t_token				token;
-	t_subtoken			sub_token;
-	struct s_stack		*next;
-}						t_stack;
+	char			*content;
+	bool			is_expandable;
+	t_token			token;
+	t_subtoken		sub_token;
+	struct s_stack	*next;
+}					t_stack;
 
 typedef struct s_cmd
 {
-	char				**cmd;
-	struct s_cmd		*next;
-}						t_cmd;
+	char			**args;
+	char			*path;
+}					t_cmd;
+
+typedef struct s_data
+{
+	t_cmd			cmd;
+	char			*file_or_limiter;
+	t_group			group;
+	struct s_data	*next;
+}					t_data;
 
 typedef struct t_paths
 {
-	char				*pwd;
-	char				*oldpwd;
-	char				*home;
-	bool				has_home;
-	bool				has_oldpwd;
-}						t_paths;
-
-typedef struct s_msh	t_msh;
+	char			*pwd;
+	char			*oldpwd;
+	char			*home;
+	bool			has_home;
+	bool			has_oldpwd;
+}					t_paths;
 
 typedef struct s_msh
 {
-	t_env				*env;
-	char				*entry;
-	t_stack				*stack;
-	char				*history;
-	t_token				*token_type;
-	bool				is_heredoc;
-	bool				is_builtin;
-	char				*builtin_names[NB_BUILTINS];
-	int					(*builtin_funcs[NB_BUILTINS])(t_msh *, char **);
-	t_paths				paths;
-}						t_msh;
+	t_env			*env;
+	char			*entry;
+	t_stack			*stack;
+	char			*history;
+	t_token			*token_type;
+	t_data			*data;
+	bool			is_heredoc;
+	bool			is_builtin;
+	char			*builtin_names[NB_BUILTINS];
+	int				(*builtin_funcs[NB_BUILTINS])(t_msh *, char **);
+	t_paths			paths;
+}					t_msh;
 
-int						launch_program(t_msh *msh);
-void					print_banner(void);
-void					struct_init(t_msh *msh);
-void					save_env(t_msh *msh, char **env);
+int					launch_program(t_msh *msh);
+void				print_banner(void);
+int				struct_init(t_msh *msh);
+void				save_env(t_msh *msh, char **env);
 // LEXER
-int						lexer(t_msh *msh);
-char					*read_entry(char *s, int *i);
+int					lexer(t_msh *msh);
+char				*read_entry(char *s, int *i);
 // LEXER UTILS
-bool					is_delimeter(char c);
-bool					is_redirection(char c);
-bool					is_operator(char c);
-void					check_redirection(char *s, int *i);
-void					check_operator(char *s, int *i);
+bool				is_delimeter(char c);
+bool				is_redirection(char c);
+bool				is_operator(char c);
+void				check_redirection(char *s, int *i);
+void				check_operator(char *s, int *i);
 // TOKEN HANDLERS
-int						handle_quotes(char *s, int *i, char quote_char);
-void					handle_word(char *s, int *i);
-char					*extract_word(char *s, int start, int end);
+int					handle_quotes(char *s, int *i, char quote_char);
+void				handle_word(char *s, int *i);
+char				*extract_word(t_msh *msh, char *s, int start, int end);
 // STACK UTILS
-void					print_stack(t_stack *s);
-void					add_word_to_stack(t_msh *msh, char *word);
+void				print_stack(t_stack *s);
+void				add_word_to_stack(t_msh *msh, char *word);
 // ADDING TO STACK
-void					fill_node(t_msh *msh, char *word);
-t_stack					*new_stack(char *content);
-int						fill_stack(t_stack **a, char *word);
-void					stack_destroy(t_stack *head);
-void					stack_add_back(t_stack **s, t_stack *new_s);
+void				fill_node(t_msh *msh, char *word);
+t_stack				*new_stack(char *content);
+int					fill_stack(t_stack **a, char *word);
+void				stack_destroy(t_stack *head);
+void				stack_add_back(t_stack **s, t_stack *new_s);
 // TOKEN
-int						identity_token(t_msh *msh);
+int					identify_token(t_msh *msh);
+
 // TOKEN VALIDATION
-bool					check_heredoc_append(t_stack *s);
-bool					check_in_out(t_stack *s);
-bool					is_valid_redir(t_stack *s);
-bool					is_valid_operator(t_stack *s);
-bool					is_valid_pipe(t_stack *s);
+bool				check_heredoc_append(t_stack *s);
+bool				check_in_out(t_stack *s);
+bool				is_valid_redir(t_stack *s);
+bool				is_valid_operator(t_stack *s);
+bool				is_valid_pipe(t_stack *s);
 // TOKEN CLASSIFICATION
-bool					is_redir_symbol(t_stack *s);
-bool					is_operation_symb(t_stack *s);
-void					handle_redirection_token(t_stack *tmp);
-void					handle_operator_token(t_stack *tmp);
-void					classify_single_token(t_stack *tmp);
+bool				is_redir_symbol(t_stack *s);
+bool				is_operation_symb(t_stack *s);
+void				handle_redirection_token(t_stack *tmp);
+void				handle_operator_token(t_stack *tmp);
+void				classify_single_token(t_stack *tmp);
 // PARSING
-int						parse(t_msh *msh);
+int					parse(t_msh *msh);
+size_t				get_env_var_len(char *word);
+char				*my_getenv(t_msh *msh, char *word);
+int					add_command_node(t_stack **tmp, t_data *new_node);
+char				*cmd_path(t_msh *msh, char *cmd);
+int					set_up_path(t_msh *msh);
+int					add_redir_node(t_stack **tmp, t_data *new_node);
+t_data				*init_data_node(void);
+t_data				*data_add_back(t_data *data, t_data *new);
+// EXPAND
+char				*expand(t_msh *msh, char *s);
 // BUILT-IN
-bool					is_builtin(t_msh *msh);
-int						bi_exit(t_msh *msh, char **argv);
-int						bi_echo(t_msh *msh, char **argv);
-int						bi_cd(t_msh *msh, char **argv);
-bool					cd_home(t_env *env, t_paths *paths);
-bool					cd_oldpwd(t_env *env, t_paths *paths);
-bool					cd_folder(t_env *env, t_paths *paths, char *folder);
-void					cd_get_paths(t_env *env, t_paths *paths);
-void					cd_update_env(t_env *env, t_paths *paths);
-int						bi_pwd(t_msh *msh, char **argv);
-int						bi_export(t_msh *msh, char **argv);
-int						bi_unset(t_msh *msh, char **argv);
-int						bi_env(t_msh *msh, char **argv);
+bool				is_builtin(t_msh *msh);
+int					bi_exit(t_msh *msh, char **argv);
+int					bi_echo(t_msh *msh, char **argv);
+int					bi_cd(t_msh *msh, char **argv);
+bool				cd_home(t_env *env, t_paths *paths);
+bool				cd_oldpwd(t_env *env, t_paths *paths);
+bool				cd_folder(t_env *env, t_paths *paths, char *folder);
+void				cd_get_paths(t_env *env, t_paths *paths);
+void				cd_update_env(t_env *env, t_paths *paths);
+int					bi_pwd(t_msh *msh, char **argv);
+int					bi_export(t_msh *msh, char **argv);
+int					bi_unset(t_msh *msh, char **argv);
+int					bi_env(t_msh *msh, char **argv);
 // SIGNALS
-bool					is_eof(void);
-void					sigint_handler(int process);
+bool				is_eof(void);
+void				sigint_handler(int process);
+// FREE
+void				free_data(t_data *data);
+void				ft_free(t_msh *msh);
+void				data_destroy(t_data *head);
 
 #endif
