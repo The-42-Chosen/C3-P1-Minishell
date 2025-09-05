@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/01 17:55:55 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/05 16:31:31 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,18 @@ typedef enum e_subtoken
 	OUT,
 	AND,
 	OR,
+	DQUOTE,
 	NB_SUBTOKENS
 }					t_subtoken;
+
+typedef enum e_group
+{
+	G_REDIR,
+	G_CMD,
+	G_PIPE,
+	G_OPERATOR,
+	NB_GROUPS
+}					t_group;
 
 typedef struct s_stack
 {
@@ -73,11 +83,15 @@ typedef struct s_stack
 	struct s_stack	*next;
 }					t_stack;
 
-typedef struct s_cmd
+typedef struct s_data
 {
 	char			**cmd;
-	struct s_cmd	*next;
-}					t_cmd;
+	char			**redir;
+	char			pipe;
+	char			operator;
+	t_group			group;
+	struct s_data	*next;
+}					t_data;
 
 typedef struct s_msh
 {
@@ -86,6 +100,7 @@ typedef struct s_msh
 	t_stack			*stack;
 	char			*history;
 	t_token			*token_type;
+	t_data			*data;
 	bool			is_heredoc;
 	bool			is_builtin;
 	char			*builtin_names[NB_BUILTINS];
@@ -94,7 +109,7 @@ typedef struct s_msh
 
 int					launch_program(t_msh *msh);
 void				print_banner(void);
-void				struct_init(t_msh *msh);
+int					struct_init(t_msh *msh);
 // LEXER
 int					lexer(t_msh *msh);
 char				*read_entry(char *s, int *i);

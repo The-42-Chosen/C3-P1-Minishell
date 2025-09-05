@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 20:02:25 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/29 18:16:43 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/05 14:49:36 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,19 @@ void	link_builtins(t_msh *msh)
 	msh->builtin_funcs[BI_UNSET] = &bi_unset;
 }
 
-void	struct_init(t_msh *msh)
+int	struct_init(t_msh *msh)
 {
 	msh->entry = NULL;
 	msh->env = NULL;
 	msh->history = NULL;
+	msh->data = malloc(sizeof(t_data));
+	if (!msh->data)
+	{
+		g_exit_code = 12;		
+		return (0);
+	}
 	msh->is_builtin = 0;
 	msh->is_heredoc = 0;
 	link_builtins(msh);
+	return (1);
 }
