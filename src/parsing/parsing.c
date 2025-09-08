@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:53:38 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/05 19:35:38 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/08 14:12:34 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,24 @@ void	print_array(char **array, char *type)
 	}
 }
 
+t_data	*init_data_node(void)
+{
+    t_data	*new_node;
+
+    new_node = malloc(sizeof(t_data));
+    if (!new_node)
+    {
+        g_exit_code = 12;
+        return (NULL);
+    }
+    new_node->cmd = NULL;
+    new_node->redir = NULL;
+    new_node->operator = NULL;
+    new_node->group = 0;
+    new_node->next = NULL;
+    return (new_node);
+}
+
 int	parse(t_msh *msh)
 {
 	t_stack	*tmp;
@@ -127,6 +145,9 @@ int	parse(t_msh *msh)
 			return (0);
 		if (tmp->token == REDIR)
 		{
+			msh->data = init_data_node();
+			if (!msh->data)
+				return (0);
 			msh->data->redir = seek_group_redir(&tmp);
 			if (!msh->data->redir)
 				return (0);
@@ -136,11 +157,33 @@ int	parse(t_msh *msh)
 		}
 		else if (tmp->token == WORD)
 		{
+			msh->data = init_data_node();
+			if (!msh->data)
+				return (0);
 			msh->data->cmd = seek_group_cmd(&tmp);
 			if (!msh->data->cmd)
 				return (0);
 			msh->data->group = G_CMD;
 			print_array(msh->data->cmd, "WORD");
+			msh->data = msh->data->next;
+		}
+		else if (tmp->token == PIPE)
+		{
+			msh->data = init_data_node();
+			if (!msh->data)
+				return (0);
+			msh->data->group = G_PIPE;
+			ft_fprintf(1, "PIPE |\n");
+			msh->data = msh->data->next;
+		}
+		else
+		{
+			msh->data = init_data_node();
+			if (!msh->data)
+				return (0);
+			msh->data->group = G_OPERATOR;
+			ft_fprintf(1, "PIPE |\n");
+			msh->data = msh->data->next;
 		}
 		tmp = tmp->next;
 	}

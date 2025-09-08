@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/05 16:31:31 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/08 14:09:36 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,7 @@ typedef struct s_data
 {
 	char			**cmd;
 	char			**redir;
-	char			pipe;
-	char			operator;
+	char			*operator;
 	t_group			group;
 	struct s_data	*next;
 }					t_data;
