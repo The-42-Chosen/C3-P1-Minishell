@@ -6,7 +6,7 @@
 #    By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 02:58:34 by erpascua          #+#    #+#              #
-#    Updated: 2025/09/08 11:32:37 by gpollast         ###   ########.fr        #
+#    Updated: 2025/09/08 16:40:08 by gpollast         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,4 +72,4 @@ dev:
 	@make clean 1>/dev/null
 	@echo "✅  Libraries created and objects deleted"
 
-.PHONY: all clean fclean re dev
+.PHONY: all clean fclean re dev valgrind

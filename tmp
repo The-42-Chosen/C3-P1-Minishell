@@ -1,3 +1,2 @@
-toto
-<file1 cmd1 | cmd2 > file2
-<file1 cmd1 -a | cmd2 > file2
+"toto"
+"$toto"

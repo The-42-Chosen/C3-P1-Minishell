@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 10:57:36 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/08 15:08:47 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/08 18:01:29 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ int	main(int ac, char **av, char **env)
 	if (!struct_init(&msh))
 		return (g_exit_code);
 	launch_program(&msh);
+	// ft_free(&msh);
 	return (g_exit_code);
 }

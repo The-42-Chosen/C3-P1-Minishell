@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:10:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/01 16:14:29 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/10 21:00:23 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,15 @@ char	*extract_word(char *s, int start, int end)
 	word = malloc(sizeof(char) * (len + 1));
 	if (!word)
 		return (NULL);
-	ft_memcpy(word, s + start, len);
-	word[len] = '\0';
+	if (s[start] == '\"' || s[start] == '\'')
+	{
+		ft_memcpy(word, s + start + 1, len - 1);
+		word[len - 2] = '\0';
+	}
+	else
+	{
+		ft_memcpy(word, s + start, len);
+		word[len] = '\0';
+	}
 	return (word);
 }

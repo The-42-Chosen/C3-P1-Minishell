@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/08 14:09:36 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/10 18:03:32 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,14 @@ typedef enum e_subtoken
 
 typedef enum e_group
 {
-	G_REDIR,
+	G_REDIR_IN,
+	G_REDIR_OUT,
+	G_REDIR_HEREDOC,
+	G_REDIR_APPEND,
 	G_CMD,
 	G_PIPE,
 	G_OPERATOR,
+	G_INVALID,
 	NB_GROUPS
 }					t_group;
 
@@ -86,8 +90,7 @@ typedef struct s_stack
 typedef struct s_data
 {
 	char			**cmd;
-	char			**redir;
-	char			*operator;
+	char			*file_or_limiter;
 	t_group			group;
 	struct s_data	*next;
 }					t_data;
@@ -159,5 +162,8 @@ int					bi_env(void);
 // SIGNALS
 bool				is_eof(void);
 void				sigint_handler(int process);
+// FREE
+void				free_data(t_data *data);
+void				ft_free(t_msh *msh);
 
 #endif
