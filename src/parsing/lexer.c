@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/01 16:23:28 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/10 18:42:23 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,5 @@ int	lexer(t_msh *msh)
 		free(word);
 	}
 	identity_token(msh);
-	parse(msh);
-	stack_destroy(msh->stack);
-	msh->stack = NULL;
 	return (1);
 }

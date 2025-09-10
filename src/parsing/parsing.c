@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:53:38 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/08 14:12:34 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/10 18:39:49 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,35 +27,32 @@ int	err_next_token(t_stack *stack, t_token t)
 	return (0);
 }
 
-char	**seek_group_redir(t_stack **stack)
+char	*seek_group_redir(t_stack *stack)
 {
-	char	**group;
+	char	*res;
 
-	if ((*stack)->token == REDIR && (*stack)->next
-		&& (*stack)->next->token == WORD)
+	if (stack->token == REDIR && stack->next
+		&& stack->next->token == WORD)
 	{
-		group = malloc(3 * sizeof(char *));
-		if (!group)
+		res = ft_strdup(stack->next->content);
+		if (!res)
 		{
 			g_exit_code = 12;
 			return (NULL);
 		}
-		group[0] = (*stack)->content;
-		group[1] = (*stack)->next->content;
-		group[2] = NULL;
-		(*stack) = (*stack)->next;
-		return (group);
+		stack = stack->next;
+		return (res);
 	}
 	g_exit_code = 2;
-	if (!(*stack)->next) // Cas newline
+	if (!stack->next) // Cas newline
 		ft_fprintf(2, "bash: syntax error near unexpected token `newline'\n");
-	else if ((*stack)->next->token != WORD)
+	else if (stack->next->token != WORD)
 		ft_fprintf(2, "bash: syntax error near unexpected token `%s'\n",
-			(*stack)->next->content);
+			stack->next->content);
 	return (NULL);
 }
 
-char	**seek_group_cmd(t_stack **stack)
+char	**seek_group_cmd(t_stack *stack)
 {
 	int		count;
 	char	**group;
@@ -63,7 +60,7 @@ char	**seek_group_cmd(t_stack **stack)
 	int		i;
 
 	count = 0;
-	tmp = *stack;
+	tmp = stack;
 	while (tmp && tmp->token == WORD) // Vérifier tmp != NULL
 	{
 		count++;
@@ -76,7 +73,7 @@ char	**seek_group_cmd(t_stack **stack)
 		return (NULL);
 	}
 	i = 0;
-	tmp = *stack;
+	tmp = stack;
 	while (i < count && tmp) // Vérifier tmp != NULL
 	{
 		group[i] = ft_strdup(tmp->content);
@@ -96,7 +93,7 @@ char	**seek_group_cmd(t_stack **stack)
 	while (i < (count - 1))
 	{
 		i++;
-		(*stack) = (*stack)->next;
+		stack = stack->next;
 	}
 	group[count] = NULL; // Terminer le tableau
 	return (group);
@@ -126,12 +123,21 @@ t_data	*init_data_node(void)
         g_exit_code = 12;
         return (NULL);
     }
-    new_node->cmd = NULL;
-    new_node->redir = NULL;
-    new_node->operator = NULL;
-    new_node->group = 0;
-    new_node->next = NULL;
+	ft_memset(new_node, 0, sizeof(*new_node));
     return (new_node);
+}
+
+t_group	identify_redir(char *word)
+{
+	if (!ft_strncmp(word, "<", 1))
+		return(G_REDIR_IN);
+	else if (!ft_strncmp(word, ">", 1))
+		return(G_REDIR_OUT);
+	else if (!ft_strncmp(word, "<<", 2))
+		return(G_REDIR_HEREDOC);
+	else if (!ft_strncmp(word, ">>", 2))
+		return(G_REDIR_APPEND);
+	return (G_INVALID);
 }
 
 int	parse(t_msh *msh)
@@ -148,19 +154,20 @@ int	parse(t_msh *msh)
 			msh->data = init_data_node();
 			if (!msh->data)
 				return (0);
-			msh->data->redir = seek_group_redir(&tmp);
-			if (!msh->data->redir)
+			msh->data->file_or_limiter = seek_group_redir(tmp);
+			if (!msh->data->file_or_limiter)
 				return (0);
-			msh->data->group = G_REDIR;
-			print_array(msh->data->redir, "REDIR");
+			msh->data->group = identify_redir(tmp->content);
+			ft_fprintf(1, "REDIR %s\n", msh->data->file_or_limiter);
 			msh->data = msh->data->next;
+			tmp = tmp->next;
 		}
 		else if (tmp->token == WORD)
 		{
 			msh->data = init_data_node();
 			if (!msh->data)
 				return (0);
-			msh->data->cmd = seek_group_cmd(&tmp);
+			msh->data->cmd = seek_group_cmd(tmp);
 			if (!msh->data->cmd)
 				return (0);
 			msh->data->group = G_CMD;
@@ -173,15 +180,6 @@ int	parse(t_msh *msh)
 			if (!msh->data)
 				return (0);
 			msh->data->group = G_PIPE;
-			ft_fprintf(1, "PIPE |\n");
-			msh->data = msh->data->next;
-		}
-		else
-		{
-			msh->data = init_data_node();
-			if (!msh->data)
-				return (0);
-			msh->data->group = G_OPERATOR;
 			ft_fprintf(1, "PIPE |\n");
 			msh->data = msh->data->next;
 		}
