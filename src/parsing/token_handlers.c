@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:10:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/10 21:00:23 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/11 14:14:32 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	handle_word(char *s, int *i)
 	}
 }
 
-char	*extract_word(char *s, int start, int end)
+char	*extract_word(t_msh *msh, char *s, int start, int end)
 {
 	int		len;
 	char	*word;
@@ -52,6 +52,8 @@ char	*extract_word(char *s, int start, int end)
 		return (NULL);
 	if (s[start] == '\"' || s[start] == '\'')
 	{
+		if (s[start] == '\'')
+			msh->is_expandable = false;
 		ft_memcpy(word, s + start + 1, len - 1);
 		word[len - 2] = '\0';
 	}

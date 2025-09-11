@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/10 18:03:32 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/11 16:45:38 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,6 @@
 # include <term.h>
 
 extern int			g_exit_code;
-
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-}					t_env;
 
 typedef enum e_builtin
 {
@@ -62,7 +55,7 @@ typedef enum e_subtoken
 	OUT,
 	AND,
 	OR,
-	DQUOTE,
+	QUOTE,
 	NB_SUBTOKENS
 }					t_subtoken;
 
@@ -82,6 +75,7 @@ typedef enum e_group
 typedef struct s_stack
 {
 	char			*content;
+	bool			is_expandable;
 	t_token			token;
 	t_subtoken		sub_token;
 	struct s_stack	*next;
@@ -97,7 +91,7 @@ typedef struct s_data
 
 typedef struct s_msh
 {
-	t_env			*env;
+	char			**env;
 	char			*entry;
 	t_stack			*stack;
 	char			*history;
@@ -105,6 +99,7 @@ typedef struct s_msh
 	t_data			*data;
 	bool			is_heredoc;
 	bool			is_builtin;
+	bool			is_expandable;
 	char			*builtin_names[NB_BUILTINS];
 	int				(*builtin_funcs[NB_BUILTINS])(void);
 }					t_msh;
@@ -114,7 +109,7 @@ void				print_banner(void);
 int					struct_init(t_msh *msh);
 // LEXER
 int					lexer(t_msh *msh);
-char				*read_entry(char *s, int *i);
+char				*read_entry(t_msh *msh, char *s, int *i);
 // LEXER UTILS
 bool				is_delimeter(char c);
 bool				is_redirection(char c);
@@ -124,7 +119,7 @@ void				check_operator(char *s, int *i);
 // TOKEN HANDLERS
 int					handle_quotes(char *s, int *i, char quote_char);
 void				handle_word(char *s, int *i);
-char				*extract_word(char *s, int start, int end);
+char				*extract_word(t_msh *msh, char *s, int start, int end);
 // STACK UTILS
 void				print_stack(t_stack *s);
 void				add_word_to_stack(t_msh *msh, char *word);
@@ -135,7 +130,7 @@ int					fill_stack(t_stack **a, char *word);
 void				stack_destroy(t_stack *head);
 void				stack_add_back(t_stack **s, t_stack *new_s);
 // TOKEN
-int					identity_token(t_msh *msh);
+int					identify_token(t_msh *msh);
 // TOKEN VALIDATION
 bool				check_heredoc_append(t_stack *s);
 bool				check_in_out(t_stack *s);
