@@ -6,13 +6,13 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/10 18:42:23 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/11 16:47:32 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*read_entry(char *s, int *i)
+char	*read_entry(t_msh *msh, char *s, int *i)
 {
 	int	start;
 
@@ -36,7 +36,49 @@ char	*read_entry(char *s, int *i)
 		handle_word(s, i);
 	if (*i == start)
 		return (NULL);
-	return (extract_word(s, start, *i));
+	return (extract_word(msh, s, start, *i));
+}
+
+char	*find_expand_symbol(char *word)
+{
+	int	i;
+
+	i = 0;
+	while (word[i])
+	{
+		if (word[i] == '$')
+			return (word + i);
+		i++;
+	}
+	return (NULL);
+}
+
+char	*my_getenv(t_msh *msh, char *word)
+{
+	int	i;
+
+	i = 0;
+	while (msh->env[i])
+	{
+		if (!ft_strncmp(msh->env[i], word, ft_strlen(word)))
+			return (msh->env[i]);
+		i++;
+	}
+	return (NULL);
+}
+
+char	*expand(char *word)
+{
+	char	*res;
+	char	*env;
+	
+	res = NULL;
+	env = getenv(word + 1);
+	res = ft_strdup(env);
+	if (!res)
+		return (NULL);
+	free(word);
+	return (res);
 }
 
 int	lexer(t_msh *msh)
@@ -49,12 +91,17 @@ int	lexer(t_msh *msh)
 	i = 0;
 	while (1)
 	{
-		word = read_entry(msh->entry, &i);
+		msh->is_expandable = true;
+		word = read_entry(msh, msh->entry, &i);
 		if (!word)
 			break ;
+		if (find_expand_symbol(word) && msh->is_expandable == true)
+			word = expand(word);
+		if (!word)
+			return (0);
 		add_word_to_stack(msh, word);
 		free(word);
 	}
-	identity_token(msh);
+	identify_token(msh);
 	return (1);
 }

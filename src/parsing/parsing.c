@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:53:38 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/10 18:39:49 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/11 11:57:52 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ int	parse(t_msh *msh)
 			if (!msh->data->file_or_limiter)
 				return (0);
 			msh->data->group = identify_redir(tmp->content);
-			ft_fprintf(1, "REDIR %s\n", msh->data->file_or_limiter);
+			ft_fprintf(1, "Expandable %d | REDIR %s\n", tmp->is_expandable, msh->data->file_or_limiter);
 			msh->data = msh->data->next;
 			tmp = tmp->next;
 		}

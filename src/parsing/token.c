@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 19:11:56 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/01 17:54:16 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/11 11:41:46 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 // 	}
 // }
 
-int	identity_token(t_msh *msh)
+int	identify_token(t_msh *msh)
 {
 	t_stack	*tmp;
 
