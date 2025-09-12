@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/11 16:47:32 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/12 16:17:08 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,25 +56,28 @@ char	*find_expand_symbol(char *word)
 char	*my_getenv(t_msh *msh, char *word)
 {
 	int	i;
-
+	
 	i = 0;
 	while (msh->env[i])
 	{
-		if (!ft_strncmp(msh->env[i], word, ft_strlen(word)))
+		if (!ft_strncmp(msh->env[i], word + 1, ft_strlen(word + 1)))
 			return (msh->env[i]);
 		i++;
 	}
 	return (NULL);
 }
 
-char	*expand(char *word)
+char	*expand(t_msh *msh, char *word)
 {
 	char	*res;
-	char	*env;
+	char	*env_str;
 	
 	res = NULL;
-	env = getenv(word + 1);
-	res = ft_strdup(env);
+	env_str = my_getenv(msh, word);
+	if (env_str)
+		res = ft_strdup(env_str + ft_strlen(word));
+	else
+		res = ft_strdup("");
 	if (!res)
 		return (NULL);
 	free(word);
@@ -96,7 +99,7 @@ int	lexer(t_msh *msh)
 		if (!word)
 			break ;
 		if (find_expand_symbol(word) && msh->is_expandable == true)
-			word = expand(word);
+			word = expand(msh, word);
 		if (!word)
 			return (0);
 		add_word_to_stack(msh, word);

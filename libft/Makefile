@@ -6,7 +6,7 @@
 #    By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/25 00:19:30 by erpascua          #+#    #+#              #
-#    Updated: 2025/09/01 13:28:18 by gpollast         ###   ########.fr        #
+#    Updated: 2025/09/12 14:29:41 by gpollast         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@
 
 NAME		=	libft.a
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror -g
 AR			=	ar rcs
 RM			=	rm -f
 
