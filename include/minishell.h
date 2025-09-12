@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/12 14:38:28 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/09/12 16:11:19 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ int					parse(t_msh *msh);
 // BUILT-IN
 bool				is_builtin(t_msh *msh);
 int					bi_exit(void);
-int					bi_echo(void);
+int					bi_echo(char *s);
 int					bi_cd(void);
 int					bi_pwd(void);
 int					bi_export(void);
