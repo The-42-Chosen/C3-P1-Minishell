@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 20:02:25 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/29 18:16:43 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/09 14:40:55 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,6 @@ void	link_builtins(t_msh *msh)
 
 void	struct_init(t_msh *msh)
 {
-	msh->entry = NULL;
-	msh->env = NULL;
-	msh->history = NULL;
-	msh->is_builtin = 0;
-	msh->is_heredoc = 0;
+	ft_memset(msh, 0, sizeof(*msh));
 	link_builtins(msh);
 }
