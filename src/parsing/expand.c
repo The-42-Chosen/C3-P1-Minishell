@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:11:35 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/15 18:42:37 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/15 18:45:04 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,6 @@ char	*my_getenv(t_msh *msh, char *word)
 		i++;
 	}
 	return (NULL);
-}
-
-void	print_lst(t_list *lst)
-{
-	t_list	*tmp;
-
-	tmp = lst;
-	while (tmp)
-	{
-		ft_fprintf(1, "lst : %s|\n", tmp->content);
-		tmp = tmp->next;
-	}
 }
 
 t_list	*split_env_var(char *s)
@@ -114,7 +102,6 @@ char	*expand(t_msh *msh, char *s)
 {
 	char	*res;
 	char	*tmp;
-	// char	*env_str;
 	t_list	*lst;
 	
 	if (!s)
