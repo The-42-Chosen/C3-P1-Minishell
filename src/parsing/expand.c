@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:11:35 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/15 18:45:04 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/15 18:47:18 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*my_getenv(t_msh *msh, char *word)
 {
 	int	i;
 	int	len;
-	
+
 	i = 0;
 	len = get_env_var_len(word + 1);
 	while (msh->env[i])
@@ -38,7 +38,7 @@ char	*my_getenv(t_msh *msh, char *word)
 		if (!ft_strncmp(msh->env[i], word + 1, len) && msh->env[i][len] == '=')
 		{
 			return (msh->env[i] + len + 1);
-		}	
+		}
 		i++;
 	}
 	return (NULL);
@@ -50,7 +50,7 @@ t_list	*split_env_var(char *s)
 	char	*content;
 	char	*var_ptr;
 	char	*ptr;
-	
+
 	lst = NULL;
 	ptr = s;
 	while (*ptr)
@@ -90,7 +90,7 @@ char	*replace_env_var(t_msh *msh, char *s)
 			else
 			{
 				tmp = s;
-				s = ft_strdup("");		
+				s = ft_strdup("");
 				free(tmp);
 			}
 		}
@@ -103,7 +103,7 @@ char	*expand(t_msh *msh, char *s)
 	char	*res;
 	char	*tmp;
 	t_list	*lst;
-	
+
 	if (!s)
 		return (NULL);
 	res = malloc(sizeof(char));
