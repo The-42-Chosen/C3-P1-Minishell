@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/11 16:45:38 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/15 13:58:34 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,8 @@ void				handle_operator_token(t_stack *tmp);
 void				classify_single_token(t_stack *tmp);
 // PARSING
 int					parse(t_msh *msh);
+// EXPAND
+char				*expand(t_msh *msh, char *s);
 // BUILT-IN
 bool				is_builtin(t_msh *msh);
 int					bi_exit(void);

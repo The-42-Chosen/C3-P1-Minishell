@@ -1,2 +1,2 @@
-toto
-toto tata
+$USER
+"$USER toto tata $USER"
