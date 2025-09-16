@@ -26,6 +26,8 @@ static bool	is_valid_code_nb(char *str)
 			return (false);
 		j++;
 	}
+	if (j <= 1)
+		return (false);
 	return (true);
 }
 
