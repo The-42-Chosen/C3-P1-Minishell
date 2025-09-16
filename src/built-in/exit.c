@@ -6,7 +6,7 @@
 /*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 16:34:10 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/16 15:51:10 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/16 15:59:32 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,25 @@ static bool	is_overflow(char *str)
 	char	*int_min_str;
 	int		len;
 
-	int_max_str = "2147483647";
-	int_min_str = "-2147483648";
+	int_max_str = "9223372036854775807";
+	int_min_str = "-9223372036854775808";
 	len = ft_strlen(str);
-	if (str[0] == '-' && len > 11)
+	if (str[0] == '-' && len > 20)
 		return (true);
-	if (str[0] != '-' && len > 10)
+	if (str[0] != '-' && len > 19)
 		return (true);
-	if (len == 10 && ft_strncmp(str, int_max_str, 10) > 0)
+	if (str[0] != '-' && len == 19 && ft_strncmp(str, int_max_str, 19) > 0)
 		return (true);
-	if (len == 11 && ft_strncmp(str, int_min_str, 11) > 0)
+	if (str[0] == '-' && len == 20 && ft_strncmp(str, int_min_str, 20) > 0)
 		return (true);
 	return (false);
+}
+
+void	clean_exit(char *s)
+{
+	ft_fprintf(2, "minishell: exit: %s: numeric argument required\n", s);
+	g_exit_code = 255;
+	exit(g_exit_code);
 }
 
 int	bi_exit(char **argv)
@@ -61,19 +68,9 @@ int	bi_exit(char **argv)
 	if (argc >= 2)
 	{
 		if (!is_valid_code_nb(argv[1]))
-		{
-			ft_fprintf(2, "minishell: exit: %s: numeric argument required\n",
-				argv[1]);
-			g_exit_code = 255;
-			exit(g_exit_code);
-		}
+			clean_exit(argv[1]);
 		if (is_overflow(argv[1]))
-		{
-			ft_fprintf(2, "minishell: exit: %s: numeric argument required\n",
-				argv[1]);
-			g_exit_code = 255;
-			exit(g_exit_code);
-		}
+			clean_exit(argv[1]);
 		else
 			g_exit_code = ft_atoi(argv[1]) % 256;
 	}
