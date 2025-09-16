@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sig_int.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 15:21:44 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/19 19:25:14 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/09/16 06:42:21 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <readline/history.h>
+#include <readline/readline.h>
 
 void	sigint_handler(int signum)
 {
