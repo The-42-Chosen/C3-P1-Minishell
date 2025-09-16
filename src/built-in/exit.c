@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+
 static bool	is_valid_code_nb(char *str)
 {
 	int	j;
