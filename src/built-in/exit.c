@@ -19,7 +19,7 @@ static bool	is_valid_code_nb(char *str)
 	j = 0;
 	if (str[j] == '+' || str[j] == '-')
 		j++;
-	if (!str[i] || !ft_isdigit(str[i]))
+	if (!str[j] || !ft_isdigit(str[j]))
 		return (false);
 	while (str[j])
 	{
