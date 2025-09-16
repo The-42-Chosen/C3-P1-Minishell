@@ -54,7 +54,7 @@ int	bi_exit(char **argv)
 	{
 		ft_fprintf(2, "minishell: exit: too many arguments\n");
 		g_exit_code = 1;
-		exit(1);
+		return 1;
 	}
 	exit(g_exit_code);
 }
