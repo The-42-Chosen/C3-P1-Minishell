@@ -19,14 +19,14 @@ static bool	is_valid_code_nb(char *str)
 	j = 0;
 	if (str[j] == '+' || str[j] == '-')
 		j++;
+	if (!str[i] || !ft_isdigit(str[i]))
+		return (false);
 	while (str[j])
 	{
 		if (!ft_isdigit(str[j]))
 			return (false);
 		j++;
 	}
-	if (j <= 1)
-		return (false);
 	return (true);
 }
 
