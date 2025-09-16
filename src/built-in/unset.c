@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:05:40 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/13 19:05:48 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/09/16 07:15:54 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	bi_unset(void)
+int	bi_unset(char **argv)
 {
+	(void)argv;
 	ft_putendl_fd("unset", 1);
 	return (0);
 }

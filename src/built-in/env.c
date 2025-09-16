@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:06:05 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/13 19:06:34 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/09/16 07:53:00 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	bi_env(void)
+int	bi_env(char **argv)
 {
+	(void)argv;
 	ft_putendl_fd("env", 1);
 	return (0);
 }

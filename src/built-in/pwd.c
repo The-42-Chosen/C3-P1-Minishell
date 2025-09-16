@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:02:46 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/12 14:56:11 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/09/16 07:15:57 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	bi_pwd(void)
+int	bi_pwd(char **argv)
 {
 	int		i;
 	char	*buf;
 
+	(void)argv;
 	i = 1;
 	buf = malloc(i);
 	while (getcwd(buf, i) == NULL && errno == ERANGE)
