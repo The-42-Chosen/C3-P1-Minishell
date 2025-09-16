@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/15 13:58:34 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/16 17:08:51 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,15 @@ typedef struct s_stack
 	struct s_stack	*next;
 }					t_stack;
 
+typedef	struct s_cmd
+{
+	char			**args;
+	char			*path;
+}					t_cmd;
+
 typedef struct s_data
 {
-	char			**cmd;
+	t_cmd			cmd;
 	char			*file_or_limiter;
 	t_group			group;
 	struct s_data	*next;
@@ -145,6 +151,8 @@ void				handle_operator_token(t_stack *tmp);
 void				classify_single_token(t_stack *tmp);
 // PARSING
 int					parse(t_msh *msh);
+char				*my_getenv(t_msh *msh, char *word);
+char				*cmd_path(t_msh *msh, char *cmd);
 // EXPAND
 char				*expand(t_msh *msh, char *s);
 // BUILT-IN
