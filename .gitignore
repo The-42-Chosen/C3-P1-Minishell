@@ -5,3 +5,5 @@
 minishell
 tmp_fd
 obj/
+.vscode/*
+settings.json
