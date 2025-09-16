@@ -45,7 +45,7 @@ int	bi_exit(char **argv)
 			g_exit_code = 255;
 			exit(g_exit_code);
 		}
-		g_exit_code = ft_atoi(argv[1]) % 256;
+		g_exit_code = ((ft_atoi(argv[1]) % 256) + 256) % 256;
 	}
 	if (argc > 2)
 	{
