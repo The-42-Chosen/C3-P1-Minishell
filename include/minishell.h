@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/12 16:11:19 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/09/16 07:11:58 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 # include "libft.h"
 # include <errno.h>
 # include <fcntl.h>
+# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
-# include <stdio.h>
 # include <string.h>
 # include <term.h>
 
@@ -90,7 +90,7 @@ typedef struct s_msh
 	bool			is_heredoc;
 	bool			is_builtin;
 	char			*builtin_names[NB_BUILTINS];
-	int				(*builtin_funcs[NB_BUILTINS])(void);
+	int				(*builtin_funcs[NB_BUILTINS])(char **);
 }					t_msh;
 
 int					launch_program(t_msh *msh);
@@ -136,13 +136,13 @@ void				classify_single_token(t_stack *tmp);
 int					parse(t_msh *msh);
 // BUILT-IN
 bool				is_builtin(t_msh *msh);
-int					bi_exit(void);
-int					bi_echo(char *s);
-int					bi_cd(void);
-int					bi_pwd(void);
-int					bi_export(void);
-int					bi_unset(void);
-int					bi_env(void);
+int					bi_exit(char **argv);
+int					bi_echo(char **argv);
+int					bi_cd(char **argv);
+int					bi_pwd(char **argv);
+int					bi_export(char **argv);
+int					bi_unset(char **argv);
+int					bi_env(char **argv);
 // SIGNALS
 bool				is_eof(void);
 void				sigint_handler(int process);

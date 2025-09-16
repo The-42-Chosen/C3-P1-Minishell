@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:02:29 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/13 19:03:43 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/09/16 07:52:53 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	bi_cd(void)
+int	bi_cd(char **argv)
 {
+	(void)argv;
 	ft_putendl_fd("cd", 1);
 	return (0);
 }

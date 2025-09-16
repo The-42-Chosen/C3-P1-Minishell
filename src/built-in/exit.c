@@ -12,8 +12,9 @@
 
 #include "minishell.h"
 
-int	bi_exit(void)
+int	bi_exit(char **argv)
 {
+	(void)argv; // Unused parameter
 	ft_putendl_fd("exit", 1);
 	return (0);
 }
