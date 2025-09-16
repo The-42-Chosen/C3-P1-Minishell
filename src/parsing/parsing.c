@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 11:53:38 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/13 19:58:52 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/16 17:09:17 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,23 @@ t_group	identify_redir(char *word)
 	return (G_INVALID);
 }
 
+int	set_up_path(t_msh *msh)
+{
+	t_data	*tmp;
+
+	tmp = msh->data;
+	while (tmp)
+	{
+		if (tmp->group == G_CMD)
+		{
+			tmp->cmd.path = cmd_path(msh, tmp->cmd.args[0]);
+			ft_fprintf(1, "Path cmd: %s\n", tmp->cmd.path);
+		}
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
 int	parse(t_msh *msh)
 {
 	t_stack	*tmp;
@@ -173,11 +190,11 @@ int	parse(t_msh *msh)
 			new_node = init_data_node();
 			if (!new_node)
 				return (0);
-			new_node->cmd = seek_group_cmd(&tmp);
-			if (!new_node->cmd)
+			new_node->cmd.args = seek_group_cmd(&tmp);
+			if (!new_node->cmd.args)
 				return (0);
 			new_node->group = G_CMD;
-			print_array(new_node->cmd, "WORD");
+			print_array(new_node->cmd.args, "WORD");
 			if (!msh->data)
 				msh->data = new_node;
 			else
@@ -199,5 +216,6 @@ int	parse(t_msh *msh)
 		}
 		tmp = tmp->next;
 	}
+	set_up_path(msh);
 	return (1);
 }

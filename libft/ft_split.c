@@ -3,81 +3,99 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:53:47 by erpascua          #+#    #+#             */
-/*   Updated: 2025/07/28 17:46:46 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:27:56 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	word_count(char const *s, char c)
+static int	count_word(char const *s, char *charset)
 {
-	size_t	wc;
-	size_t	i;
+	int	i;
+	int	in_word;
+	int	count;
 
-	wc = 0;
 	i = 0;
+	in_word = 0;
+	count = 0;
 	while (s[i])
 	{
-		while (s[i] == c && s[i])
-			i++;
-		if (s[i])
+		if (!ft_strchr(charset, s[i]) && in_word == 0)
 		{
-			wc++;
-			while (s[i] != c && s[i])
-				i++;
+			in_word = 1;
+			count++;
 		}
+		else if (ft_strchr(charset, s[i]))
+			in_word = 0;
+		i++;
 	}
-	return (wc);
+	return (count);
 }
 
-static char	**tab_free(char **tab, size_t j)
+static int	get_start(char const *s, char *charset, int sep)
 {
-	while (j--)
-		free(tab[j]);
-	free(tab);
+	while (s[sep])
+	{
+		if (!ft_strchr(charset, s[sep]))
+			return (sep);
+		sep++;
+	}
+	return (sep);
+}
+
+static int	get_sep(char const *s, char *charset, int start)
+{
+	while (s[start])
+	{
+		if (ft_strchr(charset, s[start]))
+			return (start);
+		start++;
+	}
+	return (start);
+}
+
+static char	**free_words(char **res)
+{
+	int	i;
+
+	i = 0;
+	while (res[i])
+	{
+		free(res[i]);
+		i++;
+	}
+	free(res);
 	return (NULL);
 }
 
-char	**spliter(char const *s, char c, char **tab)
+char	**ft_split(char const *s, char *charset)
 {
-	size_t	i;
-	size_t	j;
-	size_t	start;
-
-	i = 0;
-	j = 0;
-	while (s[i])
-	{
-		while (s[i] == c && s[i])
-			i++;
-		if (s[i])
-		{
-			start = i;
-			while (s[i] != c && s[i])
-				i++;
-			tab[j] = (char *)malloc((i - start + 1) * sizeof(char));
-			if (!tab[j])
-				return (tab_free(tab, j));
-			ft_memcpy(tab[j], s + start, i - start);
-			tab[j][i - start] = 0;
-			j++;
-		}
-	}
-	tab[j] = 0;
-	return (tab);
-}
-
-char	**ft_split(char const *s, char c)
-{
-	char	**tab;
+	char	**res;
+	int		words;
+	int		i;
+	int		start;
+	int		sep;
 
 	if (!s)
 		return (NULL);
-	tab = (char **)malloc((word_count(s, c) + 1) * sizeof(char *));
-	if (!tab)
+	words = count_word(s, charset);
+	res = (char **) ft_calloc(words + 1, sizeof(char *));
+	if (!res)
 		return (NULL);
-	return (spliter(s, c, tab));
+	i = 0;
+	start = 0;
+	sep = 0;
+	while (i < words)
+	{
+		start = get_start(s, charset, sep);
+		sep = get_sep(s, charset, start);
+		res[i] = ft_substr(s, start, sep - start);
+		if (!res[i])
+			return (free_words(res));
+		i++;
+	}
+	return (res);
 }
