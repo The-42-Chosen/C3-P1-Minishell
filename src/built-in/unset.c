@@ -6,15 +6,16 @@
 /*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:05:40 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/16 07:15:54 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/17 02:47:53 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	bi_unset(char **argv)
+int	bi_unset(t_msh *msh, char **av)
 {
-	(void)argv;
+	(void)msh;
+	(void)av;
 	ft_putendl_fd("unset", 1);
 	return (0);
 }
