@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:11:35 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/16 16:12:07 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/17 11:13:51 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ size_t	get_env_var_len(char *word)
 	if (!word)
 		return (0);
 	i = 0;
-	while (word[i] && word[i] != ' ' && word[i] != '$')
+	while (word[i] && word[i] != ' ' && word[i] != '$' && word[i] != '\'')
 	{
 		i++;
 	}
