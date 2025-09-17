@@ -6,7 +6,7 @@
 /*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 16:34:10 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/16 15:59:32 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/17 02:13:46 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,11 @@ void	clean_exit(char *s)
 	exit(g_exit_code);
 }
 
-int	bi_exit(char **argv)
+int	bi_exit(t_msh *msh, char **argv)
 {
 	int	argc;
 
+	(void)msh;
 	argc = 0;
 	ft_putendl_fd("exit", 1);
 	while (argv[argc])

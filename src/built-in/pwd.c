@@ -6,18 +6,19 @@
 /*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:02:46 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/16 07:15:57 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/17 02:47:53 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	bi_pwd(char **argv)
+int	bi_pwd(t_msh *msh, char **av)
 {
 	int		i;
 	char	*buf;
 
-	(void)argv;
+	(void)msh;
+	(void)av;
 	i = 1;
 	buf = malloc(i);
 	while (getcwd(buf, i) == NULL && errno == ERANGE)
