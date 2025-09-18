@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/18 17:59:30 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/18 19:29:06 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,31 +29,31 @@ static int	check_next_token_for_redir(t_stack *stack, t_token t)
 
 static int	add_node(t_msh *msh, t_stack **tmp)
 {
-    t_data	*new_node;
+	t_data	*new_node;
 
-    new_node = init_data_node();
-    if (!new_node)
-        return (0);
-    if ((*tmp)->token == REDIR)
-    {
-        if (!add_redir_node(tmp, new_node))
-        {
-            data_destroy(new_node);
-            return (0);
-        }
-    }
-    else if ((*tmp)->token == WORD)
-    {
-        if (!add_command_node(tmp, new_node))
-        {
-            data_destroy(new_node);
-            return (0);
-        }
-    }
-    else if ((*tmp)->token == PIPE)
-        new_node->group = G_PIPE;
-    msh->data = data_add_back((msh->data), new_node);
-    return (1);
+	new_node = init_data_node();
+	if (!new_node)
+		return (0);
+	if ((*tmp)->token == REDIR)
+	{
+		if (!add_redir_node(tmp, new_node))
+		{
+			data_destroy(new_node);
+			return (0);
+		}
+	}
+	else if ((*tmp)->token == WORD)
+	{
+		if (!add_command_node(tmp, new_node))
+		{
+			data_destroy(new_node);
+			return (0);
+		}
+	}
+	else if ((*tmp)->token == PIPE)
+		new_node->group = G_PIPE;
+	msh->data = data_add_back((msh->data), new_node);
+	return (1);
 }
 
 int	parse(t_msh *msh)

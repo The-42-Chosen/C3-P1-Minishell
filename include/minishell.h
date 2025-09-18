@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/18 16:07:56 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/18 19:48:33 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ void				handle_operator_token(t_stack *tmp);
 void				classify_single_token(t_stack *tmp);
 // PARSING
 int					parse(t_msh *msh);
+size_t				get_env_var_len(char *word);
 char				*my_getenv(t_msh *msh, char *word);
 int					add_command_node(t_stack **tmp, t_data *new_node);
 char				*cmd_path(t_msh *msh, char *cmd);
