@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/18 11:21:55 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:07:56 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,12 @@ void				classify_single_token(t_stack *tmp);
 // PARSING
 int					parse(t_msh *msh);
 char				*my_getenv(t_msh *msh, char *word);
+int					add_command_node(t_stack **tmp, t_data *new_node);
 char				*cmd_path(t_msh *msh, char *cmd);
+int					set_up_path(t_msh *msh);
+int					add_redir_node(t_stack **tmp, t_data *new_node);
+t_data				*init_data_node(void);
+t_data				*data_add_back(t_data *data, t_data *new);
 // EXPAND
 char				*expand(t_msh *msh, char *s);
 // BUILT-IN
@@ -169,5 +174,6 @@ void				sigint_handler(int process);
 // FREE
 void				free_data(t_data *data);
 void				ft_free(t_msh *msh);
+void				data_destroy(t_data *head);
 
 #endif
