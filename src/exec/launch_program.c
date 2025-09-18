@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/18 15:51:56 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/18 18:18:12 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ static int	repl(t_msh *msh, int tmp_fd)
 		}
 		if (!lexer(msh))
 			return (0);
-		parse(msh);
+		if (!parse(msh))
+			return (0);
 		stack_destroy(msh->stack);
 		msh->stack = NULL;
 		write(tmp_fd, msh->entry, ft_strlen(msh->entry));

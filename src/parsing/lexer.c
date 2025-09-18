@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/15 13:58:31 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/18 18:21:30 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	lexer(t_msh *msh)
 		msh->is_expandable = true;
 		word = read_entry(msh, msh->entry, &i);
 		if (!word)
-			break ;
+			return (0);
 		if (ft_strchr(word, '$') && msh->is_expandable == true)
 			word = expand(msh, word);
 		if (!word)

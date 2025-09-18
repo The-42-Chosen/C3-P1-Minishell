@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:11:35 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/17 11:13:51 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/18 18:23:57 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,19 @@ t_list	*split_env_var(char *s)
 		if (var_ptr)
 		{
 			content = ft_substr(ptr, 0, var_ptr - ptr);
+			if (!content)
+				return (NULL);
 			ft_lstadd_back(&lst, ft_lstnew(content));
 			content = ft_substr(var_ptr, 0, get_env_var_len(var_ptr + 1) + 1);
+			if (!content)
+				return (NULL);
 			ptr = var_ptr + get_env_var_len(var_ptr + 1) + 1;
 		}
 		else
 		{
 			content = ft_substr(ptr, 0, ft_strlen(ptr));
+			if (!content)
+				return (NULL);
 			ptr = ptr + ft_strlen(ptr);
 		}
 		ft_lstadd_back(&lst, ft_lstnew(content));
