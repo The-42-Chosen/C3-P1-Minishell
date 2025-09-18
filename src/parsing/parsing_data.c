@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/18 17:08:46 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/18 18:00:38 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ static t_data	*data_last(t_data *data)
 
 t_data	*data_add_back(t_data *data, t_data *new)
 {
-	if (!data || !new)
-		return (NULL);
-	if (data == NULL)
-		return (new);
-	else
-		data_last(data)->next = new;
-	return (data);
+    if (!new)
+        return (data);
+    if (data == NULL)
+        return (new);
+    else
+        data_last(data)->next = new;
+    return (data);
 }
 
 void	data_destroy(t_data *head)
