@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/18 18:21:30 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/18 19:06:44 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,33 @@ char	*read_entry(t_msh *msh, char *s, int *i)
 
 int	lexer(t_msh *msh)
 {
-	int		i;
-	char	*word;
+    int		i;
+    char	*word;
 
-	if (!msh->entry)
-		return (0);
-	i = 0;
-	while (1)
-	{
-		msh->is_expandable = true;
-		word = read_entry(msh, msh->entry, &i);
-		if (!word)
-			return (0);
-		if (ft_strchr(word, '$') && msh->is_expandable == true)
-			word = expand(msh, word);
-		if (!word)
-			return (0);
-		add_word_to_stack(msh, word);
-		free(word);
-	}
-	identify_token(msh);
-	return (1);
+    if (!msh->entry)
+        return (0);
+    i = 0;
+    while (msh->entry[i])
+    {
+        msh->is_expandable = true;
+        word = read_entry(msh, msh->entry, &i);
+        if (!word)
+        {
+            if (msh->entry[i] == '\0')
+                break;
+            return (0);  // Error case
+        }
+        if (ft_strchr(word, '$') && msh->is_expandable == true)
+        {
+            char *expanded = expand(msh, word);
+            free(word);
+            word = expanded;
+        }
+        if (!word)
+            return (0);
+        add_word_to_stack(msh, word);
+        free(word);
+    }
+    identify_token(msh);
+    return (1);
 }
