@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/16 17:08:51 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/18 11:21:55 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ typedef enum e_group
 	G_REDIR_APPEND,
 	G_CMD,
 	G_PIPE,
-	G_OPERATOR,
 	G_INVALID,
 	NB_GROUPS
 }					t_group;

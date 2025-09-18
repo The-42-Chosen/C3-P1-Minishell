@@ -1,4 +1,4 @@
 toto
-echo
-echo | pwd
-< file1 echo "Login: $USER" | sort > file2
+< file1 echo "Login: $USER" |sort > file2
+< file1 echo "Login: $USER" |sort >> file2
+<< file1 echo "Login: $USER" |sort >> file2
