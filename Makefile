@@ -18,8 +18,8 @@
 
 NAME		= 	minishell
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -Iinclude -I$(LIBFT_DIR) -MMD -MP -g
-LDFLAGS		=	-lreadline -ltermcap -lncurses
+CFLAGS		=	-Wall -Wextra -Werror -Iinclude -I$(LIBFT_DIR) -MMD -MP -I$(shell brew --prefix readline)/include -g
+LDFLAGS		=	-lreadline -ltermcap -lncurses -L$(shell brew --prefix readline)/lib
 
 RM			=	/bin/rm -f
 

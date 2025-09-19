@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   launch_program.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
 /*   Updated: 2025/09/19 11:11:34 by gpollast         ###   ########.fr       */
@@ -21,10 +21,6 @@ void	update_history(t_msh *msh)
 
 static int	repl(t_msh *msh, int tmp_fd)
 {
-	int	process;
-
-	process = getpid();
-	(void)process;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sigint_handler);
 	while (1)

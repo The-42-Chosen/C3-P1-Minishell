@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:04:02 by erpascua          #+#    #+#             */
-/*   Updated: 2025/08/13 19:04:14 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/09/17 02:14:02 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	bi_export(void)
+int	bi_export(t_msh *msh, char **argv)
 {
+	(void)msh;
+	(void)argv;
 	ft_putendl_fd("export", 1);
 	return (0);
 }

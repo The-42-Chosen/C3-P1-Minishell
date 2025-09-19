@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
 /*   Updated: 2025/09/18 19:48:33 by gpollast         ###   ########.fr       */
@@ -14,16 +14,24 @@
 # define MINISHELL_H
 
 # include "libft.h"
+# include <errno.h>
 # include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <string.h>
 # include <term.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
-extern int			g_exit_code;
+extern int				g_exit_code;
+
+typedef struct s_env
+{
+	char				*key;
+	char				*value;
+	struct s_env		*next;
+}						t_env;
 
 typedef enum e_builtin
 {
@@ -35,7 +43,7 @@ typedef enum e_builtin
 	BI_ENV,
 	BI_EXIT,
 	NB_BUILTINS
-}					t_builtin;
+}						t_builtin;
 
 typedef enum e_token
 {
@@ -44,7 +52,7 @@ typedef enum e_token
 	PIPE,
 	OPERATOR,
 	NB_TOKENS
-}					t_token;
+}						t_token;
 
 typedef enum e_subtoken
 {
@@ -57,7 +65,7 @@ typedef enum e_subtoken
 	OR,
 	QUOTE,
 	NB_SUBTOKENS
-}					t_subtoken;
+}						t_subtoken;
 
 typedef enum e_group
 {
@@ -96,58 +104,59 @@ typedef struct s_data
 
 typedef struct s_msh
 {
-	char			**env;
-	char			*entry;
-	t_stack			*stack;
-	char			*history;
-	t_token			*token_type;
+	t_env				*env;
+	char				*entry;
+	t_stack				*stack;
+	char				*history;
+	t_token				*token_type;
 	t_data			*data;
-	bool			is_heredoc;
-	bool			is_builtin;
-	bool			is_expandable;
-	char			*builtin_names[NB_BUILTINS];
-	int				(*builtin_funcs[NB_BUILTINS])(void);
-}					t_msh;
+	bool				is_heredoc;
+	bool				is_builtin;
+	char				*builtin_names[NB_BUILTINS];
+	int					(*builtin_funcs[NB_BUILTINS])(t_msh *, char **);
+}						t_msh;
 
-int					launch_program(t_msh *msh);
-void				print_banner(void);
-int					struct_init(t_msh *msh);
+int						launch_program(t_msh *msh);
+void					print_banner(void);
+void					struct_init(t_msh *msh);
+void					save_env(t_msh *msh, char **env);
 // LEXER
-int					lexer(t_msh *msh);
-char				*read_entry(t_msh *msh, char *s, int *i);
+int						lexer(t_msh *msh);
+char					*read_entry(char *s, int *i);
 // LEXER UTILS
-bool				is_delimeter(char c);
-bool				is_redirection(char c);
-bool				is_operator(char c);
-void				check_redirection(char *s, int *i);
-void				check_operator(char *s, int *i);
+bool					is_delimeter(char c);
+bool					is_redirection(char c);
+bool					is_operator(char c);
+void					check_redirection(char *s, int *i);
+void					check_operator(char *s, int *i);
 // TOKEN HANDLERS
 int					handle_quotes(char *s, int *i, char quote_char);
 void				handle_word(char *s, int *i);
 char				*extract_word(t_msh *msh, char *s, int start, int end);
 // STACK UTILS
-void				print_stack(t_stack *s);
-void				add_word_to_stack(t_msh *msh, char *word);
+void					print_stack(t_stack *s);
+void					add_word_to_stack(t_msh *msh, char *word);
 // ADDING TO STACK
-void				fill_node(t_msh *msh, char *word);
-t_stack				*new_stack(char *content);
-int					fill_stack(t_stack **a, char *word);
-void				stack_destroy(t_stack *head);
-void				stack_add_back(t_stack **s, t_stack *new_s);
+void					fill_node(t_msh *msh, char *word);
+t_stack					*new_stack(char *content);
+int						fill_stack(t_stack **a, char *word);
+void					stack_destroy(t_stack *head);
+void					stack_add_back(t_stack **s, t_stack *new_s);
 // TOKEN
 int					identify_token(t_msh *msh);
+
 // TOKEN VALIDATION
-bool				check_heredoc_append(t_stack *s);
-bool				check_in_out(t_stack *s);
-bool				is_valid_redir(t_stack *s);
-bool				is_valid_operator(t_stack *s);
-bool				is_valid_pipe(t_stack *s);
+bool					check_heredoc_append(t_stack *s);
+bool					check_in_out(t_stack *s);
+bool					is_valid_redir(t_stack *s);
+bool					is_valid_operator(t_stack *s);
+bool					is_valid_pipe(t_stack *s);
 // TOKEN CLASSIFICATION
-bool				is_redir_symbol(t_stack *s);
-bool				is_operation_symb(t_stack *s);
-void				handle_redirection_token(t_stack *tmp);
-void				handle_operator_token(t_stack *tmp);
-void				classify_single_token(t_stack *tmp);
+bool					is_redir_symbol(t_stack *s);
+bool					is_operation_symb(t_stack *s);
+void					handle_redirection_token(t_stack *tmp);
+void					handle_operator_token(t_stack *tmp);
+void					classify_single_token(t_stack *tmp);
 // PARSING
 int					parse(t_msh *msh);
 size_t				get_env_var_len(char *word);
@@ -161,14 +170,14 @@ t_data				*data_add_back(t_data *data, t_data *new);
 // EXPAND
 char				*expand(t_msh *msh, char *s);
 // BUILT-IN
-bool				is_builtin(t_msh *msh);
-int					bi_exit(void);
-int					bi_echo(void);
-int					bi_cd(void);
-int					bi_pwd(void);
-int					bi_export(void);
-int					bi_unset(void);
-int					bi_env(void);
+bool					is_builtin(t_msh *msh);
+int						bi_exit(t_msh *msh, char **argv);
+int						bi_echo(t_msh *msh, char **argv);
+int						bi_cd(t_msh *msh, char **argv);
+int						bi_pwd(t_msh *msh, char **argv);
+int						bi_export(t_msh *msh, char **argv);
+int						bi_unset(t_msh *msh, char **argv);
+int						bi_env(t_msh *msh, char **argv);
 // SIGNALS
 bool				is_eof(void);
 void				sigint_handler(int process);
