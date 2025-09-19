@@ -6,7 +6,7 @@
 /*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/19 17:00:41 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/19 17:02:04 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ typedef struct s_msh
 
 int					launch_program(t_msh *msh);
 void				print_banner(void);
-int				struct_init(t_msh *msh);
+int					struct_init(t_msh *msh);
 void				save_env(t_msh *msh, char **env);
 // LEXER
 int					lexer(t_msh *msh);
