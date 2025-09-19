@@ -16,13 +16,13 @@
 # include "libft.h"
 # include <errno.h>
 # include <fcntl.h>
-# include <signal.h>
-# include <stdbool.h>
 # include <stdio.h>
-# include <string.h>
-# include <term.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
+# include <stdbool.h>
+# include <string.h>
+# include <term.h>
 
 extern int				g_exit_code;
 
@@ -102,6 +102,15 @@ typedef struct s_data
 	struct s_data	*next;
 }					t_data;
 
+typedef struct t_paths
+{
+	char				*pwd;
+	char				*oldpwd;
+	char				*home;
+	bool				has_home;
+	bool				has_oldpwd;
+}						t_paths;
+
 typedef struct s_msh
 {
 	t_env				*env;
@@ -114,6 +123,7 @@ typedef struct s_msh
 	bool				is_builtin;
 	char				*builtin_names[NB_BUILTINS];
 	int					(*builtin_funcs[NB_BUILTINS])(t_msh *, char **);
+	t_paths				paths;
 }						t_msh;
 
 int						launch_program(t_msh *msh);
@@ -174,6 +184,11 @@ bool					is_builtin(t_msh *msh);
 int						bi_exit(t_msh *msh, char **argv);
 int						bi_echo(t_msh *msh, char **argv);
 int						bi_cd(t_msh *msh, char **argv);
+bool					cd_home(t_env *env, t_paths *paths);
+bool					cd_oldpwd(t_env *env, t_paths *paths);
+bool					cd_folder(t_env *env, t_paths *paths, char *folder);
+void					cd_get_paths(t_env *env, t_paths *paths);
+void					cd_update_env(t_env *env, t_paths *paths);
 int						bi_pwd(t_msh *msh, char **argv);
 int						bi_export(t_msh *msh, char **argv);
 int						bi_unset(t_msh *msh, char **argv);
