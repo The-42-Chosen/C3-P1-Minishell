@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:56:34 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/16 16:28:37 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/19 11:35:05 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,6 @@ char				*args_join(char **av);
 long				is_in_int_range(const char *str);
 char				**split_spaces(char const *s);
 void				free_tab(char **tab);
+void				print_string_array(char **array);
 
 #endif

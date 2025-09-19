@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 10:57:36 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/18 18:03:33 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/19 10:35:12 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	env_dup(t_msh *msh, char **env)
 
 // void	free_msh(t_msh *msh)
 // {
-	
+
 // }
 
 void	free_msh_builtins(t_msh *msh)

@@ -6,7 +6,7 @@
 #    By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/25 00:19:30 by erpascua          #+#    #+#              #
-#    Updated: 2025/09/12 14:29:41 by gpollast         ###   ########.fr        #
+#    Updated: 2025/09/19 11:34:45 by gpollast         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,7 +86,8 @@ SRC			=	ft_isalpha.c \
 				printf_percent.c \
 				printf_ptr.c \
 				printf_str.c \
-				printf_unsigned.c
+				printf_unsigned.c \
+				print_string_array.c
 			
 SRC_BONUS = 	ft_lstnew_bonus.c \
 				ft_lstadd_front_bonus.c \
