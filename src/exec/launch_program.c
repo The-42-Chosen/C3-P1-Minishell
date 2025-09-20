@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_program.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/19 17:01:20 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/20 20:16:44 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ static int	repl(t_msh *msh, int tmp_fd)
 		}
 		if (!lexer(msh))
 			return (0);
+		if (!parse(msh))
+			return (0);
+		msh->data = NULL;
+		msh->stack = NULL;
 		write(tmp_fd, msh->entry, ft_strlen(msh->entry));
 		write(tmp_fd, "\n", 1);
 		free(msh->entry);

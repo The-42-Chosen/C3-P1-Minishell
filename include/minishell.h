@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/19 17:02:04 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/20 17:46:30 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ typedef struct s_data
 	struct s_data	*next;
 }					t_data;
 
-typedef struct t_paths
+typedef struct s_paths
 {
 	char			*pwd;
 	char			*oldpwd;
@@ -121,8 +121,9 @@ typedef struct s_msh
 	t_data			*data;
 	bool			is_heredoc;
 	bool			is_builtin;
+	bool			is_expandable;
 	char			*builtin_names[NB_BUILTINS];
-	int				(*builtin_funcs[NB_BUILTINS])(t_msh *, char **);
+	int				(*builtin_funcs[NB_BUILTINS])(struct s_msh *, char **);
 	t_paths			paths;
 }					t_msh;
 
@@ -132,7 +133,7 @@ int					struct_init(t_msh *msh);
 void				save_env(t_msh *msh, char **env);
 // LEXER
 int					lexer(t_msh *msh);
-char				*read_entry(char *s, int *i);
+char				*read_entry(t_msh *msh, char *s, int *i);
 // LEXER UTILS
 bool				is_delimeter(char c);
 bool				is_redirection(char c);

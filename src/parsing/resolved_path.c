@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:46:48 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/16 17:08:17 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/20 18:58:37 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 char	*my_getenv_for_path(t_msh *msh)
 {
-	int	i;
+	t_env	*env;
 
-	i = 0;
-	while (msh->env[i])
+	env = msh->env;
+	while (env)
 	{
-		if (!ft_strncmp(msh->env[i], "PATH=", ft_strlen("PATH=")))
-			return (msh->env[i]);
-		i++;
+		if (!ft_strncmp(env->key, "PATH", ft_strlen("PATH")))
+			return (env->value);
+		env = env->next;
 	}
 	return (NULL);
 }
@@ -56,17 +56,12 @@ char	*path_env(char *str, char *cmd)
 
 char	*cmd_path(t_msh *msh, char *cmd)
 {
-	char	**res;
 	char	*path;
 
-	res = ft_split(cmd, " \t");
-	if (!res)
-		return (NULL);
 	if (cmd[0] == '/')
-		path = ft_strdup(res[0]);
+		path = ft_strdup(cmd);
 	else
-		path = path_env(my_getenv_for_path(msh), res[0]);
-	free_tab(res);
+		path = path_env(my_getenv_for_path(msh), cmd);
 	if (!path)
 		return (NULL);
 	return (path);

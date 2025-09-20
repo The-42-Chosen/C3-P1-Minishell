@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 19:47:07 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/18 19:48:25 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/20 17:43:38 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,18 @@ size_t	get_env_var_len(char *word)
 
 char	*my_getenv(t_msh *msh, char *word)
 {
-	int	i;
-	int	len;
+	int		len;
+	t_env	*env;
 
-	i = 0;
 	len = get_env_var_len(word + 1);
-	while (msh->env[i])
+	env	= msh->env;
+	while (env)
 	{
-		if (!ft_strncmp(msh->env[i], word + 1, len) && msh->env[i][len] == '=')
+		if (!ft_strncmp(msh->env->key, word + 1, len))
 		{
-			return (msh->env[i] + len + 1);
+			return (msh->env->value);
 		}
-		i++;
+		env = env->next;
 	}
 	return (NULL);
 }
