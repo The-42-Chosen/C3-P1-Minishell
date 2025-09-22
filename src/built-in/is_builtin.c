@@ -6,19 +6,19 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 17:07:49 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/22 11:17:15 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/22 11:41:44 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_builtin(t_msh *msh)
+bool	is_builtin(t_msh *msh, t_data *data)
 {
 	int		i;
 	char	**av;
 
 	i = 0;
-	av = msh->data->cmd.args;
+	av = data->cmd.args;
 	if (!av || !av[0])
 		return (0);
 	while (i < NB_BUILTINS)
@@ -27,13 +27,11 @@ bool	is_builtin(t_msh *msh)
 				ft_strlen(msh->builtin_names[i]) + 1))
 		{
 			msh->builtin_funcs[i](msh, av);
-			free_tab(av);
 			msh->is_builtin = 1;
 			return (1);
 		}
 		i++;
 	}
-	free_tab(av);
 	msh->is_builtin = 0;
 	return (0);
 }
