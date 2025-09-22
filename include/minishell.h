@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/22 13:40:29 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/22 14:07:16 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,13 @@ typedef struct s_pipe
 	int	fd[2];
 }					t_pipe;
 
+typedef	struct s_process
+{
+	int		in;
+	int		out;
+	pid_t	pid;
+}					t_process;
+
 typedef struct s_msh
 {
 	t_env			*env;
@@ -132,6 +139,7 @@ typedef struct s_msh
 	int				(*builtin_funcs[NB_BUILTINS])(struct s_msh *, char **);
 	t_paths			paths;
 	int				exit_code;
+	int				nb_cmd;
 }					t_msh;
 
 int					launch_program(t_msh *msh);
