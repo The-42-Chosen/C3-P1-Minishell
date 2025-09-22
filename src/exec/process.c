@@ -6,42 +6,53 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/22 14:29:29 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/22 20:14:28 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <minishell.h>
+#include <minishell.h>
+#include <sys/wait.h>
 
-// void	create_pipes(t_pipe *pipefd, int nb_cmd)
-// {
-// 	int	i;
+static pid_t	execute_cmd(t_msh *msh, t_data *data, int in)
+{
+	pid_t	pid;
 
-// 	i = 0;
-// 	while (i < nb_cmd)
-// 	{
-// 		if (pipe(pipefd[i].fd) == -1)
-// 			return (perror("pipe"));
-// 		i++;
-// 	}
-// }
+	pid = fork();
+	if (pid == 0)
+	{
+		dup2(0, in);
+		execve(data->cmd.path, data->cmd.args, msh_getenv(msh));
+	}
+	return (pid);
+}
 
-// int	process(t_msh *msh)
-// {
-// 	t_pipe		*pipefd;
-// 	t_process	*process;
+t_list	*execute(t_msh *msh, t_data *data, int in)
+{
+	t_list	*item;
 
-// 	pipefd = malloc(sizeof(t_pipe) * (msh->nb_cmd));
-// 	if (!pipefd)
-// 	{
-// 		perror("Error allocating memory for pipes");
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	create_pipes(pipefd, msh->nb_cmd);
-// 	process = setup_childs(msh->data);
-// 	create_processes(process, pipefd, msh->data);
-// 	close_pipes(pipefd, msh->nb_cmd);
-// 	wait_children(process, msh->nb_cmd);
-// 	cleanup_children(process, msh->nb_cmd);
-// 	free(process);
-// 	free(pipefd);
-// }
+	item = malloc(sizeof(*item));
+	if (!item)
+		return (NULL);
+	item->content = malloc(sizeof(pid_t));
+	if (data->group == G_CMD)
+	{
+		if (data->cmd.builtin_type == BI_NONE)
+			*((pid_t *)item->content) = execute_cmd(msh, data, in);
+		else
+			execute_builtin(msh, msh->data);
+	}
+	// execute(msh, data->next, in);
+	return (item);
+}
+
+void	execute_all(t_msh *msh)
+{
+	t_list	*pids;
+	
+	pids = execute(msh, msh->data, 0);
+	while (pids)
+	{
+		waitpid(*((pid_t *)(pids->content)), &msh->exit_code, 0);
+		pids = pids->next;
+	}
+}
