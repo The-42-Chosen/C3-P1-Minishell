@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/22 14:11:10 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/22 17:49:05 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static int	repl(t_msh *msh, int tmp_fd)
 			return (0);
 		if (!parse(msh))
 			return (0);
+		execute_all(msh);
 		msh->data = NULL;
 		msh->stack = NULL;
 		msh->nb_cmd = 0;
