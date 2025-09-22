@@ -6,7 +6,7 @@
 /*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:56:34 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/19 17:01:00 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/22 21:14:28 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,6 @@ long				is_in_int_range(const char *str);
 char				**split_spaces(char const *s);
 void				free_tab(char **tab);
 void				print_string_array(char **array);
+int					ft_strcmp(char *s1, char *s2);
 
 #endif
