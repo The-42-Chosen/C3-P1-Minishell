@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/22 13:28:57 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/22 13:40:29 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ size_t				get_env_var_len(char *word);
 char				*my_getenv(t_msh *msh, char *word);
 int					add_command_node(t_msh *msh, t_stack **tmp, t_data *new_node);
 char				*cmd_path(t_msh *msh, char *cmd);
-int					set_up_path(t_msh *msh);
+int					set_up_path(t_msh *msh, t_data *data);
 int					add_redir_node(t_msh *msh, t_stack **tmp, t_data *new_node);
 t_data				*init_data_node(t_msh *msh);
 t_data				*data_add_back(t_data *data, t_data *new);

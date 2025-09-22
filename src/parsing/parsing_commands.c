@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/22 13:24:55 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/22 13:39:44 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,20 +85,12 @@ int	add_command_node(t_msh *msh, t_stack **tmp, t_data *new_node)
 	new_node->group = G_CMD;
 	new_node->cmd.builtin_type = get_builtin_type(msh, new_node);
 	if (new_node->cmd.builtin_type == BI_NONE)
-		set_up_path(msh);
+		set_up_path(msh, new_node);
 	return (1);
 }
 
-int	set_up_path(t_msh *msh)
+int	set_up_path(t_msh *msh, t_data *data)
 {
-	t_data	*tmp;
-
-	tmp = msh->data;
-	while (tmp)
-	{
-		if (tmp->group == G_CMD)
-			tmp->cmd.path = cmd_path(msh, tmp->cmd.args[0]);
-		tmp = tmp->next;
-	}
+	data->cmd.path = cmd_path(msh, data->cmd.args[0]);
 	return (1);
 }
