@@ -6,20 +6,20 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/18 19:20:01 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/22 11:07:23 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_data	*init_data_node(void)
+t_data	*init_data_node(t_msh *msh)
 {
 	t_data	*new_node;
 
 	new_node = malloc(sizeof(t_data));
 	if (!new_node)
 	{
-		g_exit_code = 12;
+		msh->exit_code = 12;
 		return (NULL);
 	}
 	ft_memset(new_node, 0, sizeof(*new_node));

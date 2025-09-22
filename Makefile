@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ep <ep@student.42.fr>                      +#+  +:+       +#+         #
+#    By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 02:58:34 by erpascua          #+#    #+#              #
-#    Updated: 2025/09/19 15:28:48 by ep               ###   ########.fr        #
+#    Updated: 2025/09/20 18:08:29 by gpollast         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,8 @@
 
 NAME		= 	minishell
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -Iinclude -I$(LIBFT_DIR) -MMD -MP -I$(shell brew --prefix readline)/include
-LDFLAGS		=	-lreadline -ltermcap -lncurses -L$(shell brew --prefix readline)/lib
+CFLAGS		=	-Wall -Wextra -Werror -Iinclude -I$(LIBFT_DIR) -MMD -MP
+LDFLAGS		=	-lreadline -ltermcap -lncurses
 
 RM			=	/bin/rm -f
 

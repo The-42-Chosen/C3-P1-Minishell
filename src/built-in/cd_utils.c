@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 06:45:30 by ep                #+#    #+#             */
-/*   Updated: 2025/09/19 07:06:54 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/22 11:07:23 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	cd_home(t_env *env, t_paths *paths)
+bool	cd_home(t_msh *msh, t_env *env, t_paths *paths)
 {
 	if (paths->has_home)
 	{
@@ -24,13 +24,13 @@ bool	cd_home(t_env *env, t_paths *paths)
 	else
 	{
 		ft_fprintf(1, "minishell: cd: HOME not set\n");
-		g_exit_code = 1;
+		msh->exit_code = 1;
 		return (false);
 	}
 	return (true);
 }
 
-bool	cd_oldpwd(t_env *env, t_paths *paths)
+bool	cd_oldpwd(t_msh *msh, t_env *env, t_paths *paths)
 {
 	if (paths->has_oldpwd && paths->oldpwd)
 	{
@@ -43,7 +43,7 @@ bool	cd_oldpwd(t_env *env, t_paths *paths)
 	else
 	{
 		ft_fprintf(2, "Minishell: cd: OLDPWD not set\n");
-		g_exit_code = 1;
+		msh->exit_code = 1;
 		return (false);
 	}
 	return (true);
@@ -71,7 +71,7 @@ static char	*unify_path(t_paths *paths, char *folder)
 	return (target_path);
 }
 
-bool	cd_folder(t_env *env, t_paths *paths, char *folder)
+bool	cd_folder(t_msh *msh, t_env *env, t_paths *paths, char *folder)
 {
 	char	*target_path;
 
@@ -82,7 +82,7 @@ bool	cd_folder(t_env *env, t_paths *paths, char *folder)
 		target_path = unify_path(paths, folder);
 		if (!target_path)
 			return (ft_fprintf(2, "cd: error retrieving current directory\n"),
-				g_exit_code = 1, false);
+				msh->exit_code = 1, false);
 	}
 	if (chdir(target_path) == 0)
 	{
@@ -94,5 +94,5 @@ bool	cd_folder(t_env *env, t_paths *paths, char *folder)
 	}
 	else
 		return (ft_fprintf(2, "minishell: cd: %s: No such file or directory\n",
-				folder), free(target_path), g_exit_code = 1, false);
+				folder), free(target_path), msh->exit_code = 1, false);
 }

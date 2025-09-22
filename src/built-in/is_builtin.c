@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 17:07:49 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/20 17:33:49 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/22 11:17:15 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ bool	is_builtin(t_msh *msh)
 	char	**av;
 
 	i = 0;
-	av = split_spaces(msh->entry);
+	av = msh->data->cmd.args;
 	if (!av || !av[0])
 		return (0);
 	while (i < NB_BUILTINS)

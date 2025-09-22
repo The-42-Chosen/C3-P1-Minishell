@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/20 17:46:30 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/22 11:07:23 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <string.h>
 # include <term.h>
 
-extern int			g_exit_code;
+extern int			g_received_signal;
 
 typedef struct s_env
 {
@@ -111,6 +111,11 @@ typedef struct s_paths
 	bool			has_oldpwd;
 }					t_paths;
 
+typedef struct s_pipe
+{
+	int	fd[2];
+}					t_pipe;
+
 typedef struct s_msh
 {
 	t_env			*env;
@@ -125,6 +130,7 @@ typedef struct s_msh
 	char			*builtin_names[NB_BUILTINS];
 	int				(*builtin_funcs[NB_BUILTINS])(struct s_msh *, char **);
 	t_paths			paths;
+	int				exit_code;
 }					t_msh;
 
 int					launch_program(t_msh *msh);
@@ -165,18 +171,18 @@ bool				is_valid_pipe(t_stack *s);
 // TOKEN CLASSIFICATION
 bool				is_redir_symbol(t_stack *s);
 bool				is_operation_symb(t_stack *s);
-void				handle_redirection_token(t_stack *tmp);
-void				handle_operator_token(t_stack *tmp);
-void				classify_single_token(t_stack *tmp);
+void				handle_redirection_token(t_msh *msh, t_stack *tmp);
+void				handle_operator_token(t_msh *msh, t_stack *tmp);
+void				classify_single_token(t_msh *msh, t_stack *tmp);
 // PARSING
 int					parse(t_msh *msh);
 size_t				get_env_var_len(char *word);
 char				*my_getenv(t_msh *msh, char *word);
-int					add_command_node(t_stack **tmp, t_data *new_node);
+int					add_command_node(t_msh *msh, t_stack **tmp, t_data *new_node);
 char				*cmd_path(t_msh *msh, char *cmd);
 int					set_up_path(t_msh *msh);
-int					add_redir_node(t_stack **tmp, t_data *new_node);
-t_data				*init_data_node(void);
+int					add_redir_node(t_msh *msh, t_stack **tmp, t_data *new_node);
+t_data				*init_data_node(t_msh *msh);
 t_data				*data_add_back(t_data *data, t_data *new);
 // EXPAND
 char				*expand(t_msh *msh, char *s);
@@ -185,15 +191,16 @@ bool				is_builtin(t_msh *msh);
 int					bi_exit(t_msh *msh, char **argv);
 int					bi_echo(t_msh *msh, char **argv);
 int					bi_cd(t_msh *msh, char **argv);
-bool				cd_home(t_env *env, t_paths *paths);
-bool				cd_oldpwd(t_env *env, t_paths *paths);
-bool				cd_folder(t_env *env, t_paths *paths, char *folder);
+bool				cd_home(t_msh *msh, t_env *env, t_paths *paths);
+bool				cd_oldpwd(t_msh *msh, t_env *env, t_paths *paths);
+bool				cd_folder(t_msh *msh, t_env *env, t_paths *paths, char *folder);
 void				cd_get_paths(t_env *env, t_paths *paths);
 void				cd_update_env(t_env *env, t_paths *paths);
 int					bi_pwd(t_msh *msh, char **argv);
 int					bi_export(t_msh *msh, char **argv);
 int					bi_unset(t_msh *msh, char **argv);
 int					bi_env(t_msh *msh, char **argv);
+void				clean_exit(t_msh *msh, char *s);
 // SIGNALS
 bool				is_eof(void);
 void				sigint_handler(int process);
