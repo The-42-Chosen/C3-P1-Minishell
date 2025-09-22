@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/20 18:42:05 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/22 11:07:23 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	count_nb_cmd(t_stack **stack)
 	return (nb_cmd);
 }
 
-static char	**setup_cmd(t_stack *stack, int nb_cmd)
+static char	**setup_cmd(t_msh *msh, t_stack *stack, int nb_cmd)
 {
 	char	**group;
 	t_stack	*tmp;
@@ -35,7 +35,10 @@ static char	**setup_cmd(t_stack *stack, int nb_cmd)
 
 	group = calloc((nb_cmd + 1), sizeof(char *));
 	if (!group)
-		return (g_exit_code = 12, NULL);
+	{
+		msh->exit_code = 12;
+		return (NULL);
+	}
 	tmp = stack;
 	i = 0;
 	while (i < nb_cmd && tmp)
@@ -46,7 +49,7 @@ static char	**setup_cmd(t_stack *stack, int nb_cmd)
 			while (--i >= 0)
 				free(group[i]);
 			free(group);
-			g_exit_code = 12;
+			msh->exit_code = 12;
 			return (NULL);
 		}
 		i++;
@@ -55,14 +58,14 @@ static char	**setup_cmd(t_stack *stack, int nb_cmd)
 	return (group);
 }
 
-static char	**seek_group_cmd(t_stack **stack)
+static char	**seek_group_cmd(t_msh *msh, t_stack **stack)
 {
 	int		nb_cmd;
 	char	**group;
 	int		i;
 
 	nb_cmd = count_nb_cmd(stack);
-	group = setup_cmd(*stack, nb_cmd);
+	group = setup_cmd(msh, *stack, nb_cmd);
 	if (!group)
 		return (NULL);
 	i = 0;
@@ -74,9 +77,9 @@ static char	**seek_group_cmd(t_stack **stack)
 	return (group);
 }
 
-int	add_command_node(t_stack **tmp, t_data *new_node)
+int	add_command_node(t_msh *msh, t_stack **tmp, t_data *new_node)
 {
-	new_node->cmd.args = seek_group_cmd(tmp);
+	new_node->cmd.args = seek_group_cmd(msh, tmp);
 	if (!new_node->cmd.args)
 		return (0);
 	new_node->group = G_CMD;

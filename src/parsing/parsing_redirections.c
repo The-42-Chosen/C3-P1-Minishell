@@ -6,13 +6,13 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/18 17:07:41 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/22 11:07:23 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static char	*seek_group_redir(t_stack *stack)
+static char	*seek_group_redir(t_msh *msh, t_stack *stack)
 {
 	char	*res;
 
@@ -22,13 +22,13 @@ static char	*seek_group_redir(t_stack *stack)
 		res = ft_strdup(stack->next->content);
 		if (!res)
 		{
-			g_exit_code = 12;
+			msh->exit_code = 12;
 			return (NULL);
 		}
 		stack = stack->next;
 		return (res);
 	}
-	g_exit_code = 2;
+	msh->exit_code = 2;
 	if (!stack->next)
 		ft_fprintf(2, "bash: syntax error near unexpected token `newline'\n");
 	else if (stack->next->token != WORD)
@@ -53,9 +53,9 @@ static t_group	identify_redir(char *word)
 	return (G_INVALID);
 }
 
-int	add_redir_node(t_stack **tmp, t_data *new_node)
+int	add_redir_node(t_msh *msh, t_stack **tmp, t_data *new_node)
 {
-	new_node->file_or_limiter = seek_group_redir(*tmp);
+	new_node->file_or_limiter = seek_group_redir(msh, *tmp);
 	if (!new_node->file_or_limiter)
 		return (0);
 	new_node->group = identify_redir((*tmp)->content);

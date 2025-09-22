@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 16:34:10 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/17 02:13:46 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/22 11:07:23 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,17 @@ static bool	is_overflow(char *str)
 	return (false);
 }
 
-void	clean_exit(char *s)
+void	clean_exit(t_msh *msh, char *s)
 {
 	ft_fprintf(2, "minishell: exit: %s: numeric argument required\n", s);
-	g_exit_code = 255;
-	exit(g_exit_code);
+	msh->exit_code = 255;
+	exit(msh->exit_code);
 }
 
 int	bi_exit(t_msh *msh, char **argv)
 {
 	int	argc;
 
-	(void)msh;
 	argc = 0;
 	ft_putendl_fd("exit", 1);
 	while (argv[argc])
@@ -69,17 +68,17 @@ int	bi_exit(t_msh *msh, char **argv)
 	if (argc >= 2)
 	{
 		if (!is_valid_code_nb(argv[1]))
-			clean_exit(argv[1]);
+			clean_exit(msh, argv[1]);
 		if (is_overflow(argv[1]))
-			clean_exit(argv[1]);
+			clean_exit(msh, argv[1]);
 		else
-			g_exit_code = ft_atoi(argv[1]) % 256;
+			msh->exit_code = ft_atoi(argv[1]) % 256;
 	}
 	if (argc > 2)
 	{
 		ft_fprintf(2, "minishell: exit: too many arguments\n");
-		g_exit_code = 1;
+		msh->exit_code = 1;
 		exit(1);
 	}
-	exit(g_exit_code);
+	exit(msh->exit_code);
 }

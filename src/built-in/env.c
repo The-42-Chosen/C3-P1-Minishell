@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:06:05 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/23 05:33:32 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/24 11:53:13 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,9 @@ int	bi_env(t_msh *msh, char **av)
 
 	if (av[1] != NULL)
 	{
-		g_exit_code = 127;
+		msh->exit_code = 127;
 		ft_fprintf(2, "minishell: env: %s: No such file or directory\n", av[1]);
-		return (g_exit_code);
+		return (msh->exit_code);
 	}
 	tmp = msh->env;
 	while (tmp)
