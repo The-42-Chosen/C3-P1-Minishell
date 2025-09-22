@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/22 13:36:07 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/22 14:38:31 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,22 @@ static int	add_node(t_msh *msh, t_stack **tmp)
 	return (1);
 }
 
+static int	count_nb_cmd(t_data *data)
+{
+	t_data	*tmp;
+	int		nb_cmd;
+
+	tmp = data;
+	nb_cmd = 0;
+	while (tmp)
+	{
+		if (tmp->group == G_CMD)
+			nb_cmd++;
+		tmp = tmp->next;
+	}
+	return (nb_cmd);
+}
+
 int	parse(t_msh *msh)
 {
 	t_stack	*tmp;
@@ -70,7 +86,7 @@ int	parse(t_msh *msh)
 			return (0);
 		tmp = tmp->next;
 	}
-	// access direct passe
+	msh->nb_cmd = count_nb_cmd(msh->data);
 	tmp2 = msh->data;
 	while (tmp2)
 	{
@@ -82,15 +98,15 @@ int	parse(t_msh *msh)
 			ft_fprintf(1, "REDIR_APPEND\n");
 		if (tmp2->group == G_REDIR_HEREDOC)
 			ft_fprintf(1, "REDIR_HEREDOC\n");
+		if (tmp2->group == G_PIPE)
+			ft_fprintf(1, "PIPE\n");
 		if (tmp2->group == G_CMD)
 		{
 			if (tmp2->cmd.builtin_type == BI_NONE)
-				ft_fprintf(1, "PATH: %s", tmp2->cmd.path);
-			ft_fprintf(1, " CMD: ");
+				ft_fprintf(1, "PATH: %s ", tmp2->cmd.path);
+			ft_fprintf(1, "CMD: ");
 			print_string_array(tmp2->cmd.args);
 		}
-		if (tmp2->group == G_PIPE)
-			ft_fprintf(1, "PIPE\n");
 		tmp2 = tmp2->next;
 	}
 	return (1);
