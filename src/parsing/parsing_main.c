@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/22 13:30:06 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/22 13:36:07 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ int	parse(t_msh *msh)
 		if (tmp2->group == G_CMD)
 		{
 			if (tmp2->cmd.builtin_type == BI_NONE)
-				ft_fprintf(1, "PATH: %s\n", tmp2->cmd.path);
-			ft_fprintf(1, "CMD: ");
+				ft_fprintf(1, "PATH: %s", tmp2->cmd.path);
+			ft_fprintf(1, " CMD: ");
 			print_string_array(tmp2->cmd.args);
 		}
 		if (tmp2->group == G_PIPE)
