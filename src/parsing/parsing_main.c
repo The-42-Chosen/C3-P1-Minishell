@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/22 11:12:30 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/22 11:40:08 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,35 +70,33 @@ int	parse(t_msh *msh)
 			return (0);
 		tmp = tmp->next;
 	}
-	is_builtin(msh);
-	if (msh->is_builtin)	// builtin passe
-	{
-		return (1);
-	}
 	// access direct passe
-	else
+	tmp2 = msh->data;
+	while (tmp2)
 	{
-		set_up_path(msh);
-		tmp2 = msh->data;
-		while (tmp2)
+		if (tmp2->group == G_REDIR_IN)
+			ft_fprintf(1, "REDIR_IN\n");
+		if (tmp2->group == G_REDIR_OUT)
+			ft_fprintf(1, "REDIR_OUT\n");
+		if (tmp2->group == G_REDIR_APPEND)
+			ft_fprintf(1, "REDIR_APPEND\n");
+		if (tmp2->group == G_REDIR_HEREDOC)
+			ft_fprintf(1, "REDIR_HEREDOC\n");
+		if (tmp2->group == G_CMD)
 		{
-			if (tmp2->group == G_REDIR_IN)
-				ft_fprintf(1, "REDIR_IN\n");
-			if (tmp2->group == G_REDIR_OUT)
-				ft_fprintf(1, "REDIR_OUT\n");
-			if (tmp2->group == G_REDIR_APPEND)
-				ft_fprintf(1, "REDIR_APPEND\n");
-			if (tmp2->group == G_REDIR_HEREDOC)
-				ft_fprintf(1, "REDIR_HEREDOC\n");
-			if (tmp2->group == G_CMD)
+			is_builtin(msh, tmp2);
+			if (msh->is_builtin)
+				return (1);
+			else
 			{
-				print_string_array(tmp2->cmd.args);
-				ft_fprintf(1, "%s\n", tmp2->cmd.path);
+				set_up_path(msh);
+				ft_fprintf(1, "PATH: %s\n", tmp2->cmd.path);
 			}
-			if (tmp2->group == G_PIPE)
-				ft_fprintf(1, "PIPE\n");
-			tmp2 = tmp2->next;
+			print_string_array(tmp2->cmd.args);
 		}
+		if (tmp2->group == G_PIPE)
+			ft_fprintf(1, "PIPE\n");
+		tmp2 = tmp2->next;
 	}
 	return (1);
 }
