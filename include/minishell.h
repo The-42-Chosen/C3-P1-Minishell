@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/22 11:36:08 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/22 13:28:57 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
-typedef enum e_builtin
+typedef enum e_builtin_type
 {
+	BI_NONE,
 	BI_ECHO,
 	BI_CD,
 	BI_PWD,
@@ -43,7 +44,7 @@ typedef enum e_builtin
 	BI_ENV,
 	BI_EXIT,
 	NB_BUILTINS
-}					t_builtin;
+}					t_builtin_type;
 
 typedef enum e_token
 {
@@ -92,6 +93,7 @@ typedef struct s_cmd
 {
 	char			**args;
 	char			*path;
+	t_builtin_type	builtin_type;
 }					t_cmd;
 
 typedef struct s_data
@@ -125,7 +127,6 @@ typedef struct s_msh
 	t_token			*token_type;
 	t_data			*data;
 	bool			is_heredoc;
-	bool			is_builtin;
 	bool			is_expandable;
 	char			*builtin_names[NB_BUILTINS];
 	int				(*builtin_funcs[NB_BUILTINS])(struct s_msh *, char **);
@@ -187,7 +188,8 @@ t_data				*data_add_back(t_data *data, t_data *new);
 // EXPAND
 char				*expand(t_msh *msh, char *s);
 // BUILT-IN
-bool				is_builtin(t_msh *msh, t_data *data);
+t_builtin_type		get_builtin_type(t_msh *msh, t_data *data);
+bool				execute_builtin(t_msh *msh, t_data *data);
 int					bi_exit(t_msh *msh, char **argv);
 int					bi_echo(t_msh *msh, char **argv);
 int					bi_cd(t_msh *msh, char **argv);
