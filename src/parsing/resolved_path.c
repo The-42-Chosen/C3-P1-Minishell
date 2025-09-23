@@ -6,11 +6,11 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:46:48 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/22 14:37:30 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/23 13:43:21 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
 char	*my_getenv_for_path(t_msh *msh)
 {

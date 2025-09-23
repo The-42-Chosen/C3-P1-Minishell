@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 17:07:49 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/22 13:29:05 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:23:17 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ t_builtin_type	get_builtin_type(t_msh *msh, t_data *data)
 	return (BI_NONE);
 }
 
-bool	execute_builtin(t_msh *msh, t_data *data)
+bool	execute_builtin(t_msh *msh, t_process *process)
 {
 	char	**av;
 
-	av = data->cmd.args;
+	av = process->cmd.args;
 	if (!av || !av[0])
 		return (0);
-	msh->builtin_funcs[data->cmd.builtin_type](msh, av);
+	msh->builtin_funcs[process->cmd.builtin_type](msh, av);
 	return (1);
 }

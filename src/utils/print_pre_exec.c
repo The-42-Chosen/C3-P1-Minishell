@@ -1,51 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh.c                                              :+:      :+:    :+:   */
+/*   print_pre_exec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/22 17:26:54 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/23 13:43:21 by gpollast         ###   ########.fr       */
+/*   Created: 2025/09/23 14:16:53 by gpollast          #+#    #+#             */
+/*   Updated: 2025/09/23 14:59:59 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	get_len_env(t_env *env)
+void	print_pre_exec(t_process *process)
 {
-	t_env	*tmp;
-	int		len;
+	t_process	*tmp;
 
-	tmp = env;
-	len = 0;
+	tmp = process;
 	while (tmp)
 	{
-		len++;
+		if (tmp->cmd.args)
+			ft_fprintf(1, "CMD: %s\n", tmp->cmd.args[0]);
+		ft_fprintf(1, "Inputs:\n");
+		ft_lstiter(tmp->inputs, (void (*)(void *))print_inout);
+		ft_fprintf(1, "\n");
+		ft_fprintf(1, "Outputs:\n");
+		ft_lstiter(tmp->outputs, (void (*)(void *))print_inout);
+		ft_fprintf(1, "\n");
 		tmp = tmp->next;
 	}
-	return (len);
-}
-
-char	**msh_getenv(t_msh *msh)
-{
-	char	**env;
-	t_env	*tmp;
-	int		i;
-	char	*stock;
-
-	env = malloc(sizeof(char *) * (get_len_env(msh->env) + 1));
-	if (!env)
-		return (NULL);
-	tmp = msh->env;
-	i = 0;
-	while (tmp)
-	{
-		stock = ft_strjoin(tmp->key, "=");
-		env[i] = ft_strjoin(stock, tmp->value);
-		free(stock);
-		tmp = tmp->next;
-	}
-	env[i] = NULL;
-	return (env);
 }

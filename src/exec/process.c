@@ -6,53 +6,51 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/22 20:14:28 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:54:01 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 #include <sys/wait.h>
 
-static pid_t	execute_cmd(t_msh *msh, t_data *data, int in)
+static pid_t	execute_cmd(t_msh *msh, t_process *process)
 {
 	pid_t	pid;
 
+	if (access(process->cmd.path, X_OK) == -1)
+	{
+		ft_fprintf(2, "billyshell: %s: command not found\n", process->cmd.args[0]);
+		msh->exit_code = 127;
+		return (0);
+	}
 	pid = fork();
 	if (pid == 0)
 	{
-		dup2(0, in);
-		execve(data->cmd.path, data->cmd.args, msh_getenv(msh));
+		// dup2(0, 0);
+		execve(process->cmd.path, process->cmd.args, msh_getenv(msh));
 	}
 	return (pid);
 }
 
-t_list	*execute(t_msh *msh, t_data *data, int in)
+static void	execute(t_msh *msh, t_process *process)
 {
-	t_list	*item;
-
-	item = malloc(sizeof(*item));
-	if (!item)
-		return (NULL);
-	item->content = malloc(sizeof(pid_t));
-	if (data->group == G_CMD)
-	{
-		if (data->cmd.builtin_type == BI_NONE)
-			*((pid_t *)item->content) = execute_cmd(msh, data, in);
-		else
-			execute_builtin(msh, msh->data);
-	}
-	// execute(msh, data->next, in);
-	return (item);
+	if (process->cmd.builtin_type == BI_NONE)
+		process->pid = execute_cmd(msh, process);
+	else
+		execute_builtin(msh, process);
+	// execute(msh, process->next);
 }
 
-void	execute_all(t_msh *msh)
+void	execute_all(t_msh *msh, t_process *process)
 {
-	t_list	*pids;
+	t_process	*head;
 	
-	pids = execute(msh, msh->data, 0);
-	while (pids)
+	execute(msh, process);
+	head = process;
+	while (head)
 	{
-		waitpid(*((pid_t *)(pids->content)), &msh->exit_code, 0);
-		pids = pids->next;
+		if (head->pid)
+			waitpid(head->pid, &msh->exit_code, 0);
+		head = head->next;
 	}
 }
