@@ -6,12 +6,24 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/23 16:54:01 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/23 18:09:13 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/wait.h>
+
+static void	dup_all_read(t_inout *inout)
+{
+	if (inout->fd > 0)
+		dup2(inout->fd, 0);
+}
+
+static void	dup_all_write(t_inout *inout)
+{
+	if (inout->fd > 1)
+		dup2(inout->fd, 1);
+}
 
 static pid_t	execute_cmd(t_msh *msh, t_process *process)
 {
@@ -26,14 +38,58 @@ static pid_t	execute_cmd(t_msh *msh, t_process *process)
 	pid = fork();
 	if (pid == 0)
 	{
-		// dup2(0, 0);
+		ft_lstiter(process->inputs, (void (*)(void *))dup_all_read);
+		ft_lstiter(process->outputs, (void (*)(void *))dup_all_write);
 		execve(process->cmd.path, process->cmd.args, msh_getenv(msh));
 	}
 	return (pid);
 }
 
+static int	open_input(t_list *input)
+{
+	t_inout	*in;
+	
+	if (!input)
+		return (1);
+	in = (t_inout *)input->content;
+	if (in->type == G_REDIR_IN)
+	{
+		in->fd = open(in->file_or_limiter, O_RDONLY);
+		if (in->fd == -1)
+		{
+			ft_fprintf(2, "billyshell: No such file or directory\n");
+			return (0);
+		}
+	}
+	return (open_input(input->next));
+}
+
+static int	open_output(t_list *output)
+{
+	t_inout	*out;
+	int		flag;
+	
+	if (!output)
+		return (1);
+	out = (t_inout *)output->content;
+	if (out->type == G_REDIR_OUT ||out->type == G_REDIR_APPEND)
+	{
+		flag = O_CREAT | O_WRONLY;
+		flag |= (out->type == G_REDIR_OUT) ? O_TRUNC : O_APPEND;
+		out->fd = open(out->file_or_limiter, flag, 0644);
+		if (out->fd == -1)
+		{
+			ft_fprintf(2, "billyshell: No such file or directory\n");
+			return (0);
+		}
+	}
+	return (open_output(output->next));
+}
+
 static void	execute(t_msh *msh, t_process *process)
 {
+	open_input(process->inputs);
+	open_output(process->outputs);
 	if (process->cmd.builtin_type == BI_NONE)
 		process->pid = execute_cmd(msh, process);
 	else
