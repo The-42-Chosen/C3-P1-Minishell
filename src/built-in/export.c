@@ -6,55 +6,11 @@
 /*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:04:02 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/22 21:21:13 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/23 05:46:26 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	order_tab(char **env_to_sort, int len)
-{
-	int		i;
-	char	*tmp;
-
-	i = 0;
-	while (i < len - 1)
-	{
-		if (ft_strcmp(env_to_sort[i], env_to_sort[i + 1]) > 0)
-		{
-			tmp = ft_strdup(env_to_sort[i]);
-			env_to_sort[i] = NULL;
-			env_to_sort[i] = ft_strdup(env_to_sort[i + 1]);
-			env_to_sort[i + 1] = NULL;
-			env_to_sort[i + 1] = ft_strdup(tmp);
-			free(tmp);
-			i = 0;
-		}
-		i++;
-	}
-	i = 1;
-	while (i < len)
-	{
-		ft_fprintf(1, "export %s\n", env_to_sort[i]);
-		i++;
-	}
-	free(env_to_sort);
-}
-
-int	lst_len(t_env *env)
-{
-	t_env	*tmp;
-	int		len;
-
-	tmp = env;
-	len = 0;
-	while (tmp)
-	{
-		len++;
-		tmp = tmp->next;
-	}
-	return (len);
-}
 
 static void	export_no_arg(t_env *env)
 {
@@ -70,9 +26,14 @@ static void	export_no_arg(t_env *env)
 	env_to_sort = malloc((len_env + 1) * sizeof(char *));
 	while (tmp)
 	{
-		tmp_key_equal = ft_strjoin(tmp->key, "=");
-		env_to_sort[i] = ft_strjoin(tmp_key_equal, tmp->value);
-		free(tmp_key_equal);
+		if (tmp->value)
+		{
+			tmp_key_equal = ft_strjoin(tmp->key, "=");
+			env_to_sort[i] = ft_strjoin(tmp_key_equal, tmp->value);
+			free(tmp_key_equal);
+		}
+		else
+			env_to_sort[i] = ft_strdup(tmp->key);
 		i++;
 		tmp = tmp->next;
 	}
@@ -96,6 +57,35 @@ static bool	is_valid_identifier(char *s)
 	return (1);
 }
 
+static void	export_var_no_value(t_msh *msh, char *arg)
+{
+	t_env	*new_node;
+	bool	is_found;
+
+	is_found = export_replace_value_no_val(msh->env, arg);
+	if (!is_found)
+	{
+		new_node = create_env_node_no_value(arg);
+		if (new_node)
+			export_create_keyvalue(msh, new_node);
+	}
+}
+
+static void	export_update_env(t_msh *msh, char **av)
+{
+	int	i;
+
+	i = 1;
+	while (av[i])
+	{
+		if (ft_strchr(av[i], '='))
+			export_var_with_value(msh, av[i]);
+		else
+			export_var_no_value(msh, av[i]);
+		i++;
+	}
+}
+
 int	bi_export(t_msh *msh, char **av)
 {
 	int	i;
@@ -110,11 +100,14 @@ int	bi_export(t_msh *msh, char **av)
 		{
 			ft_fprintf(2, "minishell: export: `%s': not a valid identifier\n",
 				av[i]);
-			return (1);
+			g_exit_code = 1;
+			return (g_exit_code);
 		}
 		i++;
 	}
 	if (i == 1)
 		export_no_arg(msh->env);
+	else
+		export_update_env(msh, av);
 	return (0);
 }

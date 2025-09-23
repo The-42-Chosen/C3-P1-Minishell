@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/20 17:46:30 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/23 05:54:24 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,8 +192,18 @@ void				cd_get_paths(t_env *env, t_paths *paths);
 void				cd_update_env(t_env *env, t_paths *paths);
 int					bi_pwd(t_msh *msh, char **argv);
 int					bi_export(t_msh *msh, char **argv);
+void				sort_env_array(char **env_to_sort, int len);
+void				print_and_free_array(char **env_to_sort, int len);
+void				order_tab(char **env_to_sort, int len);
+int					lst_len(t_env *env);
+bool				export_replace_value(t_env *env, t_env *new_node);
+t_env				*create_env_node_no_value(char *key);
+bool				export_replace_value_no_val(t_env *env, char *key);
+void				export_create_keyvalue(t_msh *msh, t_env *new_node);
+void				export_var_with_value(t_msh *msh, char *arg);
 int					bi_unset(t_msh *msh, char **argv);
 int					bi_env(t_msh *msh, char **argv);
+t_env				*create_env_node(char *env_line);
 // SIGNALS
 bool				is_eof(void);
 void				sigint_handler(int process);
