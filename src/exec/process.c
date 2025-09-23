@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/23 20:53:45 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/23 22:24:46 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ static pid_t	execute_cmd(t_msh *msh, t_process *process)
 static int	open_input(t_list *input)
 {
 	t_inout	*in;
+	int		fds[2];
+	char	*line;
 	
 	if (!input)
 		return (1);
@@ -82,6 +84,21 @@ static int	open_input(t_list *input)
 			ft_fprintf(2, "billyshell: No such file or directory\n");
 			return (0);
 		}
+	}
+	if (in->type == G_REDIR_HEREDOC)
+	{
+		if (pipe(fds) == -1)
+			return (0);
+		line = readline("> ");
+		while (ft_strncmp(line, in->file_or_limiter, ft_strlen(in->file_or_limiter)))
+		{
+			write(fds[1], line, ft_strlen(line));
+			write(fds[1], "\n", 1);
+			free(line);
+			line = readline("> ");
+		}
+		close(fds[1]);
+		in->fd = fds[0];
 	}
 	return (open_input(input->next));
 }
