@@ -6,12 +6,32 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/23 18:09:13 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/23 20:53:45 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/wait.h>
+
+static void	cleanup_inout_fds(t_list *lst)
+{
+	t_inout	*inout;
+
+	if (!lst)
+		return ;
+	inout = lst->content;
+	if (lst->next)
+		close(inout->fd);
+	if (inout->unused_fd)
+		close(inout->unused_fd);
+	cleanup_inout_fds(lst->next);
+}
+
+static void	close_inout(t_inout *inout)
+{
+	if (inout->fd > 1)
+		close(inout->fd);
+}
 
 static void	dup_all_read(t_inout *inout)
 {
@@ -40,6 +60,8 @@ static pid_t	execute_cmd(t_msh *msh, t_process *process)
 	{
 		ft_lstiter(process->inputs, (void (*)(void *))dup_all_read);
 		ft_lstiter(process->outputs, (void (*)(void *))dup_all_write);
+		cleanup_inout_fds(process->inputs);
+		cleanup_inout_fds(process->outputs);
 		execve(process->cmd.path, process->cmd.args, msh_getenv(msh));
 	}
 	return (pid);
@@ -64,15 +86,17 @@ static int	open_input(t_list *input)
 	return (open_input(input->next));
 }
 
-static int	open_output(t_list *output)
+static int	open_output(t_list *output, t_list *next_process_input)
 {
 	t_inout	*out;
+	t_inout	*npi;
 	int		flag;
+	int		fds[2];
 	
 	if (!output)
 		return (1);
 	out = (t_inout *)output->content;
-	if (out->type == G_REDIR_OUT ||out->type == G_REDIR_APPEND)
+	if (out->type == G_REDIR_OUT || out->type == G_REDIR_APPEND)
 	{
 		flag = O_CREAT | O_WRONLY;
 		flag |= (out->type == G_REDIR_OUT) ? O_TRUNC : O_APPEND;
@@ -83,18 +107,46 @@ static int	open_output(t_list *output)
 			return (0);
 		}
 	}
-	return (open_output(output->next));
+	npi = (t_inout *)next_process_input->content;
+	if (out->type == G_PIPE)
+	{
+		if (pipe(fds) == -1)
+			return (0);
+		npi->fd = fds[0];
+		npi->unused_fd = fds[1];
+		out->fd = fds[1];
+		out->unused_fd = fds[0];
+	}
+	return (open_output(output->next, next_process_input));
 }
 
 static void	execute(t_msh *msh, t_process *process)
 {
+	int	cin;
+	int	cout;
+	
+	if (!process)
+		return ;
 	open_input(process->inputs);
-	open_output(process->outputs);
+	if (process->next)
+		open_output(process->outputs, process->next->inputs);
+	else
+		open_output(process->outputs, NULL);
 	if (process->cmd.builtin_type == BI_NONE)
 		process->pid = execute_cmd(msh, process);
 	else
+	{
+		cin = dup(0);
+		cout = dup(1);
+		ft_lstiter(process->inputs, (void (*)(void *))dup_all_read);
+		ft_lstiter(process->outputs, (void (*)(void *))dup_all_write);
 		execute_builtin(msh, process);
-	// execute(msh, process->next);
+		dup2(cin, 0);
+		dup2(cout, 1);
+	}
+	ft_lstiter(process->inputs, (void (*)(void *))close_inout);
+	ft_lstiter(process->outputs, (void (*)(void *))close_inout);
+	execute(msh, process->next);
 }
 
 void	execute_all(t_msh *msh, t_process *process)

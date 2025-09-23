@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/23 16:25:45 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/23 19:40:21 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ typedef struct s_inout
 {
 	char			*file_or_limiter;
 	int				fd;
+	int				unused_fd;
 	t_group			type;
 	struct s_inout	*next;
 }					t_inout;
