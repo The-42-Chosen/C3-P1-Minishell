@@ -1,51 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh.c                                              :+:      :+:    :+:   */
+/*   string_array_copy.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/22 17:26:54 by gpollast          #+#    #+#             */
+/*   Created: 2025/09/23 10:41:00 by gpollast          #+#    #+#             */
 /*   Updated: 2025/09/23 13:43:21 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	get_len_env(t_env *env)
+int	len_string_array(char **s)
 {
-	t_env	*tmp;
-	int		len;
+	int	len;
 
-	tmp = env;
 	len = 0;
-	while (tmp)
-	{
+	while (s[len])
 		len++;
-		tmp = tmp->next;
-	}
 	return (len);
 }
 
-char	**msh_getenv(t_msh *msh)
+char	**string_array_copy(char **s)
 {
-	char	**env;
-	t_env	*tmp;
+	char	**copy;
+	int		len;
 	int		i;
-	char	*stock;
-
-	env = malloc(sizeof(char *) * (get_len_env(msh->env) + 1));
-	if (!env)
+	
+	len = len_string_array(s);
+	copy = malloc(sizeof(char *) * (len + 1));
+	if (!copy)
 		return (NULL);
-	tmp = msh->env;
 	i = 0;
-	while (tmp)
+	while (i < len)
 	{
-		stock = ft_strjoin(tmp->key, "=");
-		env[i] = ft_strjoin(stock, tmp->value);
-		free(stock);
-		tmp = tmp->next;
+		copy[i] = ft_strdup(s[i]);
+		if (!copy[i])
+		{
+			free_tab(copy);
+			return (NULL);
+		}
+		i++;
 	}
-	env[i] = NULL;
-	return (env);
+	copy[i] = 0;
+	return (copy);
 }

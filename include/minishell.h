@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/22 17:52:51 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:25:45 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,28 @@ typedef struct s_paths
 	bool			has_oldpwd;
 }					t_paths;
 
+typedef struct s_inout
+{
+	char			*file_or_limiter;
+	int				fd;
+	t_group			type;
+	struct s_inout	*next;
+}					t_inout;
+
+t_inout				*alloc_pipe_inout();
+t_inout				*alloc_redir_inout(t_data *data);
+void				print_inout(t_inout *inout);
+
+
+typedef struct	s_process
+{
+	t_cmd				cmd;
+	t_list				*inputs;
+	t_list				*outputs;
+	pid_t				pid;
+	struct s_process	*next;
+}					t_process;
+
 typedef struct s_msh
 {
 	t_env			*env;
@@ -181,11 +203,12 @@ int					set_up_path(t_msh *msh, t_data *data);
 int					add_redir_node(t_msh *msh, t_stack **tmp, t_data *new_node);
 t_data				*init_data_node(t_msh *msh);
 t_data				*data_add_back(t_data *data, t_data *new);
+t_process			*pre_exec(t_msh *msh);
 // EXPAND
 char				*expand(t_msh *msh, char *s);
 // BUILT-IN
 t_builtin_type		get_builtin_type(t_msh *msh, t_data *data);
-bool				execute_builtin(t_msh *msh, t_data *data);
+bool				execute_builtin(t_msh *msh, t_process *process);
 int					bi_exit(t_msh *msh, char **argv);
 int					bi_echo(t_msh *msh, char **argv);
 int					bi_cd(t_msh *msh, char **argv);
@@ -208,8 +231,10 @@ void				ft_free(t_msh *msh);
 void				data_destroy(t_data *head);
 // UTILS
 char				**msh_getenv(t_msh *msh);
+int					len_string_array(char **s);
+char				**string_array_copy(char **s);
+void				print_pre_exec(t_process *process);
 // EXEC
-t_list				*execute(t_msh *msh, t_data *data, int in);
-void				execute_all(t_msh *msh);
+void				execute_all(t_msh *msh, t_process *process);
 
 #endif
