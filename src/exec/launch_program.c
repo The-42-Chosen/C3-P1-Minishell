@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/24 14:41:47 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/24 18:31:51 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,16 @@ void	update_history(t_msh *msh)
 	append_history(1, msh->history);
 }
 
+static int	reloop(t_msh *msh, t_process **process)
+{
+	if (!lexer(msh))
+		return (0);
+	if (!parse(msh))
+		return (0);
+	*process = pre_exec(msh);
+	return (1);
+}
+
 static int	repl(t_msh *msh, int tmp_fd)
 {
 	t_process	*process;
@@ -44,15 +54,9 @@ static int	repl(t_msh *msh, int tmp_fd)
 		if (!msh->entry && is_eof())
 			break ;
 		else
-		{
 			update_history(msh);
-		}
-		if (!lexer(msh))
-			return (0);
-		if (!parse(msh))
-			return (0);
-		process = pre_exec(msh);
-		execute_all(msh, process);
+		if (reloop(msh, &process))
+			execute_all(msh, process);
 		msh->data = NULL;
 		msh->stack = NULL;
 		msh->nb_cmd = 0;

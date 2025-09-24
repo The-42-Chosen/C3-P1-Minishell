@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/24 14:38:17 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/24 18:35:58 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ static int	check_next_token_for_redir(t_msh *msh, t_stack *stack, t_token t)
 			msh->exit_code = 2;
 			ft_fprintf(2, "Billyshell: syntax error near unexpected token `%s'\n",
 				stack->next->content);
-			return (1);
+			return (0);
 		}
 	}
-	return (0);
+	return (1);
 }
 
 static int	add_node(t_msh *msh, t_stack **tmp)
@@ -80,7 +80,7 @@ int	parse(t_msh *msh)
 	tmp = msh->stack;
 	while (tmp)
 	{
-		if (check_next_token_for_redir(msh, tmp, REDIR))
+		if (!check_next_token_for_redir(msh, tmp, REDIR))
 			return (0);
 		if (!add_node(msh, &tmp))
 			return (0);

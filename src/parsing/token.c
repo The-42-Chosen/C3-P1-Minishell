@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 19:11:56 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/22 11:07:23 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/24 17:52:10 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int	identify_token(t_msh *msh)
 	tmp = msh->stack;
 	while (tmp)
 	{
-		classify_single_token(msh, tmp);
+		if (!classify_single_token(msh, tmp))
+			return (0);
 		tmp = tmp->next;
 	}
 	return (1);
