@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:11:35 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/23 13:43:21 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:22:24 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,20 +70,17 @@ char	*replace_env_var(t_msh *msh, char *s)
 
 	if (s[0] == '$')
 	{
-		if (s[0] == '$')
+		if (my_getenv(msh, s))
 		{
-			if (my_getenv(msh, s))
-			{
-				tmp = s;
-				s = ft_strdup(my_getenv(msh, s));
-				free(tmp);
-			}
-			else
-			{
-				tmp = s;
-				s = ft_strdup("");
-				free(tmp);
-			}
+			tmp = s;
+			s = ft_strdup(my_getenv(msh, s));
+			free(tmp);
+		}
+		else
+		{
+			tmp = s;
+			s = ft_strdup("");
+			free(tmp);
 		}
 	}
 	return (s);

@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 19:47:07 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/23 13:43:21 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:21:54 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ char	*my_getenv(t_msh *msh, char *word)
 	env	= msh->env;
 	while (env)
 	{
-		if (!ft_strncmp(msh->env->key, word + 1, len))
+		if (!ft_strncmp(env->key, word + 1, len + 1))
 		{
-			return (msh->env->value);
+			return (env->value);
 		}
 		env = env->next;
 	}
