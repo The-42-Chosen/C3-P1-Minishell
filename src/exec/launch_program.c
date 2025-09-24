@@ -6,11 +6,20 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/20 20:16:44 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/23 17:46:28 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	check_signals(t_msh *msh)
+{
+	if (g_received_signal == SIGINT)
+	{
+		msh->exit_code = 130;
+		g_received_signal = 0;
+	}
+}
 #include <signal.h>
 
 void	update_history(t_msh *msh)
@@ -21,10 +30,13 @@ void	update_history(t_msh *msh)
 
 static int	repl(t_msh *msh, int tmp_fd)
 {
+	t_process	*process;
+	
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sigint_handler);
 	while (1)
 	{
+		check_signals(msh);
 		if (isatty(STDIN_FILENO))
 			msh->entry = readline("\033[1;92mMinishell > \033[0m");
 		else
@@ -34,14 +46,16 @@ static int	repl(t_msh *msh, int tmp_fd)
 		else
 		{
 			update_history(msh);
-			is_builtin(msh);
 		}
 		if (!lexer(msh))
 			return (0);
 		if (!parse(msh))
 			return (0);
+		process = pre_exec(msh);
+		execute_all(msh, process);
 		msh->data = NULL;
 		msh->stack = NULL;
+		msh->nb_cmd = 0;
 		write(tmp_fd, msh->entry, ft_strlen(msh->entry));
 		write(tmp_fd, "\n", 1);
 		free(msh->entry);

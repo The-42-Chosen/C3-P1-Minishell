@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:02:29 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/19 07:00:49 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/22 11:07:23 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,16 @@ int	bi_cd(t_msh *msh, char **av)
 	if (i > 2)
 	{
 		ft_fprintf(2, "Minishell: cd: too many arguments\n");
-		g_exit_code = 1;
+		msh->exit_code = 1;
 		return (1);
 	}
 	cd_get_paths(msh->env, &msh->paths);
 	if (i == 1 || (ft_strncmp(av[1], "~", 1) == 0 && av[1][1] == '\0'))
-		cd_home(msh->env, &msh->paths);
+		cd_home(msh, msh->env, &msh->paths);
 	else if (ft_strncmp(av[1], "-", 1) == 0 && av[1][1] == '\0')
-		cd_oldpwd(msh->env, &msh->paths);
+		cd_oldpwd(msh, msh->env, &msh->paths);
 	else
-		cd_folder(msh->env, &msh->paths, av[1]);
+		cd_folder(msh, msh->env, &msh->paths, av[1]);
 	free(msh->paths.home);
 	free(msh->paths.pwd);
 	free(msh->paths.oldpwd);

@@ -6,11 +6,11 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 19:47:07 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/20 17:43:38 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/23 13:43:21 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
 size_t	get_env_var_len(char *word)
 {

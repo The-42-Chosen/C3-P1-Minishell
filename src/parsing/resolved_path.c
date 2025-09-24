@@ -6,11 +6,11 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:46:48 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/20 18:58:37 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/23 13:43:21 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
 char	*my_getenv_for_path(t_msh *msh)
 {
@@ -58,7 +58,7 @@ char	*cmd_path(t_msh *msh, char *cmd)
 {
 	char	*path;
 
-	if (cmd[0] == '/')
+	if (ft_strchr(cmd, '/'))
 		path = ft_strdup(cmd);
 	else
 		path = path_env(my_getenv_for_path(msh), cmd);

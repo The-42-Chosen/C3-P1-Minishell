@@ -1,40 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token.c                                            :+:      :+:    :+:   */
+/*   msh.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/25 19:11:56 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/22 11:07:23 by gpollast         ###   ########.fr       */
+/*   Created: 2025/09/22 17:26:54 by gpollast          #+#    #+#             */
+/*   Updated: 2025/09/23 13:43:21 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static void	print_tokens_debug(t_stack *stack)
-// {
-// 	t_stack	*tmp;
-
-// 	tmp = stack;
-// 	while (tmp)
-// 	{
-// 		printf("%u %u\n", tmp->token, tmp->sub_token);
-// 		tmp = tmp->next;
-// 	}
-// }
-
-int	identify_token(t_msh *msh)
+static int	get_len_env(t_env *env)
 {
-	t_stack	*tmp;
+	t_env	*tmp;
+	int		len;
 
-	if (!msh || !msh->stack)
-		return (0);
-	tmp = msh->stack;
+	tmp = env;
+	len = 0;
 	while (tmp)
 	{
-		classify_single_token(msh, tmp);
+		len++;
 		tmp = tmp->next;
 	}
-	return (1);
+	return (len);
+}
+
+char	**msh_getenv(t_msh *msh)
+{
+	char	**env;
+	t_env	*tmp;
+	int		i;
+	char	*stock;
+
+	env = malloc(sizeof(char *) * (get_len_env(msh->env) + 1));
+	if (!env)
+		return (NULL);
+	tmp = msh->env;
+	i = 0;
+	while (tmp)
+	{
+		stock = ft_strjoin(tmp->key, "=");
+		env[i] = ft_strjoin(stock, tmp->value);
+		free(stock);
+		tmp = tmp->next;
+	}
+	env[i] = NULL;
+	return (env);
 }

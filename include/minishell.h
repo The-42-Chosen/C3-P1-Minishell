@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/23 05:54:24 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/24 13:30:25 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <string.h>
 # include <term.h>
 
-extern int			g_exit_code;
+extern int			g_received_signal;
 
 typedef struct s_env
 {
@@ -33,8 +33,9 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
-typedef enum e_builtin
+typedef enum e_builtin_type
 {
+	BI_NONE,
 	BI_ECHO,
 	BI_CD,
 	BI_PWD,
@@ -43,7 +44,7 @@ typedef enum e_builtin
 	BI_ENV,
 	BI_EXIT,
 	NB_BUILTINS
-}					t_builtin;
+}					t_builtin_type;
 
 typedef enum e_token
 {
@@ -92,6 +93,7 @@ typedef struct s_cmd
 {
 	char			**args;
 	char			*path;
+	t_builtin_type	builtin_type;
 }					t_cmd;
 
 typedef struct s_data
@@ -111,6 +113,29 @@ typedef struct s_paths
 	bool			has_oldpwd;
 }					t_paths;
 
+typedef struct s_inout
+{
+	char			*file_or_limiter;
+	int				fd;
+	int				unused_fd;
+	t_group			type;
+	struct s_inout	*next;
+}					t_inout;
+
+t_inout				*alloc_pipe_inout();
+t_inout				*alloc_redir_inout(t_data *data);
+void				print_inout(t_inout *inout);
+
+
+typedef struct	s_process
+{
+	t_cmd				cmd;
+	t_list				*inputs;
+	t_list				*outputs;
+	pid_t				pid;
+	struct s_process	*next;
+}					t_process;
+
 typedef struct s_msh
 {
 	t_env			*env;
@@ -120,11 +145,12 @@ typedef struct s_msh
 	t_token			*token_type;
 	t_data			*data;
 	bool			is_heredoc;
-	bool			is_builtin;
 	bool			is_expandable;
 	char			*builtin_names[NB_BUILTINS];
 	int				(*builtin_funcs[NB_BUILTINS])(struct s_msh *, char **);
 	t_paths			paths;
+	int				exit_code;
+	int				nb_cmd;
 }					t_msh;
 
 int					launch_program(t_msh *msh);
@@ -165,29 +191,31 @@ bool				is_valid_pipe(t_stack *s);
 // TOKEN CLASSIFICATION
 bool				is_redir_symbol(t_stack *s);
 bool				is_operation_symb(t_stack *s);
-void				handle_redirection_token(t_stack *tmp);
-void				handle_operator_token(t_stack *tmp);
-void				classify_single_token(t_stack *tmp);
+void				handle_redirection_token(t_msh *msh, t_stack *tmp);
+void				handle_operator_token(t_msh *msh, t_stack *tmp);
+void				classify_single_token(t_msh *msh, t_stack *tmp);
 // PARSING
 int					parse(t_msh *msh);
 size_t				get_env_var_len(char *word);
 char				*my_getenv(t_msh *msh, char *word);
-int					add_command_node(t_stack **tmp, t_data *new_node);
+int					add_command_node(t_msh *msh, t_stack **tmp, t_data *new_node);
 char				*cmd_path(t_msh *msh, char *cmd);
-int					set_up_path(t_msh *msh);
-int					add_redir_node(t_stack **tmp, t_data *new_node);
-t_data				*init_data_node(void);
+int					set_up_path(t_msh *msh, t_data *data);
+int					add_redir_node(t_msh *msh, t_stack **tmp, t_data *new_node);
+t_data				*init_data_node(t_msh *msh);
 t_data				*data_add_back(t_data *data, t_data *new);
+t_process			*pre_exec(t_msh *msh);
 // EXPAND
 char				*expand(t_msh *msh, char *s);
 // BUILT-IN
-bool				is_builtin(t_msh *msh);
+t_builtin_type		get_builtin_type(t_msh *msh, t_data *data);
+bool				execute_builtin(t_msh *msh, t_process *process);
 int					bi_exit(t_msh *msh, char **argv);
 int					bi_echo(t_msh *msh, char **argv);
 int					bi_cd(t_msh *msh, char **argv);
-bool				cd_home(t_env *env, t_paths *paths);
-bool				cd_oldpwd(t_env *env, t_paths *paths);
-bool				cd_folder(t_env *env, t_paths *paths, char *folder);
+bool				cd_home(t_msh *msh, t_env *env, t_paths *paths);
+bool				cd_oldpwd(t_msh *msh, t_env *env, t_paths *paths);
+bool				cd_folder(t_msh *msh, t_env *env, t_paths *paths, char *folder);
 void				cd_get_paths(t_env *env, t_paths *paths);
 void				cd_update_env(t_env *env, t_paths *paths);
 int					bi_pwd(t_msh *msh, char **argv);
@@ -203,7 +231,7 @@ void				export_create_keyvalue(t_msh *msh, t_env *new_node);
 void				export_var_with_value(t_msh *msh, char *arg);
 int					bi_unset(t_msh *msh, char **argv);
 int					bi_env(t_msh *msh, char **argv);
-t_env				*create_env_node(char *env_line);
+void				clean_exit(t_msh *msh, char *s);
 // SIGNALS
 bool				is_eof(void);
 void				sigint_handler(int process);
@@ -211,5 +239,12 @@ void				sigint_handler(int process);
 void				free_data(t_data *data);
 void				ft_free(t_msh *msh);
 void				data_destroy(t_data *head);
+// UTILS
+char				**msh_getenv(t_msh *msh);
+int					len_string_array(char **s);
+char				**string_array_copy(char **s);
+void				print_pre_exec(t_process *process);
+// EXEC
+void				execute_all(t_msh *msh, t_process *process);
 
 #endif
