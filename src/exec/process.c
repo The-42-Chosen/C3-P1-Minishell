@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/24 14:38:17 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:08:17 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,11 +124,11 @@ static int	open_output(t_list *output, t_list *next_process_input)
 			return (0);
 		}
 	}
-	npi = (t_inout *)next_process_input->content;
 	if (out->type == G_PIPE)
 	{
 		if (pipe(fds) == -1)
 			return (0);
+		npi = (t_inout *)next_process_input->content;
 		npi->fd = fds[0];
 		npi->unused_fd = fds[1];
 		out->fd = fds[1];
