@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:06:05 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/22 11:07:23 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:25:27 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*safe_strdup_substr(const char *src, size_t len)
 	return (dst);
 }
 
-static t_env	*create_env_node(char *env_line)
+t_env	*create_env_node(char *env_line)
 {
 	char	*equal_pos;
 	t_env	*new_node;

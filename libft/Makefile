@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+         #
+#    By: ep <ep@student.42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/25 00:19:30 by erpascua          #+#    #+#              #
-#    Updated: 2025/09/19 11:34:45 by gpollast         ###   ########.fr        #
+#    Updated: 2025/09/22 21:16:03 by ep               ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,6 +63,7 @@ SRC			=	ft_isalpha.c \
 				er_splits_spaces.c \
 				er_is_space.c \
 				er_free_tab.c \
+				ft_strcmp.c \
 				ft_lstadd_back_bonus.c \
 				ft_lstadd_front_bonus.c \
 				ft_lstclear_bonus.c \
