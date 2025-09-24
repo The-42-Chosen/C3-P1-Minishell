@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/24 10:20:47 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:38:17 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static pid_t	execute_cmd(t_msh *msh, t_process *process)
 
 	if (access(process->cmd.path, X_OK) == -1)
 	{
-		ft_fprintf(2, "billyshell: %s: command not found\n", process->cmd.args[0]);
+		ft_fprintf(2, "Billyshell: %s: command not found\n", process->cmd.args[0]);
 		msh->exit_code = 127;
 		return (0);
 	}
@@ -81,7 +81,7 @@ static int	open_input(t_list *input)
 		in->fd = open(in->file_or_limiter, O_RDONLY);
 		if (in->fd == -1)
 		{
-			ft_fprintf(2, "billyshell: %s: No such file or directory\n", in->file_or_limiter);
+			ft_fprintf(2, "Billyshell: %s: No such file or directory\n", in->file_or_limiter);
 			return (0);
 		}
 	}
@@ -120,7 +120,7 @@ static int	open_output(t_list *output, t_list *next_process_input)
 		out->fd = open(out->file_or_limiter, flag, 0644);
 		if (out->fd == -1)
 		{
-			ft_fprintf(2, "billyshell: %s: No such file or directory\n", out->file_or_limiter);
+			ft_fprintf(2, "Billyshell: %s: No such file or directory\n", out->file_or_limiter);
 			return (0);
 		}
 	}

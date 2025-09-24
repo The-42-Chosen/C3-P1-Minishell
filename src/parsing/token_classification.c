@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:35:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/22 11:07:23 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:38:17 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ void	handle_redirection_token(t_msh *msh, t_stack *tmp)
 	{
 		msh->exit_code = 2;
 		if (ft_strlen(tmp->content) == 3)
-			ft_fprintf(2, "bash: syntax error near unexpected token `%c'\n",
+			ft_fprintf(2, "Billyshell: syntax error near unexpected token `%c'\n",
 				tmp->content[2]);
 		else
-			ft_fprintf(2, "bash: syntax error near unexpected token `%c%c'\n",
+			ft_fprintf(2, "Billyshell: syntax error near unexpected token `%c%c'\n",
 				tmp->content[2], tmp->content[3]);
 	}
 }
@@ -49,7 +49,7 @@ void	handle_operator_token(t_msh *msh, t_stack *tmp)
 	else
 	{
 		msh->exit_code = 2;
-		ft_fprintf(2, "bash: syntax error near unexpected token `%c'\n",
+		ft_fprintf(2, "Billyshell: syntax error near unexpected token `%c'\n",
 			tmp->content[0]);
 	}
 }

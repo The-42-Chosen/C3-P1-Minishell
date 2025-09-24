@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:10:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/11 14:14:32 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:38:17 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int	handle_quotes(char *s, int *i, char quote_char)
 		if (s[*i] == '\0')
 		{
 			if (quote_char == '\"')
-				ft_fprintf(2, "bash: unclosed dquotes\n");
+				ft_fprintf(2, "Billyshell: unclosed dquotes\n");
 			else
-				ft_fprintf(2, "bash: unclosed quotes\n");
+				ft_fprintf(2, "Billyshell: unclosed quotes\n");
 			return (-1);
 		}
 		(*i)++;

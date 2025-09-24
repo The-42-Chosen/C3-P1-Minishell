@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/23 13:43:21 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:38:05 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ static char	*seek_group_redir(t_msh *msh, t_stack *stack)
 	}
 	msh->exit_code = 2;
 	if (!stack->next)
-		ft_fprintf(2, "bash: syntax error near unexpected token `newline'\n");
+		ft_fprintf(2, "Billyshell: syntax error near unexpected token `newline'\n");
 	else if (stack->next->token != WORD)
-		ft_fprintf(2, "bash: syntax error near unexpected token `%s'\n",
+		ft_fprintf(2, "Billyshell: syntax error near unexpected token `%s'\n",
 			stack->next->content);
 	return (NULL);
 }

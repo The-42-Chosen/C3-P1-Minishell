@@ -6,7 +6,7 @@
 #    By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 02:58:34 by erpascua          #+#    #+#              #
-#    Updated: 2025/09/24 13:30:41 by gpollast         ###   ########.fr        #
+#    Updated: 2025/09/24 14:43:12 by gpollast         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ $(LIBFT):
 
 $(NAME): $(LIBFT) $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LDFLAGS)
-	@echo "✅  $@ built"
+	@echo "✅  Billyshell built"
 
 $(OBJ_DIR)/src/%.o: src/%.c
 	@mkdir -p $(dir $@)

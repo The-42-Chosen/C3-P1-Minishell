@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/23 13:43:21 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:38:17 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	check_next_token_for_redir(t_msh *msh, t_stack *stack, t_token t)
 		if (stack->next && stack->next->token == t)
 		{
 			msh->exit_code = 2;
-			ft_fprintf(2, "bash: syntax error near unexpected token `%s'\n",
+			ft_fprintf(2, "Billyshell: syntax error near unexpected token `%s'\n",
 				stack->next->content);
 			return (1);
 		}

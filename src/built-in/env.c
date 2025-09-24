@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:06:05 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/24 13:29:55 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:40:35 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	bi_env(t_msh *msh, char **av)
 	if (av[1] != NULL)
 	{
 		msh->exit_code = 127;
-		ft_fprintf(2, "minishell: env: %s: No such file or directory\n", av[1]);
+		ft_fprintf(2, "Billyshell: env: %s: No such file or directory\n", av[1]);
 		return (msh->exit_code);
 	}
 	tmp = msh->env;

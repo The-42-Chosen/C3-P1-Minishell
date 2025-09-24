@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:04:02 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/24 14:09:15 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:40:35 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	bi_export(t_msh *msh, char **av)
 	{
 		if (!is_valid_identifier(av[i]))
 		{
-			ft_fprintf(2, "minishell: export: `%s': not a valid identifier\n",
+			ft_fprintf(2, "Billyshell: export: `%s': not a valid identifier\n",
 				av[i]);
 			msh->exit_code = 1;
 			return (msh->exit_code);

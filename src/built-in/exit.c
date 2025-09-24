@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 16:34:10 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/22 11:07:23 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:40:35 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static bool	is_overflow(char *str)
 
 void	clean_exit(t_msh *msh, char *s)
 {
-	ft_fprintf(2, "minishell: exit: %s: numeric argument required\n", s);
+	ft_fprintf(2, "Billyshell: exit: %s: numeric argument required\n", s);
 	msh->exit_code = 255;
 	exit(msh->exit_code);
 }
@@ -76,7 +76,7 @@ int	bi_exit(t_msh *msh, char **argv)
 	}
 	if (argc > 2)
 	{
-		ft_fprintf(2, "minishell: exit: too many arguments\n");
+		ft_fprintf(2, "Billyshell: exit: too many arguments\n");
 		msh->exit_code = 1;
 		exit(1);
 	}

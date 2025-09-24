@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/23 17:46:28 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:41:47 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	repl(t_msh *msh, int tmp_fd)
 	{
 		check_signals(msh);
 		if (isatty(STDIN_FILENO))
-			msh->entry = readline("\033[1;92mMinishell > \033[0m");
+			msh->entry = readline("\033[1;92mBillyshell > \033[0m");
 		else
 			msh->entry = get_next_line(0);
 		if (!msh->entry && is_eof())

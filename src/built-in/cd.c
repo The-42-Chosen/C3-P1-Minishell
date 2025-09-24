@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:02:29 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/22 11:07:23 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:40:35 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	bi_cd(t_msh *msh, char **av)
 		i++;
 	if (i > 2)
 	{
-		ft_fprintf(2, "Minishell: cd: too many arguments\n");
+		ft_fprintf(2, "Billyshell: cd: too many arguments\n");
 		msh->exit_code = 1;
 		return (1);
 	}

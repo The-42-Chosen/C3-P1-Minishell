@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 06:45:30 by ep                #+#    #+#             */
-/*   Updated: 2025/09/22 11:07:23 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:40:35 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	cd_home(t_msh *msh, t_env *env, t_paths *paths)
 	}
 	else
 	{
-		ft_fprintf(1, "minishell: cd: HOME not set\n");
+		ft_fprintf(1, "Billyshell: cd: HOME not set\n");
 		msh->exit_code = 1;
 		return (false);
 	}
@@ -42,7 +42,7 @@ bool	cd_oldpwd(t_msh *msh, t_env *env, t_paths *paths)
 	}
 	else
 	{
-		ft_fprintf(2, "Minishell: cd: OLDPWD not set\n");
+		ft_fprintf(2, "Billyshell: cd: OLDPWD not set\n");
 		msh->exit_code = 1;
 		return (false);
 	}
@@ -93,6 +93,6 @@ bool	cd_folder(t_msh *msh, t_env *env, t_paths *paths, char *folder)
 		return (true);
 	}
 	else
-		return (ft_fprintf(2, "minishell: cd: %s: No such file or directory\n",
+		return (ft_fprintf(2, "Billyshell: cd: %s: No such file or directory\n",
 				folder), free(target_path), msh->exit_code = 1, false);
 }
