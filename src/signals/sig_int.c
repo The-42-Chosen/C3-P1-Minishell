@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_int.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 15:21:44 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/25 21:18:31 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/25 22:41:01 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ void	sigint_handler(int signum)
 
 void	sigint_silent_handler(int signum)
 {
-	(void)signum;
+	g_received_signal = signum;
+	write(STDOUT_FILENO, "\n", 1);
 }

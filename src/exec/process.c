@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/25 21:21:50 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/25 22:40:36 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,7 @@ static int	open_input(t_list *input, t_process *process)
 		{
 			signal(SIGINT, SIG_DFL);
 			line = readline("> ");
-			while (ft_strncmp(line, in->file_or_limiter,
-					ft_strlen(in->file_or_limiter)))
+			while (ft_strcmp(line, in->file_or_limiter))
 			{
 				write(fds[1], line, ft_strlen(line));
 				write(fds[1], "\n", 1);
