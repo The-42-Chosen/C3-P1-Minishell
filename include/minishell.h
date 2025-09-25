@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/25 17:14:11 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/25 21:18:48 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,6 +240,7 @@ void					clean_exit(t_msh *msh, char *s);
 // SIGNALS
 bool					is_eof(void);
 void					sigint_handler(int process);
+void					sigint_silent_handler(int signum);
 // FREE
 void					free_data(t_data *data);
 void					ft_free(t_msh *msh);

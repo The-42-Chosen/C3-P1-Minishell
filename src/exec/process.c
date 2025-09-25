@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/25 11:50:48 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/25 21:21:50 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,13 @@ static pid_t	execute_cmd(t_msh *msh, t_process *process)
 	return (pid);
 }
 
-static int	open_input(t_list *input)
+static int	open_input(t_list *input, t_process *process)
 {
 	t_inout	*in;
 	int		fds[2];
 	char	*line;
+	pid_t	pid;
+	int		status;
 
 	if (!input)
 		return (1);
@@ -93,19 +95,30 @@ static int	open_input(t_list *input)
 	{
 		if (pipe(fds) == -1)
 			return (0);
-		line = readline("> ");
-		while (ft_strncmp(line, in->file_or_limiter,
-				ft_strlen(in->file_or_limiter)))
+		pid = fork();
+		if (pid == 0)
 		{
-			write(fds[1], line, ft_strlen(line));
-			write(fds[1], "\n", 1);
-			free(line);
+			signal(SIGINT, SIG_DFL);
 			line = readline("> ");
+			while (ft_strncmp(line, in->file_or_limiter,
+					ft_strlen(in->file_or_limiter)))
+			{
+				write(fds[1], line, ft_strlen(line));
+				write(fds[1], "\n", 1);
+				free(line);
+				line = readline("> ");
+			}
+			ft_lstiter(process->inputs, (void (*)(void *))close_inout);
+			ft_lstiter(process->outputs, (void (*)(void *))close_inout);
+			exit(0);
 		}
+		waitpid(pid, &status, 0);
 		close(fds[1]);
 		in->fd = fds[0];
+		if (status > 0)
+			return (0);
 	}
-	return (open_input(input->next));
+	return (open_input(input->next, process));
 }
 
 static int	open_output(t_list *output, t_list *next_process_input)
@@ -150,7 +163,7 @@ static void	execute(t_msh *msh, t_process *process)
 
 	if (!process)
 		return ;
-	if (!open_input(process->inputs))
+	if (!open_input(process->inputs, process))
 		return ;
 	if (process->next)
 		open_output(process->outputs, process->next->inputs);

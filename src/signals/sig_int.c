@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 15:21:44 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/25 12:51:48 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/25 21:18:31 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,9 @@ void	sigint_handler(int signum)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+}
+
+void	sigint_silent_handler(int signum)
+{
+	(void)signum;
 }
