@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/25 10:34:48 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/25 11:50:48 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ static pid_t	execute_cmd(t_msh *msh, t_process *process)
 	{
 		if (!process->cmd.args)
 			return (0);
-		ft_fprintf(2, "Billyshell: %s: command not found\n", process->cmd.args[0]);
+		ft_fprintf(2, "Billyshell: %s: command not found\n",
+			process->cmd.args[0]);
 		msh->exit_code = 127;
 		return (0);
 	}
@@ -74,7 +75,7 @@ static int	open_input(t_list *input)
 	t_inout	*in;
 	int		fds[2];
 	char	*line;
-	
+
 	if (!input)
 		return (1);
 	in = (t_inout *)input->content;
@@ -83,7 +84,8 @@ static int	open_input(t_list *input)
 		in->fd = open(in->file_or_limiter, O_RDONLY);
 		if (in->fd == -1)
 		{
-			ft_fprintf(2, "Billyshell: %s: No such file or directory\n", in->file_or_limiter);
+			ft_fprintf(2, "Billyshell: %s: No such file or directory\n",
+				in->file_or_limiter);
 			return (0);
 		}
 	}
@@ -92,7 +94,8 @@ static int	open_input(t_list *input)
 		if (pipe(fds) == -1)
 			return (0);
 		line = readline("> ");
-		while (ft_strncmp(line, in->file_or_limiter, ft_strlen(in->file_or_limiter)))
+		while (ft_strncmp(line, in->file_or_limiter,
+				ft_strlen(in->file_or_limiter)))
 		{
 			write(fds[1], line, ft_strlen(line));
 			write(fds[1], "\n", 1);
@@ -111,7 +114,7 @@ static int	open_output(t_list *output, t_list *next_process_input)
 	t_inout	*npi;
 	int		flag;
 	int		fds[2];
-	
+
 	if (!output)
 		return (1);
 	out = (t_inout *)output->content;
@@ -122,7 +125,8 @@ static int	open_output(t_list *output, t_list *next_process_input)
 		out->fd = open(out->file_or_limiter, flag, 0644);
 		if (out->fd == -1)
 		{
-			ft_fprintf(2, "Billyshell: %s: No such file or directory\n", out->file_or_limiter);
+			ft_fprintf(2, "Billyshell: %s: No such file or directory\n",
+				out->file_or_limiter);
 			return (0);
 		}
 	}
@@ -143,7 +147,7 @@ static void	execute(t_msh *msh, t_process *process)
 {
 	int	cin;
 	int	cout;
-	
+
 	if (!process)
 		return ;
 	if (!open_input(process->inputs))
@@ -172,7 +176,7 @@ static void	execute(t_msh *msh, t_process *process)
 void	execute_all(t_msh *msh, t_process *process)
 {
 	t_process	*head;
-	
+
 	execute(msh, process);
 	head = process;
 	while (head)

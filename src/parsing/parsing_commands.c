@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/23 13:43:21 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/25 17:39:04 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,43 @@ static int	count_nb_cmd(t_stack **stack)
 		tmp = tmp->next;
 	}
 	return (nb_cmd);
+}
+
+t_stack	*concatenate_stack(t_stack *stack)
+{
+	t_stack	*tmp;
+	t_stack	*new;
+	char	*tmp_s;
+	char	*s;
+
+	new = NULL;
+	s = NULL;
+	tmp_s = NULL;
+	tmp = stack;
+	while (tmp)
+	{
+		if (tmp->is_append == true)
+		{
+			if (!s)
+				s = ft_strjoin(tmp->content, tmp->next->content);
+			else
+			{
+				tmp_s = s;
+				s = ft_strjoin(s, tmp->next->content);
+				free(tmp_s);
+			}
+			if (tmp->next->is_append == false)
+			{
+				stack_add_back(&new, new_stack(s));
+				free(s);
+				tmp = tmp->next;
+			}
+		}
+		else
+			stack_add_back(&new, new_stack(tmp->content));
+		tmp = tmp->next;
+	}
+	return (new);
 }
 
 static char	**setup_cmd(t_msh *msh, t_stack *stack, int nb_cmd)
@@ -63,7 +100,11 @@ static char	**seek_group_cmd(t_msh *msh, t_stack **stack)
 	int		nb_cmd;
 	char	**group;
 	int		i;
+	t_stack	*tempo;
 
+	tempo = *stack;
+	*stack = concatenate_stack(*stack);
+	stack_destroy(tempo);
 	nb_cmd = count_nb_cmd(stack);
 	group = setup_cmd(msh, *stack, nb_cmd);
 	if (!group)

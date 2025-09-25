@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/24 17:58:04 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/25 15:49:42 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ char	*read_entry(t_msh *msh, char *s, int *i)
 	{
 		if (handle_quotes(s, i, s[*i]) == -1)
 			return (NULL);
+		if (s[*i] != 0 && !is_space(s[*i]))
+			msh->is_append = true;
 	}
 	else
 		handle_word(s, i);
@@ -66,6 +68,7 @@ int	lexer(t_msh *msh)
 	i = 0;
 	while (msh->entry[i])
 	{
+		msh->is_append = false;
 		msh->is_expandable = true;
 		word = read_entry(msh, msh->entry, &i);
 		if (!word)

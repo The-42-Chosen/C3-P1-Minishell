@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/24 18:35:58 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:23:31 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ static int	count_nb_cmd(t_data *data)
 int	parse(t_msh *msh)
 {
 	t_stack	*tmp;
-	// t_data	*tmp2;
 
 	tmp = msh->stack;
 	while (tmp)
@@ -87,27 +86,5 @@ int	parse(t_msh *msh)
 		tmp = tmp->next;
 	}
 	msh->nb_cmd = count_nb_cmd(msh->data);
-	// tmp2 = msh->data;
-	// while (tmp2)
-	// {
-	// 	if (tmp2->group == G_REDIR_IN)
-	// 		ft_fprintf(1, "REDIR_IN\n");
-	// 	if (tmp2->group == G_REDIR_OUT)
-	// 		ft_fprintf(1, "REDIR_OUT\n");
-	// 	if (tmp2->group == G_REDIR_APPEND)
-	// 		ft_fprintf(1, "REDIR_APPEND\n");
-	// 	if (tmp2->group == G_REDIR_HEREDOC)
-	// 		ft_fprintf(1, "REDIR_HEREDOC\n");
-	// 	if (tmp2->group == G_PIPE)
-	// 		ft_fprintf(1, "PIPE\n");
-	// 	if (tmp2->group == G_CMD)
-	// 	{
-	// 		if (tmp2->cmd.builtin_type == BI_NONE)
-	// 			ft_fprintf(1, "PATH: %s ", tmp2->cmd.path);
-	// 		ft_fprintf(1, "CMD: ");
-	// 		print_string_array(tmp2->cmd.args);
-	// 	}
-	// 	tmp2 = tmp2->next;
-	// }
 	return (1);
 }

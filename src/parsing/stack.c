@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:43:16 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/08 16:15:54 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/25 15:41:06 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_stack	*new_stack(char *content)
 
 	if (!content)
 		return (NULL);
-	new = malloc(sizeof(t_stack));
+	new = calloc(1, sizeof(t_stack));
 	if (!new)
 		return (NULL);
 	new->content = ft_strdup(content);

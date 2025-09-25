@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/24 17:57:23 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/25 17:14:11 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_stack
 {
 	char				*content;
 	bool				is_expandable;
+	bool				is_append;
 	t_token				token;
 	t_subtoken			sub_token;
 	struct s_stack		*next;
@@ -145,6 +146,7 @@ typedef struct s_msh
 	t_data				*data;
 	bool				is_heredoc;
 	bool				is_expandable;
+	bool				is_append;
 	char				*builtin_names[NB_BUILTINS];
 	int					(*builtin_funcs[NB_BUILTINS])(struct s_msh *, char **);
 	t_paths				paths;
@@ -246,6 +248,7 @@ void					data_destroy(t_data *head);
 char					**msh_getenv(t_msh *msh);
 int						len_string_array(char **s);
 char					**string_array_copy(char **s);
+void					print_data(t_msh *msh);
 void					print_pre_exec(t_process *process);
 // EXEC
 void					execute_all(t_msh *msh, t_process *process);

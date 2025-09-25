@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:10:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/24 14:38:17 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/25 15:49:17 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	handle_quotes(char *s, int *i, char quote_char)
 		}
 		(*i)++;
 	}
-	(*i)++;
+	(*i)++;		
 	return (0);
 }
 
