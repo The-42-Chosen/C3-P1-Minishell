@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/24 15:08:17 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/25 10:34:48 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static pid_t	execute_cmd(t_msh *msh, t_process *process)
 
 	if (access(process->cmd.path, X_OK) == -1)
 	{
+		if (!process->cmd.args)
+			return (0);
 		ft_fprintf(2, "Billyshell: %s: command not found\n", process->cmd.args[0]);
 		msh->exit_code = 127;
 		return (0);
