@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_program.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/26 16:07:25 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/26 16:29:49 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	repl(t_msh *msh, int tmp_fd)
 		if (reloop(msh, &process))
 		{
 			signal(SIGINT, sigint_silent_handler);
-			execute_all(msh, process);				
+			execute_all(msh, process);
 			signal(SIGINT, sigint_handler);
 		}
 		msh->data = NULL;
@@ -73,14 +73,20 @@ static int	repl(t_msh *msh, int tmp_fd)
 int	launch_program(t_msh *msh)
 {
 	int	tmp_fd;
+	int	result;
 
 	read_history(msh->history);
 	tmp_fd = open("tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (tmp_fd < 0)
 		return (perror("open"), 1);
-	if (repl(msh, tmp_fd))
-		return (0);
+	result = repl(msh, tmp_fd);
 	close(tmp_fd);
+	if (result)
+	{
+		free(msh->history);
+		unlink("tmp");
+		return (0);
+	}
 	free(msh->history);
 	unlink("tmp");
 	return (1);

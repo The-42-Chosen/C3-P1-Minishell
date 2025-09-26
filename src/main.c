@@ -3,33 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 10:57:36 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/22 11:07:23 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/26 16:33:54 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		g_received_signal = 0;
-
-// void	free_msh(t_msh *msh)
-// {
-
-// }
-
-// void	free_msh_builtins(t_msh *msh)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (i < NB_BUILTINS)
-// 	{
-// 		free(msh->builtin_names[i]);
-// 		i++;
-// 	}
-// }
+int	g_received_signal = 0;
 
 int	main(int ac, char **av, char **env)
 {
@@ -43,7 +26,7 @@ int	main(int ac, char **av, char **env)
 	print_banner();
 	launch_program(&msh);
 	data_destroy(msh.data);
-	// free_msh_builtins(&msh);
-	// free_msh(&msh);
+	free_msh_builtins(&msh);
+	free_msh(&msh);
 	return (msh.exit_code);
 }

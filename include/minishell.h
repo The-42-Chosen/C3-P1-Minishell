@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/26 15:07:32 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/26 16:44:30 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,5 +261,9 @@ void					print_data(t_msh *msh);
 void					print_pre_exec(t_process *process);
 // EXEC
 void					execute_all(t_msh *msh, t_process *process);
+// FREE
+void					free_msh(t_msh *msh);
+void					env_destroy(t_env *env);
+void					free_msh_builtins(t_msh *msh);
 
 #endif

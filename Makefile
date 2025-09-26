@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+         #
+#    By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 02:58:34 by erpascua          #+#    #+#              #
-#    Updated: 2025/09/24 15:35:10 by gpollast         ###   ########.fr        #
+#    Updated: 2025/09/26 16:43:22 by erpascua         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,7 @@ fclean: clean
 re: fclean all
 
 valgrind: all
-	valgrind --suppressions=./_dev_tools/.ignore_rl_leaks.supp --leak-check=full --track-origins=yes --track-fds=yes -s ./minishell
+	valgrind --suppressions=./_dev_tools/.ignore_rl_leaks.supp --trace-children=yes --leak-check=full --track-origins=yes --track-fds=yes -s ./minishell
 
 dev:
 	@make re 1>/dev/null
