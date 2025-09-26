@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/26 11:31:11 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/26 15:02:54 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ t_stack	*concatenate_stack(t_stack *stack)
 			}
 			if (tmp->next->is_append == false)
 			{
-				stack_add_back(&new, new_stack(s));
+				stack_add_back(&new, copy_node_stack(tmp, s));
 				free(s);
 				tmp = tmp->next;
 			}
 		}
 		else
-			stack_add_back(&new, new_stack(tmp->content));
+			stack_add_back(&new, copy_node_stack(tmp, tmp->content));
 		tmp = tmp->next;
 	}
 	return (new);

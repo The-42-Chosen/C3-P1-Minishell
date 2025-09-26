@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:43:16 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/25 15:41:06 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/26 13:57:40 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_stack	*new_stack(char *content)
 	return (new);
 }
 
-static t_stack	*stack_last(t_stack *s)
+t_stack	*stack_last(t_stack *s)
 {
 	if (!s)
 		return (NULL);
