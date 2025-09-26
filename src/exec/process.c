@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/26 16:11:47 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/26 16:16:41 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,9 @@ static int	open_input(t_list *input, t_process *process)
 		}
 		waitpid(pid, &status, 0);
 		if (status == 139)
-			ft_fprintf(2, "bash: warning: here-document at line 1 delimited by end-of-file (wanted `%s')\n\n", in->file_or_limiter);
+			ft_fprintf(2,
+				"bash: warning: here-document at current line delimited by end-of-file (wanted `%s')\n\n",
+				in->file_or_limiter);
 		close(fds[1]);
 		in->fd = fds[0];
 		if (status > 0)
