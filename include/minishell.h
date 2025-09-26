@@ -6,7 +6,7 @@
 /*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/25 23:40:24 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/26 03:04:18 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +237,7 @@ int						bi_unset(t_msh *msh, char **argv);
 int						bi_env(t_msh *msh, char **argv);
 t_env					*create_env_node(char *env_line);
 void					clean_exit(t_msh *msh, char *s);
+void					free_env_list(t_env *env);
 // SIGNALS
 bool					is_eof(void);
 void					sigint_handler(int process);

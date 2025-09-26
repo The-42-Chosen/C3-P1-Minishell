@@ -1,42 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/13 19:02:46 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/26 02:46:31 by ep               ###   ########.fr       */
+/*   Created: 2025/09/26 03:02:24 by ep                #+#    #+#             */
+/*   Updated: 2025/09/26 03:02:57 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	bi_pwd(t_msh *msh, char **av)
+void	free_env_list(t_env *env)
 {
-	int		i;
-	char	*buf;
+	t_env	*tmp;
 
-	(void)msh;
-	(void)av;
-	i = 1;
-	buf = malloc(i);
-	if (!buf)
-		return (1);
-	while (getcwd(buf, i) == NULL && errno == ERANGE)
+	while (env)
 	{
-		free(buf);
-		i *= 2;
-		buf = malloc(i);
-		if (!buf)
-			return (1);
+		tmp = env->next;
+		free(env->key);
+		free(env->value);
+		free(env);
+		env = tmp;
 	}
-	if (!buf)
-	{
-		free(buf);
-		return (1);
-	}
-	ft_fprintf(1, "%s\n", buf);
-	free(buf);
-	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:06:05 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/24 14:40:35 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/26 03:02:44 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,13 @@ void	save_env(t_msh *msh, char **env)
 	while (env[i])
 	{
 		new_node = create_env_node(env[i]);
-		if (new_node)
-			add_env_node(&msh->env, &current, new_node);
+		if (!new_node)
+		{
+			free_env_list(msh->env);
+			msh->env = NULL;
+			return ;
+		}
+		add_env_node(&msh->env, &current, new_node);
 		i++;
 	}
 }
@@ -89,7 +94,8 @@ int	bi_env(t_msh *msh, char **av)
 	if (av[1] != NULL)
 	{
 		msh->exit_code = 127;
-		ft_fprintf(2, "Billyshell: env: %s: No such file or directory\n", av[1]);
+		ft_fprintf(2, "Billyshell: env: %s: No such file or directory\n",
+			av[1]);
 		return (msh->exit_code);
 	}
 	tmp = msh->env;

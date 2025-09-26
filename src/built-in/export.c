@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:04:02 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/24 14:40:35 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/26 02:50:39 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,26 @@ static void	export_no_arg(t_env *env)
 	tmp = env;
 	i = 0;
 	env_to_sort = malloc((len_env + 1) * sizeof(char *));
+	if (!env_to_sort)
+		return ;
 	while (tmp)
 	{
 		if (tmp->value)
 		{
 			tmp_key_equal = ft_strjoin(tmp->key, "=");
+			if (!tmp_key_equal)
+				return (free_tab(env_to_sort));
 			env_to_sort[i] = ft_strjoin(tmp_key_equal, tmp->value);
 			free(tmp_key_equal);
+			if (!env_to_sort[i])
+				return (free_tab(env_to_sort));
 		}
 		else
+		{
 			env_to_sort[i] = ft_strdup(tmp->key);
+			if (!env_to_sort[i])
+				return (free_tab(env_to_sort));
+		}
 		i++;
 		tmp = tmp->next;
 	}
