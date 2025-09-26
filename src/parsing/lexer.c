@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/26 11:30:43 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/26 11:45:24 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,11 @@ char	*read_entry(t_msh *msh, char *s, int *i)
 	if (is_redirection(s[*i]))
 		check_redirection(s, i);
 	else if (is_operator(s[*i]))
-		check_operator(s, i);
+		return (msh->exit_code = 2, ft_fprintf(2,
+				"Billyshell: syntax error `%c'\n", s[*i]), NULL);
 	else if (s[*i] == '(' || s[*i] == ')')
-		return (ft_fprintf(2, "Billyshell: syntax error `%c'\n", s[*i]), NULL);
+		return (msh->exit_code = 2, ft_fprintf(2,
+				"Billyshell: syntax error `%c'\n", s[*i]), NULL);
 	else if (s[*i] == '\"' || s[*i] == '\'')
 	{
 		if (handle_quotes(s, i, s[*i]) == -1)
@@ -38,7 +40,7 @@ char	*read_entry(t_msh *msh, char *s, int *i)
 	{
 		handle_word(s, i);
 		if (s[*i] != 0 && !is_space(s[*i]))
-			msh->is_append = true;	
+			msh->is_append = true;
 	}
 	if (*i == start)
 		return (NULL);

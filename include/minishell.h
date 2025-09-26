@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/26 03:33:17 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/26 11:37:42 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,6 @@ bool					is_delimeter(char c);
 bool					is_redirection(char c);
 bool					is_operator(char c);
 void					check_redirection(char *s, int *i);
-void					check_operator(char *s, int *i);
 // TOKEN HANDLERS
 int						handle_quotes(char *s, int *i, char quote_char);
 void					handle_word(char *s, int *i);
@@ -225,8 +224,10 @@ void					cd_update_env(t_env *env, t_paths *paths);
 int						bi_pwd(t_msh *msh, char **argv);
 int						bi_export(t_msh *msh, char **argv);
 bool					is_valid_identifier(char *s);
-bool					build_env_entry_with_value(char **env_to_sort, t_env *tmp, int i);
-bool					build_env_entry_no_value(char **env_to_sort, t_env *tmp, int i);
+bool					build_env_entry_with_value(char **env_to_sort,
+							t_env *tmp, int i);
+bool					build_env_entry_no_value(char **env_to_sort, t_env *tmp,
+							int i);
 void					sort_env_array(char **env_to_sort, int len);
 void					print_and_free_array(char **env_to_sort, int len);
 void					order_tab(char **env_to_sort, int len);

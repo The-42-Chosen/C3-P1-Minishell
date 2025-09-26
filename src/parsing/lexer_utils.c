@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:10:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/01 16:14:29 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/26 11:37:58 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,5 @@ bool	is_operator(char c)
 void	check_redirection(char *s, int *i)
 {
 	while (s[*i] && is_redirection(s[*i]))
-		(*i)++;
-}
-
-void	check_operator(char *s, int *i)
-{
-	while (s[*i] && is_operator(s[*i]))
 		(*i)++;
 }
