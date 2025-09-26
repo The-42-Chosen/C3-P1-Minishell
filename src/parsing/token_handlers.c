@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_handlers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:10:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/26 03:38:13 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/26 11:26:18 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	handle_quotes(char *s, int *i, char quote_char)
 
 void	handle_word(char *s, int *i)
 {
-	while (s[*i] && !is_space(s[*i]))
+	while (s[*i] && !is_space(s[*i]) && s[*i] != '\"' && s[*i] != '\'')
 	{
 		(*i)++;
 		if (is_delimeter(s[*i]))

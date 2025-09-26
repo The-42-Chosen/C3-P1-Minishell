@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/25 15:49:42 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/26 11:30:43 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@ char	*read_entry(t_msh *msh, char *s, int *i)
 			msh->is_append = true;
 	}
 	else
+	{
 		handle_word(s, i);
+		if (s[*i] != 0 && !is_space(s[*i]))
+			msh->is_append = true;	
+	}
 	if (*i == start)
 		return (NULL);
 	return (extract_word(msh, s, start, *i));
