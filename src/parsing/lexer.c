@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/26 11:45:24 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/09/26 14:13:06 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ char	*read_entry(t_msh *msh, char *s, int *i)
 	else if (is_operator(s[*i]))
 		return (msh->exit_code = 2, ft_fprintf(2,
 				"Billyshell: syntax error `%c'\n", s[*i]), NULL);
+	else if (is_pipe(s[*i]) && is_pipe(s[*i + 1]))
+		return (msh->exit_code = 2, ft_fprintf(2,
+				"Billyshell: syntax error `%c%c'\n", s[*i], s[*i + 1]), NULL);
 	else if (s[*i] == '(' || s[*i] == ')')
 		return (msh->exit_code = 2, ft_fprintf(2,
 				"Billyshell: syntax error `%c'\n", s[*i]), NULL);

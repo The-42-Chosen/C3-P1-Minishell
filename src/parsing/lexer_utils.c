@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:10:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/26 11:37:58 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/09/26 14:23:54 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,14 @@ bool	is_redirection(char c)
 
 bool	is_operator(char c)
 {
-	if (c == '&' || c == '|')
+	if (c == '&')
+		return (true);
+	return (false);
+}
+
+bool	is_pipe(char c)
+{
+	if (c == '|')
 		return (true);
 	return (false);
 }

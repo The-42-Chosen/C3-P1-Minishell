@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/26 11:37:42 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/09/26 13:47:00 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ char					*read_entry(t_msh *msh, char *s, int *i);
 bool					is_delimeter(char c);
 bool					is_redirection(char c);
 bool					is_operator(char c);
+bool					is_pipe(char c);
 void					check_redirection(char *s, int *i);
 // TOKEN HANDLERS
 int						handle_quotes(char *s, int *i, char quote_char);
