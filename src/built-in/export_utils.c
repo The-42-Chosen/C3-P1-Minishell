@@ -1,45 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_utils.c                                     :+:      :+:    :+:   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/18 19:47:07 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/26 03:18:51 by ep               ###   ########.fr       */
+/*   Created: 2025/09/26 03:29:00 by ep                #+#    #+#             */
+/*   Updated: 2025/09/26 03:30:50 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	get_env_var_len(char *word)
+bool	is_valid_identifier(char *s)
 {
-	size_t	i;
-
-	if (!word)
+	if (!s || !*s)
 		return (0);
-	i = 0;
-	while (word[i] && word[i] != ' ' && word[i] != '$' && word[i] != '\'')
+	if (!(ft_isalpha(*s) || *s == '_'))
+		return (0);
+	s++;
+	while (*s && *s != '=')
 	{
-		i++;
+		if (!(ft_isalnum(*s) || *s == '_'))
+			return (0);
+		s++;
 	}
-	return (i);
+	return (1);
 }
 
-char	*my_getenv(t_msh *msh, char *word)
+void	order_tab(char **env_to_sort, int len)
 {
-	int		len;
-	t_env	*env;
+	sort_env_array(env_to_sort, len);
+	print_and_free_array(env_to_sort, len);
+}
 
-	len = get_env_var_len(word + 1);
-	env = msh->env;
-	while (env)
+int	lst_len(t_env *env)
+{
+	t_env	*tmp;
+	int		len;
+
+	tmp = env;
+	len = 0;
+	while (tmp)
 	{
-		if (!ft_strncmp(env->key, word + 1, len + 1))
-		{
-			return (env->value);
-		}
-		env = env->next;
+		len++;
+		tmp = tmp->next;
 	}
-	return (NULL);
+	return (len);
 }

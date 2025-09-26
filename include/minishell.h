@@ -6,7 +6,7 @@
 /*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/26 03:04:18 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/26 03:33:17 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 # include "libft.h"
 # include <errno.h>
 # include <fcntl.h>
-# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
+# include <stdio.h>
 # include <string.h>
 # include <term.h>
 
@@ -224,6 +224,9 @@ void					cd_get_paths(t_env *env, t_paths *paths);
 void					cd_update_env(t_env *env, t_paths *paths);
 int						bi_pwd(t_msh *msh, char **argv);
 int						bi_export(t_msh *msh, char **argv);
+bool					is_valid_identifier(char *s);
+bool					build_env_entry_with_value(char **env_to_sort, t_env *tmp, int i);
+bool					build_env_entry_no_value(char **env_to_sort, t_env *tmp, int i);
 void					sort_env_array(char **env_to_sort, int len);
 void					print_and_free_array(char **env_to_sort, int len);
 void					order_tab(char **env_to_sort, int len);

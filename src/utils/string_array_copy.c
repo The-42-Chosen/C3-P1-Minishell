@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_array_copy.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 10:41:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/23 13:43:21 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/26 03:38:39 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	**string_array_copy(char **s)
 	char	**copy;
 	int		len;
 	int		i;
-	
+
 	len = len_string_array(s);
 	copy = malloc(sizeof(char *) * (len + 1));
 	if (!copy)

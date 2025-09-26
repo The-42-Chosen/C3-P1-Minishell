@@ -6,11 +6,33 @@
 /*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 05:39:55 by ep                #+#    #+#             */
-/*   Updated: 2025/09/23 05:42:20 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/26 03:34:10 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	build_env_entry_with_value(char **env_to_sort, t_env *tmp, int i)
+{
+	char	*tmp_key_equal;
+
+	tmp_key_equal = ft_strjoin(tmp->key, "=");
+	if (!tmp_key_equal)
+		return (false);
+	env_to_sort[i] = ft_strjoin(tmp_key_equal, tmp->value);
+	free(tmp_key_equal);
+	if (!env_to_sort[i])
+		return (false);
+	return (true);
+}
+
+bool	build_env_entry_no_value(char **env_to_sort, t_env *tmp, int i)
+{
+	env_to_sort[i] = ft_strdup(tmp->key);
+	if (!env_to_sort[i])
+		return (false);
+	return (true);
+}
 
 void	sort_env_array(char **env_to_sort, int len)
 {
@@ -48,25 +70,4 @@ void	print_and_free_array(char **env_to_sort, int len)
 		i++;
 	}
 	free(env_to_sort);
-}
-
-void	order_tab(char **env_to_sort, int len)
-{
-	sort_env_array(env_to_sort, len);
-	print_and_free_array(env_to_sort, len);
-}
-
-int	lst_len(t_env *env)
-{
-	t_env	*tmp;
-	int		len;
-
-	tmp = env;
-	len = 0;
-	while (tmp)
-	{
-		len++;
-		tmp = tmp->next;
-	}
-	return (len);
 }

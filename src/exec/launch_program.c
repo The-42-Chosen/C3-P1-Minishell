@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_program.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/25 21:19:11 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/26 03:11:14 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static void	check_signals(t_msh *msh)
 		g_received_signal = 0;
 	}
 }
-#include <signal.h>
 
 void	update_history(t_msh *msh)
 {
@@ -41,7 +40,7 @@ static int	reloop(t_msh *msh, t_process **process)
 static int	repl(t_msh *msh, int tmp_fd)
 {
 	t_process	*process;
-	
+
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sigint_handler);
 	while (1)
@@ -61,7 +60,6 @@ static int	repl(t_msh *msh, int tmp_fd)
 			execute_all(msh, process);
 			signal(SIGINT, sigint_handler);
 		}
-
 		msh->data = NULL;
 		msh->stack = NULL;
 		msh->nb_cmd = 0;

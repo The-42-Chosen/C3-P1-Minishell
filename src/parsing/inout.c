@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inout.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 13:34:12 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/23 15:33:59 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/26 03:17:58 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,16 @@ void	print_inout(t_inout *inout)
 	if (inout->type == G_PIPE)
 		ft_fprintf(1, "PIPE\n");
 	else if (inout->type == G_REDIR_IN)
-	{
 		ft_fprintf(1, "REDIR IN File: %s\n", inout->file_or_limiter);
-	}
 	else if (inout->type == G_REDIR_HEREDOC)
-	{
 		ft_fprintf(1, "REDIR HEREDOC Limiter: %s\n", inout->file_or_limiter);
-	}
 	else if (inout->type == G_REDIR_OUT)
-	{
 		ft_fprintf(1, "REDIR OUT File: %s\n", inout->file_or_limiter);
-	}
 	else if (inout->type == G_REDIR_APPEND)
-	{
 		ft_fprintf(1, "REDIR APPEND File: %s\n", inout->file_or_limiter);
-	}
 }
 
-t_inout	*alloc_pipe_inout()
+t_inout	*alloc_pipe_inout(void)
 {
 	t_inout	*res;
 
@@ -58,4 +50,3 @@ t_inout	*alloc_redir_inout(t_data *data)
 	res->type = data->group;
 	return (res);
 }
-

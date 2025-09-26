@@ -6,65 +6,47 @@
 /*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:04:02 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/26 02:50:39 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/26 03:30:41 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	export_no_arg(t_env *env)
+static bool	build_env_array(char **env_to_sort, t_env *env)
 {
 	t_env	*tmp;
-	char	*tmp_key_equal;
-	char	**env_to_sort;
 	int		i;
-	int		len_env;
+	bool	success;
 
-	len_env = lst_len(env);
 	tmp = env;
 	i = 0;
-	env_to_sort = malloc((len_env + 1) * sizeof(char *));
-	if (!env_to_sort)
-		return ;
 	while (tmp)
 	{
 		if (tmp->value)
-		{
-			tmp_key_equal = ft_strjoin(tmp->key, "=");
-			if (!tmp_key_equal)
-				return (free_tab(env_to_sort));
-			env_to_sort[i] = ft_strjoin(tmp_key_equal, tmp->value);
-			free(tmp_key_equal);
-			if (!env_to_sort[i])
-				return (free_tab(env_to_sort));
-		}
+			success = build_env_entry_with_value(env_to_sort, tmp, i);
 		else
-		{
-			env_to_sort[i] = ft_strdup(tmp->key);
-			if (!env_to_sort[i])
-				return (free_tab(env_to_sort));
-		}
+			success = build_env_entry_no_value(env_to_sort, tmp, i);
+		if (!success)
+			return (false);
 		i++;
 		tmp = tmp->next;
 	}
-	order_tab(env_to_sort, len_env);
-	return ;
+	return (true);
 }
 
-static bool	is_valid_identifier(char *s)
+static void	export_no_arg(t_env *env)
 {
-	if (!s || !*s)
-		return (0);
-	if (!(ft_isalpha(*s) || *s == '_'))
-		return (0);
-	s++;
-	while (*s && *s != '=')
-	{
-		if (!(ft_isalnum(*s) || *s == '_'))
-			return (0);
-		s++;
-	}
-	return (1);
+	char	**env_to_sort;
+	int		len_env;
+
+	len_env = lst_len(env);
+	env_to_sort = malloc((len_env + 1) * sizeof(char *));
+	if (!env_to_sort)
+		return ;
+	if (!build_env_array(env_to_sort, env))
+		return (free_tab(env_to_sort));
+	order_tab(env_to_sort, len_env);
+	return ;
 }
 
 static void	export_var_no_value(t_msh *msh, char *arg)
