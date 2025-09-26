@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_program.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/26 03:11:14 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/26 16:07:25 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	repl(t_msh *msh, int tmp_fd)
 		if (reloop(msh, &process))
 		{
 			signal(SIGINT, sigint_silent_handler);
-			execute_all(msh, process);
+			execute_all(msh, process);				
 			signal(SIGINT, sigint_handler);
 		}
 		msh->data = NULL;
