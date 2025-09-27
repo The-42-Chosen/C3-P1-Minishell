@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/26 16:16:41 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/27 19:30:33 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static pid_t	execute_cmd(t_msh *msh, t_process *process)
 	return (pid);
 }
 
-static int	open_input(t_list *input, t_process *process)
+static int	open_input(t_msh *msh, t_list *input, t_process *process)
 {
 	t_inout	*in;
 	int		fds[2];
@@ -102,6 +102,7 @@ static int	open_input(t_list *input, t_process *process)
 			line = readline("> ");
 			while (ft_strcmp(line, in->file_or_limiter))
 			{
+				line = expand(msh, line);
 				write(fds[1], line, ft_strlen(line));
 				write(fds[1], "\n", 1);
 				free(line);
@@ -121,7 +122,7 @@ static int	open_input(t_list *input, t_process *process)
 		if (status > 0)
 			return (0);
 	}
-	return (open_input(input->next, process));
+	return (open_input(msh, input->next, process));
 }
 
 static int	open_output(t_list *output, t_list *next_process_input)
@@ -166,7 +167,7 @@ static void	execute(t_msh *msh, t_process *process)
 
 	if (!process)
 		return ;
-	if (!open_input(process->inputs, process))
+	if (!open_input(msh, process->inputs, process))
 		return ;
 	if (process->next)
 		open_output(process->outputs, process->next->inputs);
