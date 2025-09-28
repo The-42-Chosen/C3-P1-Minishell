@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:05:40 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/17 19:11:32 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/09/28 14:37:21 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int	bi_unset(t_msh *msh, char **av)
 {
 	int	i;
 
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
+		return (0);
 	i = 1;
 	while (av[i])
 	{

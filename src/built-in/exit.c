@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 16:34:10 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/24 14:40:35 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/28 14:34:39 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	bi_exit(t_msh *msh, char **argv)
 	int	argc;
 
 	argc = 0;
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
+		return (0);
 	ft_putendl_fd("exit", 1);
 	while (argv[argc])
 		argc++;
@@ -78,7 +80,7 @@ int	bi_exit(t_msh *msh, char **argv)
 	{
 		ft_fprintf(2, "Billyshell: exit: too many arguments\n");
 		msh->exit_code = 1;
-		exit(1);
+		exit(msh->exit_code);
 	}
 	exit(msh->exit_code);
 }

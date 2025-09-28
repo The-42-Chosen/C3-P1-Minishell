@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:04:02 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/26 03:30:41 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/28 14:37:05 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ int	bi_export(t_msh *msh, char **av)
 	int	i;
 
 	(void)msh;
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
+		return (0);
 	if (!av || !*av)
 		return (1);
 	i = 1;
