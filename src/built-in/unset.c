@@ -53,8 +53,6 @@ int	bi_unset(t_msh *msh, char **av)
 {
 	int	i;
 
-	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
-		return (0);
 	i = 1;
 	while (av[i])
 	{

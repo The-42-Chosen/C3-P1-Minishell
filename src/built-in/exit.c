@@ -62,8 +62,6 @@ int	bi_exit(t_msh *msh, char **argv)
 	int	argc;
 
 	argc = 0;
-	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
-		return (0);
 	ft_putendl_fd("exit", 1);
 	while (argv[argc])
 		argc++;

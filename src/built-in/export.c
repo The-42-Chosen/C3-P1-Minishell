@@ -83,8 +83,6 @@ int	bi_export(t_msh *msh, char **av)
 	int	i;
 
 	(void)msh;
-	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
-		return (0);
 	if (!av || !*av)
 		return (1);
 	i = 1;
