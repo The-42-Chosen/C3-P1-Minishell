@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/29 00:29:05 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/28 23:10:20 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,7 @@ bool					cd_folder(t_msh *msh, t_env *env, t_paths *paths,
 							char *folder);
 void					cd_get_paths(t_env *env, t_paths *paths);
 void					cd_update_env(t_env *env, t_paths *paths);
-void					cd_error(t_msh *msh, char *path);
+void					cd_error(t_msh *msh);
 int						bi_pwd(t_msh *msh, char **argv);
 int						bi_export(t_msh *msh, char **argv);
 bool					is_valid_identifier(char *s);

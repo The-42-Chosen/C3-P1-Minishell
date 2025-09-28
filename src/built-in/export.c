@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:04:02 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/29 00:19:35 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/28 23:27:21 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,7 @@ int	bi_export(t_msh *msh, char **av)
 		{
 			ft_fprintf(2, "Billyshell: export: `%s': not a valid identifier\n",
 				av[i]);
-			msh->exit_code = 1;
-			return (msh->exit_code);
+			return (msh->exit_code = 1, msh->exit_code);
 		}
 		i++;
 	}

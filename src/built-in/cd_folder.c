@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_folder.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 20:56:41 by ubuntu            #+#    #+#             */
-/*   Updated: 2025/09/29 00:33:45 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/28 23:29:30 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,10 @@ static char	*cd_absolute_path(t_msh *msh, t_paths *paths, char *folder)
 			cwd = getcwd(NULL, 0);
 			if (!cwd)
 			{
-				cd_error(msh, target_path);
-				return (NULL);
+				ft_fprintf(2, "Billyshell: chdir: error retrieving current "
+					"directory: getcwd: cannot access parent directories: "
+					"%s\n", strerror(errno));
+				return (msh->exit_code = 1, NULL);
 			}
 			free(cwd);
 			return (ft_fprintf(2,
@@ -77,7 +79,7 @@ static bool	cd_change_dir(t_msh *msh, t_env *env, t_paths *paths, char *path)
 	{
 		cwd = getcwd(NULL, 0);
 		if (!cwd)
-			return (free(path), cd_error(msh, path), false);
+			return (cd_error(msh), free(path), false);
 		free(cwd);
 		return (ft_fprintf(2,
 				"Billyshell: cd: error retrieving current directory\n"),
@@ -95,13 +97,11 @@ static bool	cd_check_folder(t_msh *msh, char *target_path)
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{
+		ft_fprintf(2, "Billyshell: chdir: error retrieving current directory: "
+			"getcwd: cannot access parent directories: %s\n", strerror(errno));
+		msh->exit_code = 1;
 		free(target_path);
-		{
-			cd_error(msh, target_path);
-			free(target_path);
-			msh->exit_code = 1;
-			return (false);
-		}
+		return (false);
 	}
 	free(cwd);
 	return (ft_fprintf(2, "Billyshell: cd: %s: No such file or directory\n",
