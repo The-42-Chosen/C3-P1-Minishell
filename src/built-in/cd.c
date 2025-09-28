@@ -6,7 +6,7 @@
 /*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:02:29 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/28 20:05:25 by ubuntu           ###   ########.fr       */
+/*   Updated: 2025/09/28 21:27:06 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,29 @@ void	cd_get_paths(t_env *env, t_paths *paths)
 void	cd_update_env(t_env *env, t_paths *paths)
 {
 	t_env	*tmp;
+	char	*old_pwd_value;
 
+	old_pwd_value = NULL;
 	tmp = env;
 	while (tmp)
 	{
 		if (strncmp(tmp->key, "PWD", 4) == 0 && tmp->key[3] == '\0')
 		{
-			free(paths->oldpwd);
-			paths->oldpwd = ft_strdup(tmp->value);
+			old_pwd_value = ft_strdup(tmp->value);
 			free(tmp->value);
 			tmp->value = ft_strdup(paths->pwd);
 		}
-		if (strncmp(tmp->key, "OLDPWD", 7) == 0 && tmp->key[6] == '\0')
-		{
-			free(tmp->value);
-			tmp->value = ft_strdup(paths->oldpwd);
-		}
 		tmp = tmp->next;
 	}
+	tmp = env;
+	while (tmp && strncmp(tmp->key, "OLDPWD", 7) != 0)
+		tmp = tmp->next;
+	if (tmp && tmp->key[6] == '\0')
+	{
+		free(tmp->value);
+		tmp->value = ft_strdup(old_pwd_value);
+	}
+	free(old_pwd_value);
 }
 
 int	bi_cd(t_msh *msh, char **av)
