@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_program.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/26 16:29:49 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/09/28 12:33:37 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	repl(t_msh *msh, int tmp_fd)
 	while (1)
 	{
 		check_signals(msh);
-		if (isatty(STDIN_FILENO))
+		if (isatty(STDOUT_FILENO))
 			msh->entry = readline("\033[1;92mBillyshell > \033[0m");
 		else
 			msh->entry = get_next_line(0);
