@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:04:02 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/28 14:37:05 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/29 00:19:35 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,10 @@ int	bi_export(t_msh *msh, char **av)
 	if (i == 1)
 		export_no_arg(msh->env);
 	else
+	{
+		if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
+			return (0);
 		export_update_env(msh, av);
+	}
 	return (0);
 }

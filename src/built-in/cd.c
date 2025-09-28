@@ -3,11 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/13 19:02:29 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/29 00:31:38 by ep               ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/09/29 00:40:22 by gpollast         ###   ########.fr       */
 /*                                                                            */
+/* ************************************************************************** */
+
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -81,6 +83,8 @@ int	bi_cd(t_msh *msh, char **av)
 {
 	int	i;
 
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
+		return (0);
 	i = 1;
 	while (av[i])
 		i++;

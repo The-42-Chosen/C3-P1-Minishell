@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 16:34:10 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/28 14:34:39 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/29 00:24:26 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	bi_exit(t_msh *msh, char **argv)
 {
 	int	argc;
 
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO))
+		return (0);
 	argc = 0;
 	ft_putendl_fd("exit", 1);
 	while (argv[argc])
