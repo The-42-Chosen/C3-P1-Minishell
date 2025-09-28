@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/26 14:13:06 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/09/28 15:11:14 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,7 @@ int	lexer(t_msh *msh)
 		msh->is_expandable = true;
 		word = read_entry(msh, msh->entry, &i);
 		if (!word)
-		{
-			if (msh->entry[i] == '\0')
-				break ;
 			return (0);
-		}
 		if (!process_word(msh, word))
 			return (0);
 	}
