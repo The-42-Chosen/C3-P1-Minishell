@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:02:46 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/28 20:27:42 by ubuntu           ###   ########.fr       */
+/*   Updated: 2025/09/29 00:35:55 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ int	bi_pwd(t_msh *msh, char **av)
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{
-		ft_fprintf(2,
-			"Billyshell: pwd: error retrieving current directory: getcwd: cannot access parent directories: %s\n",
-			strerror(errno));
+		ft_fprintf(2, "Billyshell: pwd: error retrieving current directory: ");
+		ft_fprintf(2, "getcwd: cannot access parent directories: ");
+		ft_fprintf(2, "No such file or directory\n");
 		return (1);
 	}
 	update_pwd_env(msh, cwd);

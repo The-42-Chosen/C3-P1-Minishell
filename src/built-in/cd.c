@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:02:29 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/28 21:27:06 by ubuntu           ###   ########.fr       */
+/*   Updated: 2025/09/29 00:31:38 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	cd_error(t_msh *msh, char *target_path)
+{
+	ft_fprintf(2, "Billyshell: cd: error retrieving current directory: ");
+	ft_fprintf(2, "getcwd: cannot access parent directories: ");
+	ft_fprintf(2, "No such file or directory\n");
+	free(target_path);
+	msh->exit_code = 1;
+}
 
 void	cd_get_paths(t_env *env, t_paths *paths)
 {

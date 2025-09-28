@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_folder.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 20:56:41 by ubuntu            #+#    #+#             */
-/*   Updated: 2025/09/28 21:04:05 by ubuntu           ###   ########.fr       */
+/*   Updated: 2025/09/29 00:33:45 by ep               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static char	*unify_path(t_paths *paths, char *folder)
 static char	*cd_absolute_path(t_msh *msh, t_paths *paths, char *folder)
 {
 	char	*target_path;
+	char	*cwd;
 
 	if (folder[0] == '/')
 		target_path = ft_strdup(folder);
@@ -45,21 +46,25 @@ static char	*cd_absolute_path(t_msh *msh, t_paths *paths, char *folder)
 		target_path = unify_path(paths, folder);
 		if (!target_path)
 		{
-			char	*cwd = getcwd(NULL, 0);
+			cwd = getcwd(NULL, 0);
 			if (!cwd)
-				return (ft_fprintf(2, "Billyshell: chdir: error retrieving current directory: getcwd: cannot access parent directories: %s\n", strerror(errno)),
-					msh->exit_code = 1, NULL);
+			{
+				cd_error(msh, target_path);
+				return (NULL);
+			}
 			free(cwd);
-			return (ft_fprintf(2, "Billyshell: cd: error retrieving current directory\n"),
+			return (ft_fprintf(2,
+					"Billyshell: cd: error retrieving current directory\n"),
 				msh->exit_code = 1, NULL);
 		}
 	}
 	return (target_path);
 }
 
-static bool	cd_change_dir(t_msh *msh, t_env *env, t_paths *paths, char *target_path)
+static bool	cd_change_dir(t_msh *msh, t_env *env, t_paths *paths, char *path)
 {
 	char	*real_path;
+	char	*cwd;
 
 	real_path = getcwd(NULL, 0);
 	if (real_path)
@@ -70,30 +75,33 @@ static bool	cd_change_dir(t_msh *msh, t_env *env, t_paths *paths, char *target_p
 	}
 	else
 	{
-		char	*cwd = getcwd(NULL, 0);
+		cwd = getcwd(NULL, 0);
 		if (!cwd)
-		{
-			free(target_path);
-			return (ft_fprintf(2, "Billyshell: chdir: error retrieving current directory: getcwd: cannot access parent directories: %s\n", strerror(errno)),
-				msh->exit_code = 1, false);
-		}
+			return (free(path), cd_error(msh, path), false);
 		free(cwd);
-		return (ft_fprintf(2, "Billyshell: cd: error retrieving current directory\n"),
+		return (ft_fprintf(2,
+				"Billyshell: cd: error retrieving current directory\n"),
 			msh->exit_code = 1, false);
 	}
-	free(target_path);
+	free(path);
 	cd_update_env(env, paths);
 	return (true);
 }
 
 static bool	cd_check_folder(t_msh *msh, char *target_path)
 {
-	char	*cwd = getcwd(NULL, 0);
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{
 		free(target_path);
-		return (ft_fprintf(2, "Billyshell: chdir: error retrieving current directory: getcwd: cannot access parent directories: %s\n", strerror(errno)),
-			msh->exit_code = 1, false);
+		{
+			cd_error(msh, target_path);
+			free(target_path);
+			msh->exit_code = 1;
+			return (false);
+		}
 	}
 	free(cwd);
 	return (ft_fprintf(2, "Billyshell: cd: %s: No such file or directory\n",
