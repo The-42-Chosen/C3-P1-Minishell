@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/29 02:45:42 by ubuntu           ###   ########.fr       */
+/*   Updated: 2025/09/29 10:41:38 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,11 @@ static char	**seek_group_cmd(t_msh *msh, t_stack **stack)
 	int		i;
 	t_stack	*tempo;
 
-	tempo = concatenate_stack(*stack);
-	nb_cmd = count_nb_cmd(&tempo);
-	group = setup_cmd(msh, tempo, nb_cmd);
+	tempo = *stack;
+	*stack = concatenate_stack(*stack);
 	stack_destroy(tempo);
+	nb_cmd = count_nb_cmd(stack);
+	group = setup_cmd(msh, *stack, nb_cmd);
 	if (!group)
 		return (NULL);
 	i = 0;
