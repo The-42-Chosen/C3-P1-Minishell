@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/27 19:30:33 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/29 02:37:19 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static void	close_inout(t_inout *inout)
 {
 	if (inout->fd > 1)
 		close(inout->fd);
+	// if (inout->unused_fd > 1)
+	// 	close(inout->unused_fd);
 }
 
 static void	dup_all_read(t_inout *inout)
@@ -184,6 +186,8 @@ static void	execute(t_msh *msh, t_process *process)
 		execute_builtin(msh, process);
 		dup2(cin, 0);
 		dup2(cout, 1);
+		close(cin);
+		close(cout);
 	}
 	ft_lstiter(process->inputs, (void (*)(void *))close_inout);
 	ft_lstiter(process->outputs, (void (*)(void *))close_inout);

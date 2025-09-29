@@ -6,7 +6,7 @@
 /*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/28 23:10:20 by ubuntu           ###   ########.fr       */
+/*   Updated: 2025/09/29 02:46:50 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,6 +252,12 @@ void					sigint_handler(int process);
 void					sigint_silent_handler(int signum);
 // FREE
 void					free_data(t_data *data);
+void					free_process(t_process *process);
+void					free_cmd(t_cmd *cmd);
+void					free_inout(void *content);
+void					free_msh(t_msh *msh);
+void					env_destroy(t_env *env);
+void					free_msh_builtins(t_msh *msh);
 void					ft_free(t_msh *msh);
 void					data_destroy(t_data *head);
 // UTILS
@@ -263,9 +269,5 @@ void					print_pre_exec(t_process *process);
 char					**string_array_concat(char **sa1, char **sa2);
 // EXEC
 void					execute_all(t_msh *msh, t_process *process);
-// FREE
-void					free_msh(t_msh *msh);
-void					env_destroy(t_env *env);
-void					free_msh_builtins(t_msh *msh);
 
 #endif

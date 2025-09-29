@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_program.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/29 00:33:00 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/29 02:37:49 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ static int	repl(t_msh *msh, int tmp_fd)
 			signal(SIGINT, sigint_silent_handler);
 			execute_all(msh, process);
 			signal(SIGINT, sigint_handler);
+			free_process(process);
 		}
+		free_data(msh->data);
+		stack_destroy(msh->stack);
 		msh->data = NULL;
 		msh->stack = NULL;
 		msh->nb_cmd = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:11:35 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/24 17:16:21 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/29 02:36:08 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,14 @@
 
 static t_list	*add_content_to_list(t_list **lst, char *content)
 {
+	t_list	*new_node;
+
 	if (!content)
 		return (ft_lstclear(lst, free), NULL);
-	ft_lstadd_back(lst, ft_lstnew(content));
+	new_node = ft_lstnew(content);
+	if (!new_node)
+		return (ft_lstclear(lst, free), free(content), NULL);
+	ft_lstadd_back(lst, new_node);
 	return (*lst);
 }
 
@@ -51,13 +56,13 @@ t_list	*split_env_var(char *s)
 		if (ft_strchr(ptr, '$'))
 		{
 			if (!process_var(&lst, &ptr))
-				return (NULL);
+				return (ft_lstclear(&lst, free), NULL);
 		}
 		else
 		{
 			content = ft_substr(ptr, 0, ft_strlen(ptr));
 			if (!add_content_to_list(&lst, content))
-				return (NULL);
+				return (ft_lstclear(&lst, free), NULL);
 			ptr = ptr + ft_strlen(ptr);
 		}
 	}

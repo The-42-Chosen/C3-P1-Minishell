@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inout.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 13:34:12 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/26 03:17:58 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/29 02:34:48 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_inout	*alloc_redir_inout(t_data *data)
 		return (NULL);
 	res->file_or_limiter = ft_strdup(data->file_or_limiter);
 	if (!res->file_or_limiter)
-		return (NULL);
+		return (free(res), NULL);
 	res->type = data->group;
 	return (res);
 }
