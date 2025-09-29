@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:10:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/26 14:38:52 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/29 17:24:25 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,38 @@ void	add_word_to_stack(t_msh *msh, char *word)
 	}
 }
 
+// t_stack	*copy_node_stack(t_stack *stack, char *s)
+// {
+// 	t_stack	*copy;
+
+// 	copy = calloc(1, sizeof(t_stack));
+// 	if (!copy)
+// 		return (NULL);
+// 	copy->content = ft_strdup(s);
+// 	if (!copy->content)
+// 		return (free(copy), NULL);
+// 	copy->is_append = stack->is_append;
+// 	copy->is_expandable = stack->is_expandable;
+// 	copy->sub_token = NULL;
+// 	return (copy);
+// }
+
 t_stack	*copy_node_stack(t_stack *stack, char *s)
 {
 	t_stack	*copy;
 
-	copy = new_stack(s);
+	copy = (t_stack *)ft_calloc(1, sizeof(*copy));
 	if (!copy)
-        return (NULL);
-	copy->is_append = stack->is_append;
-	copy->is_expandable = stack->is_expandable;
+		return (NULL);
+	if (s)
+	{
+		copy->content = ft_strdup(s);
+		if (!copy->content)
+		{
+			free(copy);
+			return (NULL);
+		}
+	}
 	copy->sub_token = stack->sub_token;
 	copy->token = stack->token;
 	copy->next = NULL;

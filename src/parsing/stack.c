@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 17:43:16 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/26 13:57:40 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/29 17:25:27 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,15 @@
 
 void	stack_destroy(t_stack *head)
 {
-	if (!head)
-		return ;
-	stack_destroy(head->next);
-	free(head->content);
-	free(head);
+	t_stack	*tmp;
+
+	while (head)
+	{
+		tmp = head->next;
+		free(head->content);
+		free(head);
+		head = tmp;
+	}
 }
 
 t_stack	*new_stack(char *content)
@@ -37,6 +41,7 @@ t_stack	*new_stack(char *content)
 		return (NULL);
 	}
 	new->next = NULL;
+	free(content);
 	return (new);
 }
 

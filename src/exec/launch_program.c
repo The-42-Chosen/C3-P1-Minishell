@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_program.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/29 02:37:49 by ubuntu           ###   ########.fr       */
+/*   Updated: 2025/09/29 18:19:40 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static int	repl(t_msh *msh, int tmp_fd)
 			free_process(process);
 		}
 		free_data(msh->data);
-		stack_destroy(msh->stack);
 		msh->data = NULL;
 		msh->stack = NULL;
 		msh->nb_cmd = 0;

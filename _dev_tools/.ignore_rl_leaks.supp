@@ -22,4 +22,6 @@
    obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.2
    fun:rl_initialize
    fun:readline
+   fun:grep
+   fun:ls
 }
