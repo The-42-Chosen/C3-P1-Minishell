@@ -16,6 +16,8 @@ void	stack_destroy(t_stack *head)
 {
 	t_stack	*tmp;
 
+	if (!head)
+		return ;
 	while (head)
 	{
 		tmp = head->next;

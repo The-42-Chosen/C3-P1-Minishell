@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 14:29:39 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/30 14:29:54 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:50:51 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,20 +58,4 @@ void	free_inout(void *content)
 	if (inout->file_or_limiter)
 		free(inout->file_or_limiter);
 	free(inout);
-}
-
-void	stack_destroy(t_stack *head)
-{
-	t_stack	*tmp;
-
-	if (!head)
-		return ;
-	while (head)
-	{
-		tmp = head->next;
-		if (head->content)
-			free(head->content);
-		free(head);
-		head = tmp;
-	}
 }
