@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/30 14:40:52 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:42:50 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ void					handle_word(char *s, int *i);
 char					*extract_word(t_msh *msh, char *s, int start, int end);
 // STACK UTILS
 void					print_stack(t_stack *s);
-void					add_word_to_stack(t_msh *msh, char *word);
+int						add_word_to_stack(t_msh *msh, char *word);
 t_stack					*stack_last(t_stack *s);
 // ADDING TO STACK
 void					fill_node(t_msh *msh, char *word);

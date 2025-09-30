@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/29 14:52:04 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/09/30 12:15:42 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,18 @@ char	*read_entry(t_msh *msh, char *s, int *i)
 
 static int	process_word(t_msh *msh, char *word)
 {
-	char	*expanded;
+	char	*tmp;
 
 	if (ft_strchr(word, '$') && msh->is_expandable == true)
 	{
-		expanded = expand(msh, word);
-		free(word);
-		word = expanded;
+		tmp = word;
+		word = expand(msh, word);
+		free(tmp);
 	}
 	if (!word)
 		return (0);
-	add_word_to_stack(msh, word);
-	// free(word);
+	if (!add_word_to_stack(msh, word))
+		return (0);	
 	return (1);
 }
 
@@ -83,7 +83,11 @@ int	lexer(t_msh *msh)
 		if (!word)
 			return (0);
 		if (!process_word(msh, word))
+		{
+			free(word);
 			return (0);
+		}
+		free(word);
 	}
 	if (!identify_token(msh))
 		return (0);

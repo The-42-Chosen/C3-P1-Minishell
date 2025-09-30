@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/26 03:20:27 by ep               ###   ########.fr       */
+/*   Updated: 2025/09/30 14:20:28 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	parse(t_msh *msh)
 			return (0);
 		tmp = tmp->next;
 	}
+	stack_destroy(msh->stack);
 	msh->nb_cmd = count_nb_cmd(msh->data);
 	return (1);
 }

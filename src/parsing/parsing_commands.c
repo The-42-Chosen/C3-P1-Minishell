@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/29 10:41:38 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:38:54 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_stack	*concatenate_stack(t_stack *stack)
 	tmp = stack;
 	while (tmp)
 	{
-		if (tmp->is_append == true)
+		if (tmp->is_append == true && tmp->next)
 		{
 			if (!s)
 				s = ft_strjoin(tmp->content, tmp->next->content);
