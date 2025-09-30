@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/30 17:21:53 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/30 18:24:00 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*read_entry(t_msh *msh, char *s, int *i)
 	else if (s[*i] == '\"' || s[*i] == '\'')
 	{
 		if (handle_quotes(s, i, s[*i]) == -1)
-			return (NULL);
+			return (msh->exit_code = 2, NULL);
 		if (s[*i] != 0 && !is_space(s[*i]))
 			msh->is_append = true;
 	}

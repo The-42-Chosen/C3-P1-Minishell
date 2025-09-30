@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/29 02:37:19 by ubuntu           ###   ########.fr       */
+/*   Updated: 2025/09/30 17:54:36 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,11 @@ static pid_t	execute_cmd(t_msh *msh, t_process *process)
 		return (0);
 	}
 	pid = fork();
+	if (pid == -1)
+	{
+		msh->exit_code = 1;
+		return (0);
+	}
 	if (pid == 0)
 	{
 		ft_lstiter(process->inputs, (void (*)(void *))dup_all_read);
@@ -90,13 +95,17 @@ static int	open_input(t_msh *msh, t_list *input, t_process *process)
 		{
 			ft_fprintf(2, "Billyshell: %s: No such file or directory\n",
 				in->file_or_limiter);
+			msh->exit_code = 1;
 			return (0);
 		}
 	}
 	if (in->type == G_REDIR_HEREDOC)
 	{
 		if (pipe(fds) == -1)
+		{
+			msh->exit_code = 1;
 			return (0);
+		}
 		pid = fork();
 		if (pid == 0)
 		{
@@ -117,7 +126,7 @@ static int	open_input(t_msh *msh, t_list *input, t_process *process)
 		waitpid(pid, &status, 0);
 		if (status == 139)
 			ft_fprintf(2,
-				"bash: warning: here-document at current line delimited by end-of-file (wanted `%s')\n\n",
+				"Billyshell: warning: here-document at current line delimited by end-of-file (wanted `%s')\n\n",
 				in->file_or_limiter);
 		close(fds[1]);
 		in->fd = fds[0];
@@ -127,7 +136,7 @@ static int	open_input(t_msh *msh, t_list *input, t_process *process)
 	return (open_input(msh, input->next, process));
 }
 
-static int	open_output(t_list *output, t_list *next_process_input)
+static int	open_output(t_msh *msh, t_list *output, t_list *next_process_input)
 {
 	t_inout	*out;
 	t_inout	*npi;
@@ -146,20 +155,24 @@ static int	open_output(t_list *output, t_list *next_process_input)
 		{
 			ft_fprintf(2, "Billyshell: %s: No such file or directory\n",
 				out->file_or_limiter);
+			msh->exit_code = 1;
 			return (0);
 		}
 	}
 	if (out->type == G_PIPE)
 	{
 		if (pipe(fds) == -1)
+		{
+			msh->exit_code = 1;
 			return (0);
+		}
 		npi = (t_inout *)next_process_input->content;
 		npi->fd = fds[0];
 		npi->unused_fd = fds[1];
 		out->fd = fds[1];
 		out->unused_fd = fds[0];
 	}
-	return (open_output(output->next, next_process_input));
+	return (open_output(msh, output->next, next_process_input));
 }
 
 static void	execute(t_msh *msh, t_process *process)
@@ -172,9 +185,9 @@ static void	execute(t_msh *msh, t_process *process)
 	if (!open_input(msh, process->inputs, process))
 		return ;
 	if (process->next)
-		open_output(process->outputs, process->next->inputs);
+		open_output(msh, process->outputs, process->next->inputs);
 	else
-		open_output(process->outputs, NULL);
+		open_output(msh, process->outputs, NULL);
 	if (process->cmd.builtin_type == BI_NONE)
 		process->pid = execute_cmd(msh, process);
 	else
@@ -197,13 +210,20 @@ static void	execute(t_msh *msh, t_process *process)
 void	execute_all(t_msh *msh, t_process *process)
 {
 	t_process	*head;
+	int			status;
 
 	execute(msh, process);
 	head = process;
 	while (head)
 	{
 		if (head->pid)
-			waitpid(head->pid, &msh->exit_code, 0);
+		{
+			waitpid(head->pid, &status, 0);
+			if (WIFEXITED(status))
+				msh->exit_code = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				msh->exit_code = 128 + WTERMSIG(status);
+		}
 		head = head->next;
 	}
 }

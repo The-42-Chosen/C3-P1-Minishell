@@ -105,5 +105,6 @@ int	bi_env(t_msh *msh, char **av)
 			printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
+	msh->exit_code = 0;
 	return (0);
 }

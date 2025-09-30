@@ -92,11 +92,20 @@ int	bi_cd(t_msh *msh, char **av)
 	}
 	cd_get_paths(msh->env, &msh->paths);
 	if (i == 1 || (ft_strncmp(av[1], "~", 1) == 0 && av[1][1] == '\0'))
-		cd_home(msh, msh->env, &msh->paths);
+	{
+		if (cd_home(msh, msh->env, &msh->paths))
+			msh->exit_code = 0;
+	}
 	else if (ft_strncmp(av[1], "-", 1) == 0 && av[1][1] == '\0')
-		cd_oldpwd(msh, msh->env, &msh->paths);
+	{
+		if (cd_oldpwd(msh, msh->env, &msh->paths))
+			msh->exit_code = 0;
+	}
 	else
-		cd_folder(msh, msh->env, &msh->paths, av[1]);
+	{
+		if (cd_folder(msh, msh->env, &msh->paths, av[1]))
+			msh->exit_code = 0;
+	}
 	free(msh->paths.home);
 	free(msh->paths.pwd);
 	free(msh->paths.oldpwd);

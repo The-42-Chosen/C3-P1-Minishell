@@ -58,8 +58,16 @@ int	bi_unset(t_msh *msh, char **av)
 	i = 1;
 	while (av[i])
 	{
+		if (!is_valid_identifier(av[i]))
+		{
+			ft_fprintf(2, "Billyshell: unset: `%s': not a valid identifier\n",
+				av[i]);
+			msh->exit_code = 1;
+			return (1);
+		}
 		unset_variable(msh, av[i]);
 		i++;
 	}
+	msh->exit_code = 0;
 	return (0);
 }

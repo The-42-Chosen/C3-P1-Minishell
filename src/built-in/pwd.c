@@ -40,10 +40,12 @@ int	bi_pwd(t_msh *msh, char **av)
 		ft_fprintf(2, "Billyshell: pwd: error retrieving current directory: ");
 		ft_fprintf(2, "getcwd: cannot access parent directories: ");
 		ft_fprintf(2, "No such file or directory\n");
+		msh->exit_code = 1;
 		return (1);
 	}
 	update_pwd_env(msh, cwd);
 	ft_fprintf(1, "%s\n", cwd);
 	free(cwd);
+	msh->exit_code = 0;
 	return (0);
 }

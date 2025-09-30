@@ -104,5 +104,6 @@ int	bi_export(t_msh *msh, char **av)
 			return (0);
 		export_update_env(msh, av);
 	}
+	msh->exit_code = 0;
 	return (0);
 }
