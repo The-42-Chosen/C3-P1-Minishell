@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/30 18:24:00 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/09/30 23:06:47 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ char	*read_entry(t_msh *msh, char *s, int *i)
 	return (extract_word(msh, s, start, *i));
 }
 
-static int	process_word(t_msh *msh, char *word)
+static int	process_word(t_msh *msh, char *word, int flag)
 {
 	char	*expanded;
 	int		ret;
 
 	if (!word)
 		return (0);
-	if (ft_strchr(word, '$') && msh->is_expandable == true)
+	if (ft_strchr(word, '$') && msh->is_expandable == true && !flag)
 	{
 		expanded = expand(msh, word);
 		if (!expanded)
@@ -73,10 +73,12 @@ int	lexer(t_msh *msh)
 {
 	int		i;
 	char	*word;
+	int		flag;
 
 	if (!msh->entry)
 		return (0);
 	i = 0;
+	flag = 0;
 	word = NULL;
 	while (msh->entry[i])
 	{
@@ -85,11 +87,13 @@ int	lexer(t_msh *msh)
 		word = read_entry(msh, msh->entry, &i);
 		if (!word)
 			return (0);
-		if (!process_word(msh, word))
+		if (!process_word(msh, word, flag))
 		{
 			free(word);
 			return (0);
 		}
+		if (!ft_strcmp(word, "<<"))
+			flag = 1;
 		free(word);
 	}
 	if (!word)

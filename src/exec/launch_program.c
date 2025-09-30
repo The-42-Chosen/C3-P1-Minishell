@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/30 14:43:37 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/30 19:20:17 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,22 @@ static int	reloop(t_msh *msh, t_process **process)
 		return (0);
 	}
 	if (!parse(msh))
+	{
 		return (0);
+	}
 	*process = pre_exec(msh);
 	return (1);
+}
+
+static char	*clean_entry(char *entry)
+{
+	char	*res;
+
+	if (!entry)
+		return (NULL);
+	res = ft_strtrim(entry, " \f\t\n\r\v");
+	free(entry);
+	return (res);
 }
 
 static int	repl(t_msh *msh)
@@ -56,8 +69,10 @@ static int	repl(t_msh *msh)
 			msh->entry = get_next_line(0);
 		if (!msh->entry && is_eof())
 			break ;
-		else
-			update_history(msh);
+		update_history(msh);
+		msh->entry = clean_entry(msh->entry);
+		if (!msh->entry) // DON'T TOUCH
+			break ;
 		if (reloop(msh, &process))
 		{
 			signal(SIGINT, sigint_silent_handler);
@@ -72,6 +87,8 @@ static int	repl(t_msh *msh)
 		msh->nb_cmd = 0;
 		free(msh->entry);
 	}
+	if (!isatty(STDOUT_FILENO))
+		close(STDOUT_FILENO);
 	return (1);
 }
 
