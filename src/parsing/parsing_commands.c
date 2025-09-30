@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/30 18:04:44 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/30 18:27:25 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,42 +27,42 @@ static int	count_nb_cmd(t_stack **stack)
 	return (nb_cmd);
 }
 
-// t_stack	*concatenate_stack(t_stack *stack)
-// {
-// 	t_stack	*tmp;
-// 	t_stack	*new;
-// 	char	*tmp_s;
-// 	char	*s;
+t_stack	*concatenate_stack(t_stack *stack)
+{
+	t_stack	*tmp;
+	t_stack	*new;
+	char	*tmp_s;
+	char	*s;
 
-// 	new = NULL;
-// 	s = NULL;
-// 	tmp_s = NULL;
-// 	tmp = stack;
-// 	while (tmp)
-// 	{
-// 		if (tmp->is_append == true && tmp->next)
-// 		{
-// 			if (!s)
-// 				s = ft_strjoin(tmp->content, tmp->next->content);
-// 			else
-// 			{
-// 				tmp_s = s;
-// 				s = ft_strjoin(s, tmp->next->content);
-// 				free(tmp_s);
-// 			}
-// 			if (tmp->next->is_append == false)
-// 			{
-// 				stack_add_back(&new, copy_node_stack(tmp, s));
-// 				free(s);
-// 				tmp = tmp->next;
-// 			}
-// 		}
-// 		else
-// 			stack_add_back(&new, copy_node_stack(tmp, tmp->content));
-// 		tmp = tmp->next;
-// 	}
-// 	return (new);
-// }
+	new = NULL;
+	s = NULL;
+	tmp_s = NULL;
+	tmp = stack;
+	while (tmp)
+	{
+		if (tmp->is_append == true && tmp->next)
+		{
+			if (!s)
+				s = ft_strjoin(tmp->content, tmp->next->content);
+			else
+			{
+				tmp_s = s;
+				s = ft_strjoin(s, tmp->next->content);
+				free(tmp_s);
+			}
+			if (tmp->next->is_append == false)
+			{
+				stack_add_back(&new, copy_node_stack(tmp, s));
+				free(s);
+				tmp = tmp->next;
+			}
+		}
+		else
+			stack_add_back(&new, copy_node_stack(tmp, tmp->content));
+		tmp = tmp->next;
+	}
+	return (new);
+}
 
 static char	**setup_cmd(t_msh *msh, t_stack *stack, int nb_cmd)
 {
@@ -95,16 +95,15 @@ static char	**setup_cmd(t_msh *msh, t_stack *stack, int nb_cmd)
 	return (group);
 }
 
-static char	**seek_group_cmd(t_msh *msh, t_stack **stack)
+static char	**seek_group_cmd(t_msh *msh, t_stack **stack, t_stack **head)
 {
 	int		nb_cmd;
 	char	**group;
 	int		i;
-	// t_stack	*tempo;
 
-	// tempo = *stack;
-	// *stack = concatenate_stack(*stack);
-	// stack_destroy(tempo);
+	*stack = concatenate_stack(*stack);
+	stack_destroy(*head);
+	*head = *stack;
 	nb_cmd = count_nb_cmd(stack);
 	group = setup_cmd(msh, *stack, nb_cmd);
 	if (!group)
@@ -118,9 +117,9 @@ static char	**seek_group_cmd(t_msh *msh, t_stack **stack)
 	return (group);
 }
 
-int	add_command_node(t_msh *msh, t_stack **tmp, t_data *new_node)
+int	add_command_node(t_msh *msh, t_stack **tmp, t_data *new_node, t_stack **head)
 {
-	new_node->cmd.args = seek_group_cmd(msh, tmp);
+	new_node->cmd.args = seek_group_cmd(msh, tmp, head);
 	if (!new_node->cmd.args)
 		return (0);
 	new_node->group = G_CMD;

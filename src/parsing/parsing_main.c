@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/30 17:56:33 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/30 18:28:32 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	check_next_token_for_redir(t_msh *msh, t_stack *stack, t_token t)
 	return (1);
 }
 
-static int	add_node(t_msh *msh, t_stack **tmp)
+static int	add_node(t_msh *msh, t_stack **tmp, t_stack **head)
 {
 	t_data	*new_node;
 
@@ -45,7 +45,7 @@ static int	add_node(t_msh *msh, t_stack **tmp)
 	}
 	else if ((*tmp)->token == WORD)
 	{
-		if (!add_command_node(msh, tmp, new_node))
+		if (!add_command_node(msh, tmp, new_node, head))
 		{
 			data_destroy(new_node);
 			return (0);
@@ -82,7 +82,7 @@ int	parse(t_msh *msh)
 	{
 		if (!check_next_token_for_redir(msh, tmp, REDIR))
 			return (0);
-		if (!add_node(msh, &tmp))
+		if (!add_node(msh, &tmp, &msh->stack))
 			return (0);
 		tmp = tmp->next;
 	}
