@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/29 02:46:50 by ubuntu           ###   ########.fr       */
+/*   Updated: 2025/09/30 14:40:52 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 # include "libft.h"
 # include <errno.h>
 # include <fcntl.h>
-# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
+# include <stdio.h>
 # include <string.h>
 # include <term.h>
 
@@ -251,6 +251,7 @@ bool					is_eof(void);
 void					sigint_handler(int process);
 void					sigint_silent_handler(int signum);
 // FREE
+void					free_null(void *ptr);
 void					free_data(t_data *data);
 void					free_process(t_process *process);
 void					free_cmd(t_cmd *cmd);

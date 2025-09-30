@@ -1,62 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   free_part_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/26 16:34:38 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/29 02:27:57 by ubuntu           ###   ########.fr       */
+/*   Created: 2025/09/30 14:29:39 by erpascua          #+#    #+#             */
+/*   Updated: 2025/09/30 14:29:54 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	env_destroy(t_env *env)
-{
-	t_env	*tmp;
-	t_env	*next;
-
-	while (env)
-	{
-		tmp = env;
-		next = env->next;
-		free(tmp->key);
-		free(tmp->value);
-		free(tmp);
-		env = next;
-	}
-}
-
-void	free_msh(t_msh *msh)
-{
-	free_data(msh->data);
-	free(msh->entry);
-	free(msh->history);
-	stack_destroy(msh->stack);
-	env_destroy(msh->env);
-}
-
-void	free_msh_builtins(t_msh *msh)
-{
-	int	i;
-
-	i = 0;
-	while (i < NB_BUILTINS)
-	{
-		free(msh->builtin_names[i]);
-		i++;
-	}
-}
-
-void	free_cmd(t_cmd *cmd)
-{
-	if (!cmd)
-		return ;
-	if (cmd->args)
-		free_tab(cmd->args);
-	free(cmd->path);
-}
 
 void	free_data(t_data *data)
 {
@@ -68,7 +22,8 @@ void	free_data(t_data *data)
 		tmp = data;
 		next = data->next;
 		free_cmd(&tmp->cmd);
-		free(tmp->file_or_limiter);
+		if (tmp->file_or_limiter)
+			free(tmp->file_or_limiter);
 		free(tmp);
 		data = next;
 	}
@@ -84,8 +39,10 @@ void	free_process(t_process *process)
 		tmp = process;
 		next = process->next;
 		free_cmd(&tmp->cmd);
-		ft_lstclear(&tmp->inputs, free_inout);
-		ft_lstclear(&tmp->outputs, free_inout);
+		if (tmp->inputs)
+			ft_lstclear(&tmp->inputs, free_inout);
+		if (tmp->outputs)
+			ft_lstclear(&tmp->outputs, free_inout);
 		free(tmp);
 		process = next;
 	}
@@ -98,7 +55,23 @@ void	free_inout(void *content)
 	if (!content)
 		return ;
 	inout = (t_inout *)content;
-	free(inout->file_or_limiter);
+	if (inout->file_or_limiter)
+		free(inout->file_or_limiter);
 	free(inout);
 }
 
+void	stack_destroy(t_stack *head)
+{
+	t_stack	*tmp;
+
+	if (!head)
+		return ;
+	while (head)
+	{
+		tmp = head->next;
+		if (head->content)
+			free(head->content);
+		free(head);
+		head = tmp;
+	}
+}
