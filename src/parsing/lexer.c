@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/30 12:15:42 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/09/30 17:21:53 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,21 @@ char	*read_entry(t_msh *msh, char *s, int *i)
 
 static int	process_word(t_msh *msh, char *word)
 {
-	char	*tmp;
+	char	*expanded;
+	int		ret;
 
-	if (ft_strchr(word, '$') && msh->is_expandable == true)
-	{
-		tmp = word;
-		word = expand(msh, word);
-		free(tmp);
-	}
 	if (!word)
 		return (0);
-	if (!add_word_to_stack(msh, word))
-		return (0);	
-	return (1);
+	if (ft_strchr(word, '$') && msh->is_expandable == true)
+	{
+		expanded = expand(msh, word);
+		if (!expanded)
+			return (0);
+		ret = add_word_to_stack(msh, expanded);
+		free(expanded);
+		return (ret);
+	}
+	return (add_word_to_stack(msh, word));
 }
 
 int	lexer(t_msh *msh)
@@ -75,6 +77,7 @@ int	lexer(t_msh *msh)
 	if (!msh->entry)
 		return (0);
 	i = 0;
+	word = NULL;
 	while (msh->entry[i])
 	{
 		msh->is_append = false;
@@ -89,6 +92,8 @@ int	lexer(t_msh *msh)
 		}
 		free(word);
 	}
+	if (!word)
+		printf("OK\n");
 	if (!identify_token(msh))
 		return (0);
 	return (1);
