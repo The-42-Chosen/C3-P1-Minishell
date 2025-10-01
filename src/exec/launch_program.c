@@ -3,29 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   launch_program.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/01 15:02:50 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/01 20:40:15 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	check_signals(t_msh *msh)
-{
-	if (g_received_signal == SIGINT)
-	{
-		msh->exit_code = 130;
-		g_received_signal = 0;
-	}
-}
-
-void	update_history(t_msh *msh)
-{
-	add_history(msh->entry);
-	append_history(1, msh->history);
-}
 
 static int	reloop(t_msh *msh, t_process **process)
 {
@@ -43,23 +28,28 @@ static int	reloop(t_msh *msh, t_process **process)
 	return (1);
 }
 
-static char	*clean_entry(char *entry)
+static void	launch_exec(t_msh *msh, t_process **process)
 {
-	char	*res;
+	signal(SIGINT, sigint_silent_handler);
+	execute_all(msh, *process);
+	signal(SIGINT, sigint_handler);
+	free_process(*process);
+}
 
-	if (!entry)
-		return (NULL);
-	res = ft_strtrim(entry, " \f\t\n\r\v");
-	free(entry);
-	return (res);
+static void	cleanup_loop_data(t_msh *msh)
+{
+	if (msh->data)
+		free_data(msh->data);
+	msh->data = NULL;
+	msh->stack = NULL;
+	msh->nb_cmd = 0;
+	free(msh->entry);
 }
 
 static int	repl(t_msh *msh)
 {
 	t_process	*process;
 
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, sigint_handler);
 	while (1)
 	{
 		check_signals(msh);
@@ -71,21 +61,11 @@ static int	repl(t_msh *msh)
 			break ;
 		update_history(msh);
 		msh->entry = clean_entry(msh->entry);
-		if (!msh->entry) // DON'T TOUCH
+		if (!msh->entry)
 			break ;
 		if (reloop(msh, &process))
-		{
-			signal(SIGINT, sigint_silent_handler);
-			execute_all(msh, process);
-			signal(SIGINT, sigint_handler);
-			free_process(process);
-		}
-		if (msh->data)
-			free_data(msh->data);
-		msh->data = NULL;
-		msh->stack = NULL;
-		msh->nb_cmd = 0;
-		free(msh->entry);
+			launch_exec(msh, &process);
+		cleanup_loop_data(msh);
 	}
 	if (!isatty(STDOUT_FILENO))
 		close(STDOUT_FILENO);
@@ -97,6 +77,8 @@ int	launch_program(t_msh *msh)
 	int	result;
 
 	read_history(msh->history);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, sigint_handler);
 	result = repl(msh);
 	if (result)
 	{

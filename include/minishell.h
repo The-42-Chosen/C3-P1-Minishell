@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/01 17:55:18 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/01 20:36:05 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,7 @@ char					*cmd_path(t_msh *msh, char *cmd);
 int						set_up_path(t_msh *msh, t_data *data);
 int						add_redir_node(t_msh *msh, t_stack **tmp,
 							t_data *new_node);
+t_stack					*concatenate_stack(t_stack *stack);
 t_data					*init_data_node(t_msh *msh);
 t_data					*data_add_back(t_data *data, t_data *new);
 t_process				*pre_exec(t_msh *msh);
@@ -269,7 +270,12 @@ void					print_data(t_msh *msh);
 void					print_pre_exec(t_process *process);
 char					**string_array_concat(char **sa1, char **sa2);
 // EXEC
-int 					open_output(t_msh *msh, t_list *output, t_list *next_process_input);
+int						open_output(t_msh *msh, t_list *output,
+							t_list *next_process_input);
 void					execute_all(t_msh *msh, t_process *process);
+// EXEC UTILS
+void					check_signals(t_msh *msh);
+char					*clean_entry(char *entry);
+void					update_history(t_msh *msh);
 
 #endif

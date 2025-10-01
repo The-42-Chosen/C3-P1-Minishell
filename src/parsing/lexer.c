@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/01 17:20:32 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/01 19:38:52 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	read_quotes(t_msh *msh, char *s, int *i)
+{
+	if (handle_quotes(s, i, s[*i]) == -1)
+	{
+		msh->exit_code = 2;
+		return (-1);
+	}
+	if (s[*i] != 0 && !is_space(s[*i]))
+		msh->is_append = true;
+	return (0);
+}
+
+static int	read_syntax_errors(t_msh *msh, char *s, int *i)
+{
+	if (is_operator(s[*i]))
+		return (msh->exit_code = 2, ft_fprintf(2,
+				"Billyshell: syntax error `%c'\n", s[*i]), 0);
+	else if (is_pipe(s[*i]) && is_pipe(s[*i + 1]))
+		return (msh->exit_code = 2, ft_fprintf(2,
+				"Billyshell: syntax error `%c%c'\n", s[*i], s[*i + 1]), 0);
+	else if (s[*i] == '(' || s[*i] == ')')
+		return (msh->exit_code = 2, ft_fprintf(2,
+				"Billyshell: syntax error `%c'\n", s[*i]), 0);
+	return (1);
+}
 
 char	*read_entry(t_msh *msh, char *s, int *i)
 {
@@ -23,21 +49,12 @@ char	*read_entry(t_msh *msh, char *s, int *i)
 	start = *i;
 	if (is_redirection(s[*i]))
 		check_redirection(s, i);
-	else if (is_operator(s[*i]))
-		return (msh->exit_code = 2, ft_fprintf(2,
-				"Billyshell: syntax error `%c'\n", s[*i]), NULL);
-	else if (is_pipe(s[*i]) && is_pipe(s[*i + 1]))
-		return (msh->exit_code = 2, ft_fprintf(2,
-				"Billyshell: syntax error `%c%c'\n", s[*i], s[*i + 1]), NULL);
-	else if (s[*i] == '(' || s[*i] == ')')
-		return (msh->exit_code = 2, ft_fprintf(2,
-				"Billyshell: syntax error `%c'\n", s[*i]), NULL);
+	else if (!read_syntax_errors(msh, s, i))
+		return (NULL);
 	else if (s[*i] == '\"' || s[*i] == '\'')
 	{
-		if (handle_quotes(s, i, s[*i]) == -1)
-			return (msh->exit_code = 2, NULL);
-		if (s[*i] != 0 && !is_space(s[*i]))
-			msh->is_append = true;
+		if (read_quotes(msh, s, i) == -1)
+			return (NULL);
 	}
 	else
 	{
@@ -88,16 +105,11 @@ int	lexer(t_msh *msh)
 		if (!word)
 			return (0);
 		if (!process_word(msh, word, flag))
-		{
-			free(word);
-			return (0);
-		}
+			return (free(word), 0);
 		if (!ft_strcmp(word, "<<"))
 			flag = 1;
 		free(word);
 	}
-	if (!word)
-		printf("OK\n");
 	if (!identify_token(msh))
 		return (0);
 	return (1);
