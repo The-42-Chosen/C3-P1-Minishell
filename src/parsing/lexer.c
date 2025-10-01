@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/30 23:06:47 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:20:17 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int	lexer(t_msh *msh)
 		word = read_entry(msh, msh->entry, &i);
 		if (!word)
 			return (0);
+		printf("|%s|\n", word);
 		if (!process_word(msh, word, flag))
 		{
 			free(word);

@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 09:18:27 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/28 14:12:07 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:37:31 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 static int	cmd_copy(t_data *data, t_cmd *copy)
 {
 	char	**tmp;
-	
+
 	tmp = NULL;
 	if (!copy->args)
 	{
-		ft_memcpy(copy, &data->cmd, sizeof(t_cmd)); 
+		ft_memcpy(copy, &data->cmd, sizeof(t_cmd));
 		if (data->cmd.path)
 		{
 			copy->path = ft_strdup(data->cmd.path);

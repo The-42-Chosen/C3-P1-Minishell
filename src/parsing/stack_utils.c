@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:10:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/30 12:30:33 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/01 15:01:40 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,45 +32,29 @@ void	print_stack(t_stack *s)
 
 int	add_word_to_stack(t_msh *msh, char *word)
 {
-    t_stack	*tmp;
+	t_stack	*tmp;
 
-    if (!msh->stack)
-    {
-        msh->stack = new_stack(word);
-        if (!msh->stack)
-            return (0);
-        if (msh->is_append == true)
-            msh->stack->is_append = true;
-        msh->stack->is_expandable = msh->is_expandable;
-    }
-    else
-    {
-        tmp = new_stack(word);
-        if (!tmp)
-            return (0);
-        if (msh->is_append == true)
-            tmp->is_append = true;
-        tmp->is_expandable = msh->is_expandable;
-        stack_add_back(&msh->stack, tmp);
-    }
-    return (1);
+	if (!msh->stack)
+	{
+		msh->stack = new_stack(word);
+		if (!msh->stack)
+			return (0);
+		if (msh->is_append == true)
+			msh->stack->is_append = true;
+		msh->stack->is_expandable = msh->is_expandable;
+	}
+	else
+	{
+		tmp = new_stack(word);
+		if (!tmp)
+			return (0);
+		if (msh->is_append == true)
+			tmp->is_append = true;
+		tmp->is_expandable = msh->is_expandable;
+		stack_add_back(&msh->stack, tmp);
+	}
+	return (1);
 }
-
-// t_stack	*copy_node_stack(t_stack *stack, char *s)
-// {
-// 	t_stack	*copy;
-
-// 	copy = calloc(1, sizeof(t_stack));
-// 	if (!copy)
-// 		return (NULL);
-// 	copy->content = ft_strdup(s);
-// 	if (!copy->content)
-// 		return (free(copy), NULL);
-// 	copy->is_append = stack->is_append;
-// 	copy->is_expandable = stack->is_expandable;
-// 	copy->sub_token = NULL;
-// 	return (copy);
-// }
 
 t_stack	*copy_node_stack(t_stack *stack, char *s)
 {

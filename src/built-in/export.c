@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:04:02 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/28 23:27:21 by ubuntu           ###   ########.fr       */
+/*   Updated: 2025/10/01 16:40:06 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,5 @@ int	bi_export(t_msh *msh, char **av)
 			return (0);
 		export_update_env(msh, av);
 	}
-	msh->exit_code = 0;
-	return (0);
+	return (msh->exit_code = 0, 0);
 }
