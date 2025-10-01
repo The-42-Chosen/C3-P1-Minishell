@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 09:18:27 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/01 16:37:31 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/01 17:17:10 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	cmd_copy(t_data *data, t_cmd *copy)
 	return (1);
 }
 
-t_process	*pre_exec(t_msh *msh)
+static t_process	*create_processes(t_msh *msh)
 {
 	t_data		*data;
 	t_process	*process;
@@ -52,11 +52,8 @@ t_process	*pre_exec(t_msh *msh)
 	head = process;
 	while (data)
 	{
-		if (data->group == G_CMD)
-		{
-			if (!cmd_copy(data, &head->cmd))
-				return (NULL);
-		}
+		if (data->group == G_CMD && !cmd_copy(data, &head->cmd))
+			return (NULL);
 		if (data->group == G_PIPE)
 		{
 			ft_lstadd_back(&head->outputs, ft_lstnew(alloc_pipe_inout()));
@@ -66,6 +63,14 @@ t_process	*pre_exec(t_msh *msh)
 		}
 		data = data->next;
 	}
+	return (process);
+}
+
+static void	add_redirections(t_process *process, t_msh *msh)
+{
+	t_data		*data;
+	t_process	*head;
+
 	head = process;
 	data = msh->data;
 	while (data)
@@ -78,5 +83,15 @@ t_process	*pre_exec(t_msh *msh)
 			head = head->next;
 		data = data->next;
 	}
+}
+
+t_process	*pre_exec(t_msh *msh)
+{
+	t_process	*process;
+
+	process = create_processes(msh);
+	if (!process)
+		return (NULL);
+	add_redirections(process, msh);
 	return (process);
 }
