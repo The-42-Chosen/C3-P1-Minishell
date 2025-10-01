@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/30 23:06:03 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/01 10:53:54 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static void	close_inout(t_inout *inout)
 {
 	if (inout->fd > 1)
 		close(inout->fd);
-	if (inout->unused_fd > 1)
-		close(inout->unused_fd);
+	// if (inout->unused_fd > 1)
+	// 	close(inout->unused_fd);
 }
 
 static void	dup_all_read(t_inout *inout)
