@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/02 20:33:51 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/02 20:43:58 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	execute_all(t_msh *msh, t_process *process)
 	int			status;
 	int			sig_num;
 
-	print_pre_exec(process);
+	// print_pre_exec(process);
 	execute(msh, process);
 	head = process;
 	while (head)

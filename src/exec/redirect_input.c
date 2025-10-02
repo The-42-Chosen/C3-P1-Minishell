@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_input.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:37:19 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/02 18:31:42 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/02 21:43:12 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	heredoc_child(t_msh *msh, t_inout *in, t_process *process, int *fds)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_IGN);
 	line = readline("> ");
-	while (ft_strcmp(line, in->file_or_limiter))
+	while (line && ft_strcmp(line, in->file_or_limiter))
 	{
 		line = expand(msh, line);
 		write(fds[1], line, ft_strlen(line));
@@ -35,7 +35,7 @@ static void	heredoc_child(t_msh *msh, t_inout *in, t_process *process, int *fds)
 	free_process(process);
 	close(fds[0]);
 	close(fds[1]);
-	exit(0);
+	exit(line == NULL);
 }
 
 static int	handle_heredoc(t_msh *msh, t_inout *in, t_process *process)
@@ -53,15 +53,13 @@ static int	handle_heredoc(t_msh *msh, t_inout *in, t_process *process)
 	if (pid == 0)
 		heredoc_child(msh, in, process, fds);
 	waitpid(pid, &status, 0);
-	if (status == 139)
+	if (status > 0)
 		ft_fprintf(2,
 			"Billyshell: warning: here-document at current line delimited "
-			"by end-of-file (wanted `%s')\n\n",
+			"by end-of-file (wanted `%s')\n",
 			in->file_or_limiter);
 	close(fds[1]);
 	in->fd = fds[0];
-	if (status > 0)
-		return (0);
 	return (1);
 }
 

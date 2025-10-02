@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:40:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/02 17:23:30 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/02 21:03:42 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ void	cleanup_inout_fds(t_list *lst)
 	if (!lst)
 		return ;
 	inout = lst->content;
-	close(inout->fd);
-	close(inout->unused_fd);
+	if (inout->fd > 1)
+		close(inout->fd);
+	if (inout->unused_fd > 1)
+		close(inout->unused_fd);
 	cleanup_inout_fds(lst->next);
 }
 
