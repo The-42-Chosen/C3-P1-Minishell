@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/01 19:38:52 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/02 20:15:07 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*read_entry(t_msh *msh, char *s, int *i)
 	else
 	{
 		handle_word(s, i);
-		if (s[*i] != 0 && !is_space(s[*i]))
+		if (s[*i] == '\"' && s[*i] == '\'')
 			msh->is_append = true;
 	}
 	if (*i == start)
