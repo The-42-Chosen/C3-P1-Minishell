@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 17:07:49 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/23 16:23:17 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/02 11:49:51 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,6 @@ bool	execute_builtin(t_msh *msh, t_process *process)
 	av = process->cmd.args;
 	if (!av || !av[0])
 		return (0);
-	msh->builtin_funcs[process->cmd.builtin_type](msh, av);
+	msh->builtin_funcs[process->cmd.builtin_type](msh, process, av);
 	return (1);
 }

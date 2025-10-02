@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/01 17:54:35 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/02 11:58:33 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,8 @@ void	execute_all(t_msh *msh, t_process *process)
 			else if (WIFSIGNALED(status))
 				msh->exit_code = 128 + WTERMSIG(status);
 		}
+		else
+			msh->exit_code = head->bi_exit_code;
 		head = head->next;
 	}
 }

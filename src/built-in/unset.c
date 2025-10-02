@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:05:40 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/29 00:18:51 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/02 12:04:30 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	unset_variable(t_msh *msh, char *var_name)
 	}
 }
 
-int	bi_unset(t_msh *msh, char **av)
+int	bi_unset(t_msh *msh, t_process *process, char **av)
 {
 	int	i;
 
@@ -62,12 +62,12 @@ int	bi_unset(t_msh *msh, char **av)
 		{
 			ft_fprintf(2, "Billyshell: unset: `%s': not a valid identifier\n",
 				av[i]);
-			msh->exit_code = 1;
+			process->bi_exit_code = 1;
 			return (1);
 		}
 		unset_variable(msh, av[i]);
 		i++;
 	}
-	msh->exit_code = 0;
+	process->bi_exit_code = 0;
 	return (0);
 }

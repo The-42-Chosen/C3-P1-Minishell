@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:04:02 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/01 16:40:06 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:25:57 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static void	export_update_env(t_msh *msh, char **av)
 	}
 }
 
-int	bi_export(t_msh *msh, char **av)
+int	bi_export(t_msh *msh, t_process *process, char **av)
 {
 	int	i;
 
@@ -92,7 +92,7 @@ int	bi_export(t_msh *msh, char **av)
 		{
 			ft_fprintf(2, "Billyshell: export: `%s': not a valid identifier\n",
 				av[i]);
-			return (msh->exit_code = 1, msh->exit_code);
+			return (process->bi_exit_code = 1, process->bi_exit_code);
 		}
 		i++;
 	}
@@ -104,5 +104,5 @@ int	bi_export(t_msh *msh, char **av)
 			return (0);
 		export_update_env(msh, av);
 	}
-	return (msh->exit_code = 0, 0);
+	return (process->bi_exit_code = 0, 0);
 }

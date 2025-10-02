@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:06:05 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/26 16:31:03 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/02 12:05:18 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,16 @@ void	save_env(t_msh *msh, char **env)
 	}
 }
 
-int	bi_env(t_msh *msh, char **av)
+int	bi_env(t_msh *msh, t_process *process, char **av)
 {
 	t_env	*tmp;
 
 	if (av[1] != NULL)
 	{
-		msh->exit_code = 127;
+		process->bi_exit_code = 127;
 		ft_fprintf(2, "Billyshell: env: %s: No such file or directory\n",
 			av[1]);
-		return (msh->exit_code);
+		return (process->bi_exit_code);
 	}
 	tmp = msh->env;
 	while (tmp)
@@ -105,6 +105,6 @@ int	bi_env(t_msh *msh, char **av)
 			printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
-	msh->exit_code = 0;
+	process->bi_exit_code = 0;
 	return (0);
 }

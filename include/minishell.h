@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/02 00:16:23 by ubuntu           ###   ########.fr       */
+/*   Updated: 2025/10/02 15:03:30 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ typedef struct s_process
 	t_list				*inputs;
 	t_list				*outputs;
 	pid_t				pid;
+	int					bi_exit_code;
 	struct s_process	*next;
 }						t_process;
 
@@ -148,11 +149,12 @@ typedef struct s_msh
 	bool				is_expandable;
 	bool				is_append;
 	char				*builtin_names[NB_BUILTINS];
-	int					(*builtin_funcs[NB_BUILTINS])(struct s_msh *, char **);
+	bool				has_to_exit;
+	int					(*builtin_funcs[NB_BUILTINS])(struct s_msh *,
+			struct s_process *, char **);
 	t_paths				paths;
 	int					exit_code;
 	int					nb_cmd;
-	bool				has_to_exit;
 }						t_msh;
 
 int						launch_program(t_msh *msh);
@@ -217,18 +219,21 @@ char					*expand(t_msh *msh, char *s);
 // BUILT-IN
 t_builtin_type			get_builtin_type(t_msh *msh, t_data *data);
 bool					execute_builtin(t_msh *msh, t_process *process);
-int						bi_exit(t_msh *msh, char **argv);
-int						bi_echo(t_msh *msh, char **argv);
-int						bi_cd(t_msh *msh, char **argv);
-bool					cd_home(t_msh *msh, t_env *env, t_paths *paths);
-bool					cd_oldpwd(t_msh *msh, t_env *env, t_paths *paths);
-bool					cd_folder(t_msh *msh, t_env *env, t_paths *paths,
-							char *folder);
+int						bi_exit(t_msh *msh, t_process *process, char **argv);
+int						bi_echo(t_msh *msh, t_process *process, char **argv);
+int						bi_cd(t_msh *msh, t_process *process, char **argv);
+bool					cd_home(t_process *process, t_env *env,
+							t_paths *paths);
+bool					cd_oldpwd(t_msh *msh, t_process *process, t_env *env,
+							t_paths *paths);
+bool					cd_folder(t_msh *msh, t_process *process,
+							t_paths *paths, char *folder);
 void					cd_get_paths(t_env *env, t_paths *paths);
-void					cd_update_env(t_env *env, t_paths *paths);
-void					cd_error(t_msh *msh);
-int						bi_pwd(t_msh *msh, char **argv);
-int						bi_export(t_msh *msh, char **argv);
+void					cd_update_env(t_env *env, t_process *process,
+							t_paths *paths);
+void					cd_error(t_msh *msh, t_process *process);
+int						bi_pwd(t_msh *msh, t_process *process, char **argv);
+int						bi_export(t_msh *msh, t_process *process, char **argv);
 bool					is_valid_identifier(char *s);
 bool					build_env_entry_with_value(char **env_to_sort,
 							t_env *tmp, int i);
@@ -243,10 +248,10 @@ t_env					*create_env_node_no_value(char *key);
 bool					export_replace_value_no_val(t_env *env, char *key);
 void					export_create_keyvalue(t_msh *msh, t_env *new_node);
 void					export_var_with_value(t_msh *msh, char *arg);
-int						bi_unset(t_msh *msh, char **argv);
-int						bi_env(t_msh *msh, char **argv);
+int						bi_unset(t_msh *msh, t_process *process, char **argv);
+int						bi_env(t_msh *msh, t_process *process, char **argv);
 t_env					*create_env_node(char *env_line);
-void					clean_exit(t_msh *msh, char *s);
+void					clean_exit(t_msh *msh, t_process *process, char *s);
 void					free_env_list(t_env *env);
 // SIGNALS
 bool					is_eof(void);

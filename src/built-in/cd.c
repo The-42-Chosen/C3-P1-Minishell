@@ -3,20 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 23:28:44 by ubuntu            #+#    #+#             */
-/*   Updated: 2025/10/02 01:19:55 by ubuntu           ###   ########.fr       */
+/*   Updated: 2025/10/02 14:50:17 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	cd_error(t_msh *msh)
+void	cd_error(t_msh *msh, t_process *process)
 {
-	ft_fprintf(2, "Billyshell: chdir: error retrieving current directory: "
-		"getcwd: cannot access parent directories: %s\n", strerror(errno));
-	msh->exit_code = 1;
+	(void)msh;
+	ft_fprintf(2,
+		"Billyshell: chdir: error retrieving current directory: "
+		"getcwd: cannot access parent directories: %s\n",
+		strerror(errno));
+	process->bi_exit_code = 1;
 }
 
 void	cd_get_paths(t_env *env, t_paths *paths)
@@ -47,11 +50,12 @@ void	cd_get_paths(t_env *env, t_paths *paths)
 	}
 }
 
-void	cd_update_env(t_env *env, t_paths *paths)
+void	cd_update_env(t_env *env, t_process *process, t_paths *paths)
 {
 	t_env	*tmp;
 	char	*old_pwd_value;
 
+	(void)process;
 	old_pwd_value = NULL;
 	tmp = env;
 	while (tmp)
@@ -75,26 +79,26 @@ void	cd_update_env(t_env *env, t_paths *paths)
 	free(old_pwd_value);
 }
 
-void	cd_dispatcher(t_msh *msh, char **av, int i)
+void	cd_dispatcher(t_msh *msh, t_process *process, char **av, int i)
 {
 	if (i == 1 || (ft_strncmp(av[1], "~", 1) == 0 && av[1][1] == '\0'))
 	{
-		if (cd_home(msh, msh->env, &msh->paths))
-			msh->exit_code = 0;
+		if (cd_home(process, msh->env, &msh->paths))
+			process->bi_exit_code = 0;
 	}
 	else if (ft_strncmp(av[1], "-", 1) == 0 && av[1][1] == '\0')
 	{
-		if (cd_oldpwd(msh, msh->env, &msh->paths))
-			msh->exit_code = 0;
+		if (cd_oldpwd(msh, process, msh->env, &msh->paths))
+			process->bi_exit_code = 0;
 	}
 	else
 	{
-		if (cd_folder(msh, msh->env, &msh->paths, av[1]))
-			msh->exit_code = 0;
+		if (cd_folder(msh, process, &msh->paths, av[1]))
+			process->bi_exit_code = 0;
 	}
 }
 
-int	bi_cd(t_msh *msh, char **av)
+int	bi_cd(t_msh *msh, t_process *process, char **av)
 {
 	int	i;
 
@@ -106,11 +110,11 @@ int	bi_cd(t_msh *msh, char **av)
 	if (i > 2)
 	{
 		ft_fprintf(2, "Billyshell: cd: too many arguments\n");
-		msh->exit_code = 1;
+		process->bi_exit_code = 1;
 		return (1);
 	}
 	cd_get_paths(msh->env, &msh->paths);
-	cd_dispatcher(msh, av, i);
+	cd_dispatcher(msh, process, av, i);
 	free(msh->paths.home);
 	free(msh->paths.pwd);
 	free(msh->paths.oldpwd);

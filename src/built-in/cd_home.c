@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cd_home.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 20:43:25 by ubuntu            #+#    #+#             */
-/*   Updated: 2025/09/28 23:36:51 by ep               ###   ########.fr       */
+/*   Updated: 2025/10/02 14:39:26 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool	cd_home_success(t_env *env, t_paths *paths)
+static bool	cd_home_success(t_env *env, t_process *process, t_paths *paths)
 {
 	char	*real_path;
 
@@ -28,31 +28,31 @@ static bool	cd_home_success(t_env *env, t_paths *paths)
 		free(paths->pwd);
 		paths->pwd = ft_strdup(paths->home);
 	}
-	cd_update_env(env, paths);
+	cd_update_env(env, process, paths);
 	return (true);
 }
 
-static bool	cd_home_error(t_msh *msh, t_paths *paths)
+static bool	cd_home_error(t_process *process, t_paths *paths)
 {
 	ft_fprintf(2, "Billyshell: cd: %s: No such file or directory\n",
 		paths->home);
-	msh->exit_code = 1;
+	process->bi_exit_code = 1;
 	return (false);
 }
 
-bool	cd_home(t_msh *msh, t_env *env, t_paths *paths)
+bool	cd_home(t_process *process, t_env *env, t_paths *paths)
 {
 	if (paths->has_home)
 	{
 		if (chdir(paths->home) == 0)
-			return (cd_home_success(env, paths));
+			return (cd_home_success(env, process, paths));
 		else
-			return (cd_home_error(msh, paths));
+			return (cd_home_error(process, paths));
 	}
 	else
 	{
 		ft_fprintf(2, "Billyshell: cd: HOME not set\n");
-		msh->exit_code = 1;
+		process->bi_exit_code = 1;
 		return (false);
 	}
 }
