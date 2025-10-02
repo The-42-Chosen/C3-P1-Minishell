@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_array_concat.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 14:02:32 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/28 14:09:15 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/02 19:28:08 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	**string_array_concat(char **sa1, char **sa2)
 	while (sa1[i])
 	{
 		res[i] = ft_strdup(sa1[i]);
-		if (!res)
+		if (!res[i])
 			return (free_tab(res), NULL);
 		i++;
 	}
@@ -33,7 +33,7 @@ char	**string_array_concat(char **sa1, char **sa2)
 	while (sa2[j])
 	{
 		res[i] = ft_strdup(sa2[j]);
-		if (!res)
+		if (!res[i])
 			return (free_tab(res), NULL);
 		j++;
 		i++;
