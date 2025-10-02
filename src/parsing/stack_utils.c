@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:10:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/01 15:01:40 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/02 22:03:37 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ void	print_stack(t_stack *s)
 	tmp = s;
 	while (tmp)
 	{
+		if (tmp->is_append == true)
+			ft_fprintf(1, "is_append ");
+		else
+			ft_fprintf(1, "is_not_append ");
 		ft_fprintf(1, "%s", tmp->content);
 		if (tmp->token == WORD)
 			ft_fprintf(1, " WORD\n");
