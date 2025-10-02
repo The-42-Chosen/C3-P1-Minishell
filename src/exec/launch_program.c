@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/02 21:26:39 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 00:12:06 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static int	reloop(t_msh *msh, t_process **process)
 	}
 	if (!parse(msh))
 	{
+		if (msh->stack)
+			stack_destroy(msh->stack);
 		return (0);
 	}
 	*process = pre_exec(msh);

@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/02 23:32:57 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 00:13:38 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,12 @@ int	parse(t_msh *msh)
 	t_stack	*tmp;
 
 	tmp = msh->stack;
+	if (stack_last(tmp)->token == PIPE)
+	{
+		ft_fprintf(2, "Billyshell: syntax error near unexpected token `|'\n");
+		msh->exit_code = 2;
+		return (0);
+	}
 	while (tmp)
 	{
 		if (!check_next_token_for_redir(msh, tmp, REDIR))
