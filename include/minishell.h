@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/02 15:51:55 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/02 17:14:58 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,7 +277,16 @@ char					**string_array_concat(char **sa1, char **sa2);
 // EXEC
 int						open_output(t_msh *msh, t_list *output,
 							t_list *next_process_input);
+int						open_input(t_msh *msh, t_list *input,
+							t_process *process);
+pid_t					execute_cmd(t_msh *msh, t_process *process);
+void					execute_builtin_process(t_msh *msh, t_process *process);
 void					execute_all(t_msh *msh, t_process *process);
+// FD Utils
+void					cleanup_inout_fds(t_list *lst);
+void					close_inout(t_inout *inout);
+void					dup_all_read(t_inout *inout);
+void					dup_all_write(t_inout *inout);
 // PROGRAM
 void					check_signals(t_msh *msh);
 char					*clean_entry(char *entry);
