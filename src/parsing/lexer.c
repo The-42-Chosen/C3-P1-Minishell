@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/02 22:06:01 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/02 23:37:52 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ char	*read_entry(t_msh *msh, char *s, int *i)
 	start = *i;
 	if (is_redirection(s[*i]))
 		check_redirection(s, i);
+	else if (is_pipe(s[*i]))
+		(*i)++;
 	else if (!read_syntax_errors(msh, s, i))
 		return (NULL);
 	else if (s[*i] == '\"' || s[*i] == '\'')

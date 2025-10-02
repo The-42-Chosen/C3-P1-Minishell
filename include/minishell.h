@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/02 17:14:58 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/02 22:26:08 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,6 @@ bool					is_valid_pipe(t_stack *s);
 bool					is_redir_symbol(t_stack *s);
 bool					is_operation_symb(t_stack *s);
 int						handle_redirection_token(t_msh *msh, t_stack *tmp);
-int						handle_operator_token(t_msh *msh, t_stack *tmp);
 int						classify_single_token(t_msh *msh, t_stack *tmp);
 // PARSING
 int						parse(t_msh *msh);
