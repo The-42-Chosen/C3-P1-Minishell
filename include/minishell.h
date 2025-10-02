@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/01 20:36:05 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/02 00:16:23 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <stdio.h>
 # include "libft.h"
 # include <errno.h>
 # include <fcntl.h>
@@ -20,7 +21,6 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
-# include <stdio.h>
 # include <string.h>
 # include <term.h>
 
@@ -152,6 +152,7 @@ typedef struct s_msh
 	t_paths				paths;
 	int					exit_code;
 	int					nb_cmd;
+	bool				has_to_exit;
 }						t_msh;
 
 int						launch_program(t_msh *msh);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_program.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/01 20:40:15 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/02 00:40:01 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	cleanup_loop_data(t_msh *msh)
 	msh->stack = NULL;
 	msh->nb_cmd = 0;
 	free(msh->entry);
+	msh->entry = NULL;
 }
 
 static int	repl(t_msh *msh)
@@ -66,6 +67,8 @@ static int	repl(t_msh *msh)
 		if (reloop(msh, &process))
 			launch_exec(msh, &process);
 		cleanup_loop_data(msh);
+		if (msh->has_to_exit)
+			break ;
 	}
 	if (!isatty(STDOUT_FILENO))
 		close(STDOUT_FILENO);

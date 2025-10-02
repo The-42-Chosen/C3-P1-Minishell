@@ -6,7 +6,7 @@
 /*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 23:28:44 by ubuntu            #+#    #+#             */
-/*   Updated: 2025/09/28 23:29:08 by ubuntu           ###   ########.fr       */
+/*   Updated: 2025/10/02 01:19:55 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,25 @@ void	cd_update_env(t_env *env, t_paths *paths)
 	free(old_pwd_value);
 }
 
+void	cd_dispatcher(t_msh *msh, char **av, int i)
+{
+	if (i == 1 || (ft_strncmp(av[1], "~", 1) == 0 && av[1][1] == '\0'))
+	{
+		if (cd_home(msh, msh->env, &msh->paths))
+			msh->exit_code = 0;
+	}
+	else if (ft_strncmp(av[1], "-", 1) == 0 && av[1][1] == '\0')
+	{
+		if (cd_oldpwd(msh, msh->env, &msh->paths))
+			msh->exit_code = 0;
+	}
+	else
+	{
+		if (cd_folder(msh, msh->env, &msh->paths, av[1]))
+			msh->exit_code = 0;
+	}
+}
+
 int	bi_cd(t_msh *msh, char **av)
 {
 	int	i;
@@ -91,21 +110,7 @@ int	bi_cd(t_msh *msh, char **av)
 		return (1);
 	}
 	cd_get_paths(msh->env, &msh->paths);
-	if (i == 1 || (ft_strncmp(av[1], "~", 1) == 0 && av[1][1] == '\0'))
-	{
-		if (cd_home(msh, msh->env, &msh->paths))
-			msh->exit_code = 0;
-	}
-	else if (ft_strncmp(av[1], "-", 1) == 0 && av[1][1] == '\0')
-	{
-		if (cd_oldpwd(msh, msh->env, &msh->paths))
-			msh->exit_code = 0;
-	}
-	else
-	{
-		if (cd_folder(msh, msh->env, &msh->paths, av[1]))
-			msh->exit_code = 0;
-	}
+	cd_dispatcher(msh, av, i);
 	free(msh->paths.home);
 	free(msh->paths.pwd);
 	free(msh->paths.oldpwd);
