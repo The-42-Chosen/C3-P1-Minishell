@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_program.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/02 00:40:01 by ubuntu           ###   ########.fr       */
+/*   Updated: 2025/10/02 10:20:19 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	launch_exec(t_msh *msh, t_process **process)
 static void	cleanup_loop_data(t_msh *msh)
 {
 	if (msh->data)
-		free_data(msh->data);
+		data_destroy(msh->data);
 	msh->data = NULL;
 	msh->stack = NULL;
 	msh->nb_cmd = 0;

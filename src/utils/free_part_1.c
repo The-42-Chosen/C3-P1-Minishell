@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 14:57:21 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/01 14:57:40 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/02 09:57:25 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	free_msh(t_msh *msh)
 	if (!msh)
 		return ;
 	if (msh->data)
-		free_data(msh->data);
+		data_destroy(msh->data);
 	if (msh->entry)
 		free(msh->entry);
 	if (msh->history)

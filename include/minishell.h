@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/02 15:03:30 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/02 15:51:55 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,7 +259,6 @@ void					sigint_handler(int process);
 void					sigint_silent_handler(int signum);
 // FREE
 void					free_null(void *ptr);
-void					free_data(t_data *data);
 void					free_process(t_process *process);
 void					free_cmd(t_cmd *cmd);
 void					free_inout(void *content);
@@ -279,7 +278,7 @@ char					**string_array_concat(char **sa1, char **sa2);
 int						open_output(t_msh *msh, t_list *output,
 							t_list *next_process_input);
 void					execute_all(t_msh *msh, t_process *process);
-// EXEC UTILS
+// PROGRAM
 void					check_signals(t_msh *msh);
 char					*clean_entry(char *entry);
 void					update_history(t_msh *msh);

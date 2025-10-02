@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/30 18:28:32 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/02 10:08:11 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int	parse(t_msh *msh)
 		tmp = tmp->next;
 	}
 	stack_destroy(msh->stack);
+	msh->stack = NULL;
 	msh->nb_cmd = count_nb_cmd(msh->data);
 	return (1);
 }

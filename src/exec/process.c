@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/02 11:58:33 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/02 15:50:16 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,8 @@ static void	cleanup_inout_fds(t_list *lst)
 	if (!lst)
 		return ;
 	inout = lst->content;
-	if (lst->next)
-		close(inout->fd);
-	if (inout->unused_fd)
-		close(inout->unused_fd);
+	close(inout->fd);
+	close(inout->unused_fd);
 	cleanup_inout_fds(lst->next);
 }
 
@@ -31,8 +29,6 @@ static void	close_inout(t_inout *inout)
 {
 	if (inout->fd > 1)
 		close(inout->fd);
-	// if (inout->unused_fd > 1)
-	// 	close(inout->unused_fd);
 }
 
 static void	dup_all_read(t_inout *inout)
@@ -70,6 +66,7 @@ static pid_t	execute_cmd(t_msh *msh, t_process *process)
 		cleanup_inout_fds(process->inputs);
 		cleanup_inout_fds(process->outputs);
 		execve(process->cmd.path, process->cmd.args, msh_getenv(msh));
+		exit(msh->exit_code);
 	}
 	return (pid);
 }
@@ -118,6 +115,11 @@ static int	open_input(t_msh *msh, t_list *input, t_process *process)
 			}
 			ft_lstiter(process->inputs, (void (*)(void *))close_inout);
 			ft_lstiter(process->outputs, (void (*)(void *))close_inout);
+			free_msh(msh);
+			free_msh_builtins(msh);
+			free_process(process);
+			close(fds[0]);
+			close(fds[1]);
 			exit(0);
 		}
 		waitpid(pid, &status, 0);
@@ -143,9 +145,15 @@ static void	execute(t_msh *msh, t_process *process)
 	if (!open_input(msh, process->inputs, process))
 		return ;
 	if (process->next)
-		open_output(msh, process->outputs, process->next->inputs);
+	{
+		if (!open_output(msh, process->outputs, process->next->inputs))
+			return ;
+	}
 	else
-		open_output(msh, process->outputs, NULL);
+	{
+		if (!open_output(msh, process->outputs, NULL))
+			return ;
+	}
 	if (process->cmd.builtin_type == BI_NONE)
 		process->pid = execute_cmd(msh, process);
 	else
