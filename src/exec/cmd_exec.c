@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:40:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/02 18:34:43 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/02 18:40:45 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ pid_t	execute_cmd(t_msh *msh, t_process *process)
 		ft_fprintf(2, "Billyshell: %s: command not found\n",
 			process->cmd.args[0]);
 		msh->exit_code = 127;
+		process->bi_exit_code = 127;
 		return (0);
 	}
 	pid = fork();
