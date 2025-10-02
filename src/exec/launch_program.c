@@ -31,8 +31,10 @@ static int	reloop(t_msh *msh, t_process **process)
 static void	launch_exec(t_msh *msh, t_process **process)
 {
 	signal(SIGINT, sigint_silent_handler);
+	signal(SIGQUIT, sigquit_handler);
 	execute_all(msh, *process);
 	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 	free_process(*process);
 }
 

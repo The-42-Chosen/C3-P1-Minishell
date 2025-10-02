@@ -31,6 +31,8 @@ pid_t	execute_cmd(t_msh *msh, t_process *process)
 		return (msh->exit_code = 1, 0);
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		ft_lstiter(process->inputs, (void (*)(void *))dup_all_read);
 		ft_lstiter(process->outputs, (void (*)(void *))dup_all_write);
 		cleanup_inout_fds(process->inputs);

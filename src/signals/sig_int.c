@@ -29,3 +29,8 @@ void	sigint_silent_handler(int signum)
 	write(STDOUT_FILENO, "^C\n", 3);
 	rl_replace_line("", 0);
 }
+
+void	sigquit_handler(int signum)
+{
+	g_received_signal = signum;
+}

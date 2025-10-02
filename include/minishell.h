@@ -257,6 +257,7 @@ void					free_env_list(t_env *env);
 bool					is_eof(void);
 void					sigint_handler(int process);
 void					sigint_silent_handler(int signum);
+void					sigquit_handler(int signum);
 // FREE
 void					free_null(void *ptr);
 void					free_process(t_process *process);

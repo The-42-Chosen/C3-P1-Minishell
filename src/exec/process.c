@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/02 17:22:05 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/02 18:10:33 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	execute_all(t_msh *msh, t_process *process)
 {
 	t_process	*head;
 	int			status;
+	int			sig_num;
 
 	execute(msh, process);
 	head = process;
@@ -53,7 +54,12 @@ void	execute_all(t_msh *msh, t_process *process)
 			if (WIFEXITED(status))
 				msh->exit_code = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
-				msh->exit_code = 128 + WTERMSIG(status);
+			{
+				sig_num = WTERMSIG(status);
+				msh->exit_code = 128 + sig_num;
+				if (sig_num == SIGQUIT)
+					ft_fprintf(2, "Quit (core dumped)");
+			}
 		}
 		else
 			msh->exit_code = head->bi_exit_code;
