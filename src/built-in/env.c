@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:06:05 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/02 12:05:18 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/02 19:10:42 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	bi_env(t_msh *msh, t_process *process, char **av)
 	while (tmp)
 	{
 		if (tmp->key && tmp->value)
-			printf("%s=%s\n", tmp->key, tmp->value);
+			ft_fprintf(1, "%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
 	process->bi_exit_code = 0;
