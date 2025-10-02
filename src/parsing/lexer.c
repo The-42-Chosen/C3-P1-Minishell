@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/02 23:37:52 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 00:37:12 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ static int	process_word(t_msh *msh, char *word, int flag)
 
 	if (!word)
 		return (0);
-	if (ft_strchr(word, '$') && msh->is_expandable == true && !flag)
+	if (msh->is_append == false && !ft_strncmp(word, "$", 2))
+		word = word;
+	else if (ft_strchr(word, '$') && msh->is_expandable == true && !flag)
 	{
 		expanded = expand(msh, word);
 		if (!expanded)
