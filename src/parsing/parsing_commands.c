@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/02 20:18:03 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 09:27:30 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_stack	*concatenate_stack(t_stack *stack)
 			{
 				stack_add_back(&new, copy_node_stack(tmp, s));
 				free(s);
+				s = NULL;
 				tmp = tmp->next;
 			}
 		}
