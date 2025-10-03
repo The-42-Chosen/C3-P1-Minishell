@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inout.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 13:34:12 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/29 02:34:48 by ubuntu           ###   ########.fr       */
+/*   Updated: 2025/10/03 11:08:03 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_inout	*alloc_pipe_inout(void)
 {
 	t_inout	*res;
 
-	res = calloc(1, sizeof(*res));
+	res = ft_calloc(1, sizeof(*res));
 	if (!res)
 		return (NULL);
 	res->type = G_PIPE;
@@ -41,7 +41,7 @@ t_inout	*alloc_redir_inout(t_data *data)
 {
 	t_inout	*res;
 
-	res = calloc(1, sizeof(*res));
+	res = ft_calloc(1, sizeof(*res));
 	if (!res)
 		return (NULL);
 	res->file_or_limiter = ft_strdup(data->file_or_limiter);

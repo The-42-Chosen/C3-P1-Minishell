@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 09:18:27 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/03 00:01:56 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 11:08:03 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static t_process	*create_processes(t_msh *msh)
 	t_process	*head;
 
 	data = msh->data;
-	process = calloc(1, sizeof(t_process));
+	process = ft_calloc(1, sizeof(t_process));
 	if (!process)
 		return (NULL);
 	head = process;
@@ -57,7 +57,7 @@ static t_process	*create_processes(t_msh *msh)
 		if (data->group == G_PIPE)
 		{
 			ft_lstadd_back(&head->outputs, ft_lstnew(alloc_pipe_inout()));
-			head->next = calloc(1, sizeof(t_process));
+			head->next = ft_calloc(1, sizeof(t_process));
 			head = head->next;
 			ft_lstadd_back(&head->inputs, ft_lstnew(alloc_pipe_inout()));
 		}

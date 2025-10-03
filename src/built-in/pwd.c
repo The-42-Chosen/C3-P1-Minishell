@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:02:46 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/02 14:25:57 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/03 10:59:24 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	update_pwd_env(t_msh *msh, char *new_pwd)
 	tmp = msh->env;
 	while (tmp)
 	{
-		if (strncmp(tmp->key, "PWD", 4) == 0 && tmp->key[3] == '\0')
+		if (ft_strncmp(tmp->key, "PWD", 4) == 0 && tmp->key[3] == '\0')
 		{
 			free(tmp->value);
 			tmp->value = ft_strdup(new_pwd);

@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/03 09:27:30 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 11:08:03 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static char	**setup_cmd(t_msh *msh, t_stack *stack, int nb_cmd)
 	t_stack	*tmp;
 	int		i;
 
-	group = calloc((nb_cmd + 1), sizeof(char *));
+	group = ft_calloc((nb_cmd + 1), sizeof(char *));
 	if (!group)
 		return (msh->exit_code = 12, NULL);
 	tmp = stack;

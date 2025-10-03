@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 23:28:44 by ubuntu            #+#    #+#             */
-/*   Updated: 2025/10/02 14:50:17 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/03 11:07:05 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ void	cd_get_paths(t_env *env, t_paths *paths)
 	paths->home = NULL;
 	while (tmp)
 	{
-		if (strncmp(tmp->key, "PWD", 4) == 0 && tmp->key[3] == '\0')
+		if (ft_strncmp(tmp->key, "PWD", 4) == 0 && tmp->key[3] == '\0')
 			paths->pwd = ft_strdup(tmp->value);
-		if (strncmp(tmp->key, "OLDPWD", 7) == 0 && tmp->key[6] == '\0')
+		if (ft_strncmp(tmp->key, "OLDPWD", 7) == 0 && tmp->key[6] == '\0')
 		{
 			paths->oldpwd = ft_strdup(tmp->value);
 			paths->has_oldpwd = true;
 		}
-		if (strncmp(tmp->key, "HOME", 5) == 0 && tmp->key[4] == '\0')
+		if (ft_strncmp(tmp->key, "HOME", 5) == 0 && tmp->key[4] == '\0')
 		{
 			paths->home = ft_strdup(tmp->value);
 			paths->has_home = true;
@@ -60,7 +60,7 @@ void	cd_update_env(t_env *env, t_process *process, t_paths *paths)
 	tmp = env;
 	while (tmp)
 	{
-		if (strncmp(tmp->key, "PWD", 4) == 0 && tmp->key[3] == '\0')
+		if (ft_strncmp(tmp->key, "PWD", 4) == 0 && tmp->key[3] == '\0')
 		{
 			old_pwd_value = ft_strdup(tmp->value);
 			free(tmp->value);
@@ -69,7 +69,7 @@ void	cd_update_env(t_env *env, t_process *process, t_paths *paths)
 		tmp = tmp->next;
 	}
 	tmp = env;
-	while (tmp && strncmp(tmp->key, "OLDPWD", 7) != 0)
+	while (tmp && ft_strncmp(tmp->key, "OLDPWD", 7) != 0)
 		tmp = tmp->next;
 	if (tmp && tmp->key[6] == '\0')
 	{
