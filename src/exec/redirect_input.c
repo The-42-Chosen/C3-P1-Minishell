@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_input.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:37:19 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/03 14:06:43 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/03 18:45:02 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,18 @@ static int	handle_heredoc(t_msh *msh, t_inout *in, t_process *process)
 
 static int	handle_file_input(t_msh *msh, t_inout *in)
 {
+	if (access(in->file_or_limiter, F_OK) != 0)
+	{
+		ft_fprintf(2, "Billyshell: %s: No such file or directory\n",
+			in->file_or_limiter);
+		return (msh->exit_code = 126, 0);
+	}
+	if (access(in->file_or_limiter, R_OK) != 0)
+	{
+		ft_fprintf(2, "Billyshell: %s: Permission denied\n",
+			in->file_or_limiter);
+		return (msh->exit_code = 126, 0);
+	}
 	in->fd = open(in->file_or_limiter, O_RDONLY);
 	if (in->fd == -1)
 	{
