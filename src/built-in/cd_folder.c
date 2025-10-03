@@ -3,41 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   cd_folder.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 20:56:41 by ubuntu            #+#    #+#             */
-/*   Updated: 2025/10/03 15:35:25 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:53:17 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*unify_path(t_paths *paths, char *folder)
+static int	cd_null_target_path(t_process *process)
 {
-	char	*slash_folder;
-	char	*target_path;
-	char	*current_dir;
+	char	*cwd;
 
-	if (!paths->pwd)
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
 	{
-		current_dir = getcwd(NULL, 0);
-		if (!current_dir)
-			return (NULL);
+		ft_fprintf(2,
+			"Billyshell: chdir: error retrieving current "
+			"directory: getcwd: cannot access parent directories: "
+			"%s\n",
+			strerror(errno));
+		return (process->bi_exit_code = 1, 0);
 	}
-	else
-		current_dir = paths->pwd;
-	slash_folder = ft_strjoin("/", folder);
-	target_path = ft_strjoin(current_dir, slash_folder);
-	free(slash_folder);
-	if (!paths->pwd)
-		free(current_dir);
-	return (target_path);
+	free(cwd);
+	return (process->bi_exit_code = 1, ft_fprintf(2,
+			"Billyshell: cd: "
+			"error retrieving current directory\n"),
+		0);
+	return (1);
 }
 
 static char	*cd_absolute_path(t_process *process, t_paths *paths, char *folder)
 {
 	char	*target_path;
-	char	*cwd;
 
 	if (folder[0] == '/')
 	{
@@ -50,25 +49,15 @@ static char	*cd_absolute_path(t_process *process, t_paths *paths, char *folder)
 		target_path = unify_path(paths, folder);
 		if (!target_path)
 		{
-			cwd = getcwd(NULL, 0);
-			if (!cwd)
-			{
-				ft_fprintf(2,
-					"Billyshell: chdir: error retrieving current "
-					"directory: getcwd: cannot access parent directories: "
-					"%s\n", strerror(errno));
-				return (process->bi_exit_code = 1, NULL);
-			}
-			free(cwd);
-			return (process->bi_exit_code = 1, ft_fprintf(2, "Billyshell: cd: "
-					"error retrieving current directory\n"), NULL);
+			if (!cd_null_target_path(process))
+				return (NULL);
 		}
 	}
 	return (target_path);
 }
 
 static bool	cd_change_dir(t_msh *msh, t_process *process, t_paths *paths,
-	char *path)
+		char *path)
 {
 	char	*real_path;
 	char	*cwd;
@@ -117,8 +106,7 @@ static bool	cd_check_folder(t_process *process, char *target_path)
 			target_path), free(target_path), process->bi_exit_code = 1, false);
 }
 
-bool	cd_folder(t_msh *msh, t_process *process, t_paths *paths,
-		char *folder)
+bool	cd_folder(t_msh *msh, t_process *process, t_paths *paths, char *folder)
 {
 	char	*target_path;
 

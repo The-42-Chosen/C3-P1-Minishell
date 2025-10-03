@@ -6,7 +6,7 @@
 /*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/03 15:05:30 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:55:44 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,8 @@ int						add_command_node(t_msh *msh, t_stack **tmp,
 							t_data *new_node, t_stack **head);
 char					*cmd_path(t_msh *msh, char *cmd);
 int						set_up_path(t_msh *msh, t_data *data);
+char					**seek_group_cmd(t_msh *msh, t_stack **stack,
+							t_stack **head);
 int						add_redir_node(t_msh *msh, t_stack **tmp,
 							t_data *new_node);
 t_stack					*concatenate_stack(t_stack *stack);
@@ -228,8 +230,10 @@ bool					cd_oldpwd(t_msh *msh, t_process *process, t_env *env,
 							t_paths *paths);
 bool					cd_folder(t_msh *msh, t_process *process,
 							t_paths *paths, char *folder);
+char					*unify_path(t_paths *paths, char *folder);
 void					cd_init_paths(t_paths *paths);
 int						cd_get_paths(t_env *env, t_paths *paths);
+char					*cd_update_pwd(t_env *env, t_paths *paths);
 int						cd_update_env(t_env *env, t_process *process,
 							t_paths *paths);
 void					cd_error(t_msh *msh, t_process *process);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 23:28:44 by ubuntu            #+#    #+#             */
-/*   Updated: 2025/10/03 14:36:52 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:24:26 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,49 +22,11 @@ void	cd_error(t_msh *msh, t_process *process)
 	process->bi_exit_code = 1;
 }
 
-int	cd_get_paths(t_env *env, t_paths *paths)
-{
-	t_env	*tmp;
-
-	tmp = env;
-	paths->has_home = false;
-	paths->has_oldpwd = false;
-	paths->pwd = NULL;
-	paths->oldpwd = NULL;
-	paths->home = NULL;
-	while (tmp)
-	{
-		if (ft_strncmp(tmp->key, "PWD", 4) == 0 && tmp->key[3] == '\0')
-		{
-			paths->pwd = ft_strdup(tmp->value);
-			if (!paths->pwd)
-				return (0);			
-		}
-		if (ft_strncmp(tmp->key, "OLDPWD", 7) == 0 && tmp->key[6] == '\0')
-		{
-			paths->oldpwd = ft_strdup(tmp->value);
-			if (!paths->oldpwd)
-				return (0);
-			paths->has_oldpwd = true;
-		}
-		if (ft_strncmp(tmp->key, "HOME", 5) == 0 && tmp->key[4] == '\0')
-		{
-			paths->home = ft_strdup(tmp->value);
-			if (paths->home)
-				return (0);
-			paths->has_home = true;
-		}
-		tmp = tmp->next;
-	}
-	return (1);
-}
-
-int	cd_update_env(t_env *env, t_process *process, t_paths *paths)
+char	*cd_update_pwd(t_env *env, t_paths *paths)
 {
 	t_env	*tmp;
 	char	*old_pwd_value;
 
-	(void)process;
 	old_pwd_value = NULL;
 	tmp = env;
 	while (tmp)
@@ -73,14 +35,26 @@ int	cd_update_env(t_env *env, t_process *process, t_paths *paths)
 		{
 			old_pwd_value = ft_strdup(tmp->value);
 			if (!old_pwd_value)
-				return (0);
+				return (NULL);
 			free(tmp->value);
 			tmp->value = ft_strdup(paths->pwd);
 			if (!tmp->value)
-				return (0);
+				return (NULL);
 		}
 		tmp = tmp->next;
 	}
+	return (old_pwd_value);
+}
+
+int	cd_update_env(t_env *env, t_process *process, t_paths *paths)
+{
+	t_env	*tmp;
+	char	*old_pwd_value;
+
+	(void)process;
+	old_pwd_value = cd_update_pwd(env, paths);
+	if (!old_pwd_value)
+		return (0);
 	tmp = env;
 	while (tmp && ft_strncmp(tmp->key, "OLDPWD", 7) != 0)
 		tmp = tmp->next;
@@ -89,7 +63,10 @@ int	cd_update_env(t_env *env, t_process *process, t_paths *paths)
 		free(tmp->value);
 		tmp->value = ft_strdup(old_pwd_value);
 		if (!tmp->value)
+		{
+			free(old_pwd_value);
 			return (0);
+		}
 	}
 	free(old_pwd_value);
 	return (1);
@@ -130,7 +107,12 @@ int	bi_cd(t_msh *msh, t_process *process, char **av)
 		return (1);
 	}
 	if (!cd_get_paths(msh->env, &msh->paths))
+	{
+		free(msh->paths.home);
+		free(msh->paths.pwd);
+		free(msh->paths.oldpwd);
 		return (msh->exit_code = 2, 1);
+	}
 	cd_dispatcher(msh, process, av, i);
 	free(msh->paths.home);
 	free(msh->paths.pwd);
