@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:11:35 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/03 15:48:59 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 18:09:10 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*replace_env_var(t_msh *msh, char *s)
 	{
 		tmp = s;
 		if (s[1] == '?' && s[2] == 0)
-			s = ft_strdup(ft_itoa(msh->exit_code));
+			s = ft_itoa(msh->exit_code);
 		else if (my_getenv(msh, s))
 			s = ft_strdup(my_getenv(msh, s));
 		else
