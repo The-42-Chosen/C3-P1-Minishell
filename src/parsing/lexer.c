@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 17:02:15 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/03 10:38:15 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 12:53:09 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	read_quotes(t_msh *msh, char *s, int *i)
-{
-	if (handle_quotes(s, i, s[*i]) == -1)
-	{
-		msh->exit_code = 2;
-		return (-1);
-	}
-	if (s[*i] != 0 && !is_space(s[*i]))
-		msh->is_append = true;
-	return (0);
-}
 
 static int	read_syntax_errors(t_msh *msh, char *s, int *i)
 {
@@ -38,32 +26,45 @@ static int	read_syntax_errors(t_msh *msh, char *s, int *i)
 	return (1);
 }
 
+static int	read_entry_dispatch(t_msh *msh, char *s, int *i)
+{
+	if (is_redirection(s[*i]))
+	{
+		check_redirection(s, i);
+		return (1);
+	}
+	if (is_pipe(s[*i]))
+	{
+		(*i)++;
+		return (1);
+	}
+	if (!read_syntax_errors(msh, s, i))
+		return (-1);
+	if (s[*i] == '\"' || s[*i] == '\'')
+	{
+		if (read_quotes(msh, s, i) == -1)
+			return (-1);
+		return (1);
+	}
+	handle_word(s, i);
+	if (s[*i] == '\"' || s[*i] == '\'')
+		msh->is_append = true;
+	return (1);
+}
+
 char	*read_entry(t_msh *msh, char *s, int *i)
 {
 	int	start;
+	int	ret;
 
 	if (!s)
 		return (NULL);
 	while (is_space(s[*i]))
 		(*i)++;
 	start = *i;
-	if (is_redirection(s[*i]))
-		check_redirection(s, i);
-	else if (is_pipe(s[*i]))
-		(*i)++;
-	else if (!read_syntax_errors(msh, s, i))
+	ret = read_entry_dispatch(msh, s, i);
+	if (ret < 0)
 		return (NULL);
-	else if (s[*i] == '\"' || s[*i] == '\'')
-	{
-		if (read_quotes(msh, s, i) == -1)
-			return (NULL);
-	}
-	else
-	{
-		handle_word(s, i);
-		if (s[*i] == '\"' || s[*i] == '\'')
-			msh->is_append = true;
-	}
 	if (*i == start)
 		return (NULL);
 	return (extract_word(msh, s, start, *i));

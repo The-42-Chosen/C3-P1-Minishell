@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_input.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:37:19 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/02 21:43:12 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:06:43 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	heredoc_child(t_msh *msh, t_inout *in, t_process *process, int *fds)
 {
 	char	*line;
 
-	signal(SIGINT, SIG_DFL);
+	signal(SIGINT, sigint_heredoc_handler);
 	signal(SIGQUIT, SIG_IGN);
 	line = readline("> ");
 	while (line && ft_strcmp(line, in->file_or_limiter))

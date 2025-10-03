@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/03 13:15:37 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 15:05:30 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdio.h>
 # include "libft.h"
 # include <errno.h>
 # include <fcntl.h>
@@ -21,10 +20,11 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
+# include <stdio.h>
 # include <string.h>
-# include <term.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <term.h>
 
 extern int				g_received_signal;
 
@@ -166,6 +166,7 @@ void					save_env(t_msh *msh, char **env);
 // LEXER
 int						lexer(t_msh *msh);
 char					*read_entry(t_msh *msh, char *s, int *i);
+int						read_quotes(t_msh *msh, char *s, int *i);
 // LEXER UTILS
 bool					is_delimeter(char c);
 bool					is_redirection(char c);
@@ -189,7 +190,6 @@ void					stack_add_back(t_stack **s, t_stack *new_s);
 t_stack					*copy_node_stack(t_stack *stack, char *s);
 // TOKEN
 int						identify_token(t_msh *msh);
-
 // TOKEN VALIDATION
 bool					check_heredoc_append(t_stack *s);
 bool					check_in_out(t_stack *s);
@@ -223,8 +223,7 @@ bool					execute_builtin(t_msh *msh, t_process *process);
 int						bi_exit(t_msh *msh, t_process *process, char **argv);
 int						bi_echo(t_msh *msh, t_process *process, char **argv);
 int						bi_cd(t_msh *msh, t_process *process, char **argv);
-bool					cd_home(t_process *process, t_env *env,
-							t_paths *paths);
+bool					cd_home(t_process *process, t_env *env, t_paths *paths);
 bool					cd_oldpwd(t_msh *msh, t_process *process, t_env *env,
 							t_paths *paths);
 bool					cd_folder(t_msh *msh, t_process *process,
@@ -258,6 +257,7 @@ void					free_env_list(t_env *env);
 bool					is_eof(void);
 void					sigint_handler(int process);
 void					sigint_silent_handler(int signum);
+void					sigint_heredoc_handler(int signum);
 void					sigquit_handler(int signum);
 // FREE
 void					free_null(void *ptr);

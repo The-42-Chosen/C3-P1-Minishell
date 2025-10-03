@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_int.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 15:21:44 by erpascua          #+#    #+#             */
-/*   Updated: 2025/09/25 22:53:10 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:05:56 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,14 @@ void	sigint_silent_handler(int signum)
 	rl_replace_line("", 0);
 }
 
+void	sigint_heredoc_handler(int signum)
+{
+	g_received_signal = signum;
+	close(0);
+}
+
 void	sigquit_handler(int signum)
 {
 	g_received_signal = signum;
 }
+
