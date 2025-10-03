@@ -6,7 +6,7 @@
 #    By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 02:58:34 by erpascua          #+#    #+#              #
-#    Updated: 2025/10/03 17:23:46 by erpascua         ###   ########.fr        #
+#    Updated: 2025/10/03 18:36:50 by erpascua         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -118,7 +118,7 @@ fclean: clean
 re: fclean all
 
 val: all
-	valgrind --suppressions=./_dev_tools/.ignore_rl_leaks.supp --trace-children=yes --leak-check=full --track-origins=yes --track-fds=yes --show-leak-kinds=all -s ./minishell
+	valgrind --suppressions=$$(pwd)/_dev_tools/.ignore_rl_leaks.supp --trace-children=yes --leak-check=full --track-origins=yes --track-fds=yes --show-leak-kinds=all -s ./minishell
 
 dev:
 	@make re 1>/dev/null

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/03 00:06:49 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 18:02:47 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	execute_all(t_msh *msh, t_process *process)
 				sig_num = WTERMSIG(status);
 				msh->exit_code = 128 + sig_num;
 				if (sig_num == SIGQUIT)
-					ft_fprintf(2, "Quit (core dumped)");
+					ft_fprintf(2, "Quit (core dumped)\n");
 			}
 		}
 		else
