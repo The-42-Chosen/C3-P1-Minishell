@@ -6,20 +6,20 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/03 16:26:58 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 17:14:28 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*handle_concatenation(char *s, char *content)
+static char	*handle_concatenation(char *s, t_stack *tmp)
 {
 	char	*tmp_s;
 
 	if (!s)
-		return (ft_strjoin("", content));
+		return (ft_strjoin(tmp->content, tmp->next->content));
 	tmp_s = s;
-	s = ft_strjoin(s, content);
+	s = ft_strjoin(s, tmp->next->content);
 	free(tmp_s);
 	return (s);
 }
@@ -37,7 +37,7 @@ t_stack	*concatenate_stack(t_stack *stack)
 	{
 		if (tmp->is_append == true && tmp->next)
 		{
-			s = handle_concatenation(s, tmp->next->content);
+			s = handle_concatenation(s, tmp);
 			if (tmp->next->is_append == false)
 			{
 				stack_add_back(&new, copy_node_stack(tmp, s));
