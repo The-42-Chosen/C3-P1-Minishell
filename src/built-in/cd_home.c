@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_home.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 20:43:25 by ubuntu            #+#    #+#             */
-/*   Updated: 2025/10/02 14:39:26 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:35:19 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,19 @@ static bool	cd_home_success(t_env *env, t_process *process, t_paths *paths)
 	{
 		free(paths->pwd);
 		paths->pwd = ft_strdup(real_path);
+		if (!paths->pwd)
+			return (process->bi_exit_code = 12, false);
 		free(real_path);
 	}
 	else
 	{
 		free(paths->pwd);
 		paths->pwd = ft_strdup(paths->home);
+		if (!paths->pwd)
+			return (process->bi_exit_code = 12, false);
 	}
-	cd_update_env(env, process, paths);
+	if (!cd_update_env(env, process, paths))
+		return (false);
 	return (true);
 }
 

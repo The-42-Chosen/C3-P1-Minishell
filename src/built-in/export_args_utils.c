@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_args_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ep <ep@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 05:40:52 by ep                #+#    #+#             */
-/*   Updated: 2025/09/23 06:01:34 by ep               ###   ########.fr       */
+/*   Updated: 2025/10/03 12:44:11 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ bool	export_replace_value(t_env *env, t_env *new_node)
 		{
 			free(tmp->value);
 			tmp->value = ft_strdup(new_node->value);
+			if (!tmp->value)
+				return (false);
 			free(new_node->key);
 			free(new_node->value);
 			free(new_node);
@@ -43,6 +45,8 @@ t_env	*create_env_node_no_value(char *key)
 	if (!new_node)
 		return (NULL);
 	new_node->key = ft_strdup(key);
+	if (!new_node->key)
+		return (NULL);
 	new_node->value = NULL;
 	new_node->next = NULL;
 	if (!new_node->key)

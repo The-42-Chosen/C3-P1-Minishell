@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:11:35 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/30 16:38:58 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:10:41 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,18 +79,24 @@ char	*replace_env_var(t_msh *msh, char *s)
 		{
 			tmp = s;
 			s = ft_strdup(ft_itoa(msh->exit_code));
+			if (!s)
+				return (free(tmp), msh->exit_code = 12, NULL);
 			free(tmp);
 		}
 		else if (my_getenv(msh, s))
 		{
 			tmp = s;
 			s = ft_strdup(my_getenv(msh, s));
+			if (!s)
+				return (free(tmp), msh->exit_code = 12, NULL);
 			free(tmp);
 		}
 		else
 		{
 			tmp = s;
 			s = ft_strdup("");
+			if (!s)
+				return (free(tmp),msh->exit_code = 12, NULL);
 			free(tmp);
 		}
 	}
@@ -116,6 +122,8 @@ char	*expand(t_msh *msh, char *s)
 	{
 		tmp = res;
 		current->content = replace_env_var(msh, ((char *)current->content));
+		if (!current->content)
+			return (NULL);
 		res = ft_strjoin(res, current->content);
 		if (!res)
 			return (ft_lstclear(&lst, free), free(tmp), NULL);

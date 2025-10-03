@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/03 00:05:59 by ubuntu           ###   ########.fr       */
+/*   Updated: 2025/10/03 13:15:37 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,8 +229,8 @@ bool					cd_oldpwd(t_msh *msh, t_process *process, t_env *env,
 							t_paths *paths);
 bool					cd_folder(t_msh *msh, t_process *process,
 							t_paths *paths, char *folder);
-void					cd_get_paths(t_env *env, t_paths *paths);
-void					cd_update_env(t_env *env, t_process *process,
+int						cd_get_paths(t_env *env, t_paths *paths);
+int						cd_update_env(t_env *env, t_process *process,
 							t_paths *paths);
 void					cd_error(t_msh *msh, t_process *process);
 int						bi_pwd(t_msh *msh, t_process *process, char **argv);

@@ -6,13 +6,13 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:02:46 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/03 10:59:24 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:30:52 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	update_pwd_env(t_msh *msh, char *new_pwd)
+static int	update_pwd_env(t_msh *msh, char *new_pwd)
 {
 	t_env	*tmp;
 
@@ -23,10 +23,13 @@ static void	update_pwd_env(t_msh *msh, char *new_pwd)
 		{
 			free(tmp->value);
 			tmp->value = ft_strdup(new_pwd);
-			return ;
+			if (!tmp->value)
+				return (0);
+			return (1);
 		}
 		tmp = tmp->next;
 	}
+	return (1);
 }
 
 int	bi_pwd(t_msh *msh, t_process *process, char **av)
@@ -43,7 +46,8 @@ int	bi_pwd(t_msh *msh, t_process *process, char **av)
 		process->bi_exit_code = 1;
 		return (1);
 	}
-	update_pwd_env(msh, cwd);
+	if (!update_pwd_env(msh, cwd))
+		return (msh->exit_code = 2, 1);
 	ft_fprintf(1, "%s\n", cwd);
 	free(cwd);
 	process->bi_exit_code = 0;

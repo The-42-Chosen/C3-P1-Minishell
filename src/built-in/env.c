@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 19:06:05 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/02 19:10:42 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:38:57 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ t_env	*create_env_node(char *env_line)
 		return (NULL);
 	new_node->key = safe_strdup_substr(env_line, equal_pos - env_line);
 	new_node->value = ft_strdup(equal_pos + 1);
+	if (!new_node->value)
+		return (NULL);
 	new_node->next = NULL;
 	if (!new_node->key || !new_node->value)
 	{
@@ -80,6 +82,7 @@ void	save_env(t_msh *msh, char **env)
 		{
 			free_env_list(msh->env);
 			msh->env = NULL;
+			msh->exit_code = 12;
 			return ;
 		}
 		add_env_node(&msh->env, &current, new_node);

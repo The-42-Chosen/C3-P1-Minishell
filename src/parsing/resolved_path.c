@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:46:48 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/03 00:05:23 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:40:31 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,6 @@ char	*cmd_path(t_msh *msh, char *cmd)
 	else
 		path = path_env(my_getenv_for_path(msh), cmd);
 	if (!path)
-		return (NULL);
+		return (msh->exit_code = 12, NULL);
 	return (path);
 }

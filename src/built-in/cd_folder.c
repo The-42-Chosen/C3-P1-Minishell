@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_folder.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 20:56:41 by ubuntu            #+#    #+#             */
-/*   Updated: 2025/10/02 14:59:26 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:35:44 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,11 @@ static char	*cd_absolute_path(t_process *process, t_paths *paths, char *folder)
 	char	*cwd;
 
 	if (folder[0] == '/')
+	{
 		target_path = ft_strdup(folder);
+		if (!target_path)
+			return (process->bi_exit_code = 12, NULL);
+	}
 	else
 	{
 		target_path = unify_path(paths, folder);
@@ -74,6 +78,8 @@ static bool	cd_change_dir(t_msh *msh, t_process *process, t_paths *paths,
 	{
 		free(paths->pwd);
 		paths->pwd = ft_strdup(real_path);
+		if (!paths->pwd)
+			return (process->bi_exit_code = 12, false);
 		free(real_path);
 	}
 	else
@@ -87,7 +93,8 @@ static bool	cd_change_dir(t_msh *msh, t_process *process, t_paths *paths,
 			process->bi_exit_code = 1, false);
 	}
 	free(path);
-	cd_update_env(msh->env, process, paths);
+	if (!cd_update_env(msh->env, process, paths))
+		return (false);
 	return (true);
 }
 

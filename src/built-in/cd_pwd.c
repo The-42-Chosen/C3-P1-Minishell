@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 20:46:52 by ubuntu            #+#    #+#             */
-/*   Updated: 2025/10/02 14:25:57 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:36:28 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,19 @@ static bool	cd_oldpwd_success(t_env *env, t_process *process, t_paths *paths)
 	{
 		free(paths->pwd);
 		paths->pwd = ft_strdup(real_path);
+		if (!paths->pwd)
+			return (process->bi_exit_code = 12, false);
 		free(real_path);
 	}
 	else
 	{
 		free(paths->pwd);
 		paths->pwd = ft_strdup(paths->oldpwd);
+		if (!paths->pwd)
+			return (process->bi_exit_code = 12, false);
 	}
-	cd_update_env(env, process, paths);
+	if (!cd_update_env(env, process, paths))
+		return (false);
 	return (true);
 }
 
