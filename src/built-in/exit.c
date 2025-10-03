@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 16:34:10 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/02 15:52:21 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 17:27:52 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	bi_exit(t_msh *msh, t_process *process, char **argv)
 	int	argc;
 
 	argc = 0;
-	ft_putendl_fd("exit", 1);
 	while (argv[argc])
 		argc++;
 	if (argc >= 2)
@@ -77,10 +76,12 @@ int	bi_exit(t_msh *msh, t_process *process, char **argv)
 	if (argc > 2)
 	{
 		ft_fprintf(2, "Billyshell: exit: too many arguments\n");
-		process->bi_exit_code = 1;
-		return (0);
+		return (process->bi_exit_code = 1, 0);
 	}
 	if (msh->nb_cmd == 1)
+	{
+		ft_putendl_fd("exit", 1);
 		msh->has_to_exit = true;
+	}
 	return (0);
 }
