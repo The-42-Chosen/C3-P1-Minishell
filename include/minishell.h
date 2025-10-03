@@ -228,6 +228,7 @@ bool					cd_oldpwd(t_msh *msh, t_process *process, t_env *env,
 							t_paths *paths);
 bool					cd_folder(t_msh *msh, t_process *process,
 							t_paths *paths, char *folder);
+void					cd_init_paths(t_paths *paths);
 int						cd_get_paths(t_env *env, t_paths *paths);
 int						cd_update_env(t_env *env, t_process *process,
 							t_paths *paths);
