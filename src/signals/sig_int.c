@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_int.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 15:21:44 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/03 14:05:56 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:18:10 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,3 @@ void	sigquit_handler(int signum)
 {
 	g_received_signal = signum;
 }
-

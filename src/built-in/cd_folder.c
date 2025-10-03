@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 20:56:41 by ubuntu            #+#    #+#             */
-/*   Updated: 2025/10/03 14:35:44 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 15:35:25 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,9 @@ static bool	cd_change_dir(t_msh *msh, t_process *process, t_paths *paths,
 				"Billyshell: cd: error retrieving current directory\n"),
 			process->bi_exit_code = 1, false);
 	}
-	free(path);
 	if (!cd_update_env(msh->env, process, paths))
-		return (false);
-	return (true);
+		return (free(path), false);
+	return (free(path), true);
 }
 
 static bool	cd_check_folder(t_process *process, char *target_path)

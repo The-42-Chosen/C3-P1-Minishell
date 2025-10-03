@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:11:35 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/03 14:10:41 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 15:48:59 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,30 +75,16 @@ char	*replace_env_var(t_msh *msh, char *s)
 
 	if (s[0] == '$')
 	{
+		tmp = s;
 		if (s[1] == '?' && s[2] == 0)
-		{
-			tmp = s;
 			s = ft_strdup(ft_itoa(msh->exit_code));
-			if (!s)
-				return (free(tmp), msh->exit_code = 12, NULL);
-			free(tmp);
-		}
 		else if (my_getenv(msh, s))
-		{
-			tmp = s;
 			s = ft_strdup(my_getenv(msh, s));
-			if (!s)
-				return (free(tmp), msh->exit_code = 12, NULL);
-			free(tmp);
-		}
 		else
-		{
-			tmp = s;
 			s = ft_strdup("");
-			if (!s)
-				return (free(tmp),msh->exit_code = 12, NULL);
-			free(tmp);
-		}
+		if (!s)
+			return (free(tmp), msh->exit_code = 12, NULL);
+		free(tmp);
 	}
 	return (s);
 }
@@ -127,9 +113,7 @@ char	*expand(t_msh *msh, char *s)
 		res = ft_strjoin(res, current->content);
 		if (!res)
 			return (ft_lstclear(&lst, free), free(tmp), NULL);
-		free(tmp);
-		current = current->next;
+		(free(tmp), current = current->next);
 	}
-	ft_lstclear(&lst, free);
-	return (res);
+	return (ft_lstclear(&lst, free), res);
 }
