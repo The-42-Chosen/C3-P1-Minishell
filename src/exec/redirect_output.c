@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_output.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 17:54:23 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/03 18:44:25 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/03 19:16:49 by erpascua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,14 @@
 
 static int	handle_file_output(t_msh *msh, t_inout *out)
 {
-	if (access(out->file_or_limiter, F_OK) != 0)
+	if (access(out->file_or_limiter, F_OK) == 0)
 	{
-		ft_fprintf(2, "Billyshell: %s: No such file or directory\n",
-			out->file_or_limiter);
-		return (msh->exit_code = 126, 0);
-	}
-	if (access(out->file_or_limiter, W_OK) != 0)
-	{
-		ft_fprintf(2, "Billyshell: %s: Permission denied\n",
-			out->file_or_limiter);
-		return (msh->exit_code = 126, 0);
+		if (access(out->file_or_limiter, W_OK) != 0)
+		{
+			ft_fprintf(2, "Billyshell: %s: Permission denied\n",
+				out->file_or_limiter);
+			return (msh->exit_code = 126, 0);
+		}
 	}
 	if (out->type == G_REDIR_OUT)
 		out->fd = open(out->file_or_limiter, O_CREAT | O_WRONLY | O_TRUNC,
