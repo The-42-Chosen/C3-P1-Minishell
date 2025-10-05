@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:37:19 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/05 14:04:56 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/05 14:06:26 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,7 @@ static int	handle_heredoc(t_msh *msh, t_inout *in, t_process *process)
 			in->file_or_limiter);
 	close(fds[1]);
 	if (g_received_signal == SIGINT)
-	{
-		close(fds[0]);
-		return (0);
-	}
+		return (close(fds[0]), 0);
 	in->fd = fds[0];
 	return (1);
 }
