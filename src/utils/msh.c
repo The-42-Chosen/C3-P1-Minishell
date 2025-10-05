@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 17:26:54 by gpollast          #+#    #+#             */
-/*   Updated: 2025/09/23 13:43:21 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/04 10:09:39 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ char	**msh_getenv(t_msh *msh)
 		env[i] = ft_strjoin(stock, tmp->value);
 		free(stock);
 		tmp = tmp->next;
+		i++;
 	}
 	env[i] = NULL;
 	return (env);
