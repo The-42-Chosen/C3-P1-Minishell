@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:37:19 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/03 18:45:02 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/05 14:04:56 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,17 @@ static int	handle_heredoc(t_msh *msh, t_inout *in, t_process *process)
 	if (pid == 0)
 		heredoc_child(msh, in, process, fds);
 	waitpid(pid, &status, 0);
-	if (status > 0)
+	if (status > 0 && g_received_signal != SIGINT)
 		ft_fprintf(2,
 			"Billyshell: warning: here-document at current line delimited "
 			"by end-of-file (wanted `%s')\n",
 			in->file_or_limiter);
 	close(fds[1]);
+	if (g_received_signal == SIGINT)
+	{
+		close(fds[0]);
+		return (0);
+	}
 	in->fd = fds[0];
 	return (1);
 }
