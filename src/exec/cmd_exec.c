@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:40:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/03 19:19:14 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/08 11:29:01 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ pid_t	execute_cmd(t_msh *msh, t_process *process)
 {
 	pid_t	pid;
 
+	if (!directory_treatment(msh, process))
+		return (0);
 	if (!process->cmd.path || access(process->cmd.path, X_OK) == -1)
 	{
 		if (!process->cmd.args)
@@ -71,8 +73,6 @@ pid_t	execute_cmd(t_msh *msh, t_process *process)
 		process->bi_exit_code = 127;
 		return (msh->exit_code = 127, 0);
 	}
-	if (!directory_treatment(msh, process))
-		return (0);
 	pid = fork();
 	if (pid == -1)
 		return (msh->exit_code = 1, 0);
