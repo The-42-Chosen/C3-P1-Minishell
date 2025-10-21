@@ -6,18 +6,18 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 13:50:26 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/21 10:14:23 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/21 18:40:15 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/wait.h>
 
-static void	execute(t_msh *msh, t_process *process)
+static void	execute(t_msh *msh, t_process *process, t_process *head)
 {
 	if (!process)
 		return ;
-	if (!open_input(msh, process->inputs, process))
+	if (!open_input(msh, process->inputs, process, head))
 		return ;
 	if (process->next)
 	{
@@ -35,7 +35,7 @@ static void	execute(t_msh *msh, t_process *process)
 		execute_builtin_process(msh, process);
 	ft_lstiter(process->inputs, (void (*)(void *))close_inout);
 	ft_lstiter(process->outputs, (void (*)(void *))close_inout);
-	execute(msh, process->next);
+	execute(msh, process->next, head);
 }
 
 void	execute_all(t_msh *msh, t_process *process)
@@ -44,7 +44,7 @@ void	execute_all(t_msh *msh, t_process *process)
 	int			status;
 	int			sig_num;
 
-	execute(msh, process);
+	execute(msh, process, process);
 	head = process;
 	while (head)
 	{

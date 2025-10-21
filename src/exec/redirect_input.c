@@ -6,14 +6,14 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:37:19 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/21 15:27:29 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/21 19:15:14 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/wait.h>
 
-static void	heredoc_child(t_msh *msh, t_inout *in, t_process *process, int *fds)
+static int	heredoc_child(t_msh *msh, t_inout *in, t_process *process, int *fds)
 {
 	char	*line;
 
@@ -34,17 +34,30 @@ static void	heredoc_child(t_msh *msh, t_inout *in, t_process *process, int *fds)
 	ft_lstiter(process->outputs, (void (*)(void *))close_inout);
 	free_msh(msh);
 	free_msh_builtins(msh);
-	free_process(process);
 	close(fds[0]);
 	close(fds[1]);
-	exit(line == NULL);
+	return (line == NULL);
 }
 
-static int	handle_heredoc(t_msh *msh, t_inout *in, t_process *process)
+static void	wait_heredoc_child(pid_t pid, int *fds, t_inout *in)
+{
+	int	status;
+
+	waitpid(pid, &status, 0);
+	if (status > 0 && g_received_signal != SIGINT)
+		ft_fprintf(2,
+			"Billyshell: warning: here-document at current line delimited "
+			"by end-of-file (wanted `%s')\n",
+			in->file_or_limiter);
+	close(fds[1]);
+}
+
+static int	handle_heredoc(t_msh *msh, t_inout *in, t_process *process,
+		t_process *head)
 {
 	int		fds[2];
 	pid_t	pid;
-	int		status;
+	int		exit_value;
 
 	if (pipe(fds) == -1)
 	{
@@ -53,14 +66,12 @@ static int	handle_heredoc(t_msh *msh, t_inout *in, t_process *process)
 	}
 	pid = fork();
 	if (pid == 0)
-		heredoc_child(msh, in, process, fds);
-	waitpid(pid, &status, 0);
-	if (status > 0 && g_received_signal != SIGINT)
-		ft_fprintf(2,
-			"Billyshell: warning: here-document at current line delimited "
-			"by end-of-file (wanted `%s')\n",
-			in->file_or_limiter);
-	close(fds[1]);
+	{
+		exit_value = heredoc_child(msh, in, process, fds);
+		free_process(head);
+		exit(exit_value);
+	}
+	wait_heredoc_child(pid, fds, in);
 	if (g_received_signal == SIGINT)
 		return (close(fds[0]), 0);
 	in->fd = fds[0];
@@ -92,7 +103,7 @@ static int	handle_file_input(t_msh *msh, t_inout *in)
 	return (1);
 }
 
-int	open_input(t_msh *msh, t_list *input, t_process *process)
+int	open_input(t_msh *msh, t_list *input, t_process *process, t_process *head)
 {
 	t_inout	*in;
 
@@ -106,8 +117,8 @@ int	open_input(t_msh *msh, t_list *input, t_process *process)
 	}
 	else if (in->type == G_REDIR_HEREDOC)
 	{
-		if (!handle_heredoc(msh, in, process))
+		if (!handle_heredoc(msh, in, process, head))
 			return (0);
 	}
-	return (open_input(msh, input->next, process));
+	return (open_input(msh, input->next, process, head));
 }

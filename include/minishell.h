@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/03 16:55:44 by erpascua         ###   ########.fr       */
+/*   Updated: 2025/10/21 18:41:17 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,7 +285,7 @@ char					**string_array_concat(char **sa1, char **sa2);
 int						open_output(t_msh *msh, t_list *output,
 							t_list *next_process_input);
 int						open_input(t_msh *msh, t_list *input,
-							t_process *process);
+							t_process *process, t_process *head);
 pid_t					execute_cmd(t_msh *msh, t_process *process);
 void					execute_builtin_process(t_msh *msh, t_process *process);
 void					execute_all(t_msh *msh, t_process *process);

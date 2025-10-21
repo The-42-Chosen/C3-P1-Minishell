@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/10/21 17:14:41 by gpollast         ###   ########.fr       */
+/*   Created: 2025/10/21 19:14:13 by gpollast          #+#    #+#             */
+/*   Updated: 2025/10/21 19:14:16 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
