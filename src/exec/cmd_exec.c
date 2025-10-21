@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 19:14:13 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/21 19:14:16 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/21 19:43:21 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ static int	directory_treatment(t_msh *msh, t_process *process)
 		process->bi_exit_code = 126;
 		return (msh->exit_code = 126, 0);
 	}
-	if (access(process->cmd.path, F_OK) != 0)
+	if (access(process->cmd.path, F_OK) == -1)
 	{
 		ft_fprintf(2, "Billyshell: %s: No such file or directory\n",
 			process->cmd.args[0]);
 		process->bi_exit_code = 127;
 		return (msh->exit_code = 127, 0);
 	}
-	if (access(process->cmd.path, X_OK) != 0)
+	if (access(process->cmd.path, X_OK) == -1)
 	{
 		ft_fprintf(2, "Billyshell: %s: Permission denied\n",
 			process->cmd.args[0]);
@@ -62,9 +62,7 @@ pid_t	execute_cmd(t_msh *msh, t_process *process)
 {
 	pid_t	pid;
 
-	if (!directory_treatment(msh, process))
-		return (0);
-	if (!process->cmd.path || access(process->cmd.path, X_OK) == -1)
+	if (!process->cmd.path)
 	{
 		if (!process->cmd.args)
 			return (0);
@@ -73,6 +71,8 @@ pid_t	execute_cmd(t_msh *msh, t_process *process)
 		process->bi_exit_code = 127;
 		return (msh->exit_code = 127, 0);
 	}
+	if (!directory_treatment(msh, process))
+		return (0);
 	pid = fork();
 	if (pid == -1)
 		return (msh->exit_code = 1, 0);
