@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 16:37:19 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/05 14:06:26 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/21 15:27:29 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static void	heredoc_child(t_msh *msh, t_inout *in, t_process *process, int *fds)
 		free(line);
 		line = readline("> ");
 	}
+	if (line)
+		free(line);
 	ft_lstiter(process->inputs, (void (*)(void *))close_inout);
 	ft_lstiter(process->outputs, (void (*)(void *))close_inout);
 	free_msh(msh);
