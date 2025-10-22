@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 15:00:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/03 09:29:00 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/22 13:10:38 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +78,21 @@ int	parse(t_msh *msh)
 	t_stack	*tmp;
 
 	tmp = msh->stack;
-	if (stack_last(tmp)->token == PIPE)
-	{
-		ft_fprintf(2, "Billyshell: syntax error near unexpected token `|'\n");
-		msh->exit_code = 2;
-		return (0);
-	}
+	if (tmp->token == PIPE)
+		return (ft_fprintf(2,
+				"Billyshell: syntax error near unexpected token `|'\n"),
+			msh->exit_code = 2, 0);
 	while (tmp)
 	{
 		if (!check_next_token_for_redir(msh, tmp, REDIR))
 			return (0);
 		if (!add_node(msh, &tmp, &msh->stack))
 			return (0);
+		if (stack_last(tmp)->token == PIPE || (tmp->token == PIPE
+				&& tmp->next->token == PIPE))
+			return (ft_fprintf(2,
+					"Billyshell: syntax error near unexpected token `|'\n"),
+				msh->exit_code = 2, 0);
 		tmp = tmp->next;
 	}
 	if (msh->stack)
