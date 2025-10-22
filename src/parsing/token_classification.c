@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 16:35:00 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/02 23:32:55 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/22 22:59:45 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	handle_redirection_token(t_msh *msh, t_stack *tmp)
 		else
 			ft_fprintf(2,
 				"Billyshell: syntax error near unexpected token `%c%c'\n",
-				tmp->content[2], tmp->content[3]);
+				tmp->content[1], tmp->content[2]);
 		return (0);
 	}
 	return (1);
