@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 18:37:31 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/22 16:56:01 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/23 13:10:22 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ static int	repl(t_msh *msh)
 	{
 		check_signals(msh);
 		rl_outstream = stderr;
-		if (isatty(STDOUT_FILENO))
+		if (isatty(STDOUT_FILENO) && isatty(STDIN_FILENO))
 			msh->entry = readline("\033[1;92mBillyshell > \033[0m");
 		else
-			msh->entry = get_next_line(0);
+			break ;
 		if (!msh->entry && is_eof())
 			break ;
 		update_history(msh);
