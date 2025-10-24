@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: erpascua <erpascua@student.42.fr>          +#+  +:+       +#+         #
+#    By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 02:58:34 by erpascua          #+#    #+#              #
-#    Updated: 2025/10/03 18:36:50 by erpascua         ###   ########.fr        #
+#    Updated: 2025/10/24 14:06:51 by gpollast         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,7 +80,8 @@ SRCS        = 	src/built-in/cd.c \
 				src/utils/print_data.c \
 				src/utils/print_pre_exec.c \
 				src/utils/string_array_concat.c \
-				src/utils/string_array_copy.c
+				src/utils/string_array_copy.c \
+				src/parsing/expand_utils2.c
 
 MAIN_SRC    = 	src/main.c
 

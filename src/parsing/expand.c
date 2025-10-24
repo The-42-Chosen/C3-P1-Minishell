@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 09:11:35 by gpollast          #+#    #+#             */
-/*   Updated: 2025/10/03 18:09:10 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/24 13:36:04 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	*expand(t_msh *msh, char *s)
 	while (current)
 	{
 		tmp = res;
-		current->content = replace_env_var(msh, ((char *)current->content));
+		current->content = expand_all_vars(msh, ((char *)current->content));
 		if (!current->content)
 			return (NULL);
 		res = ft_strjoin(res, current->content);

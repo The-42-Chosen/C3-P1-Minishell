@@ -6,7 +6,7 @@
 /*   By: gpollast <gpollast@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 14:31:03 by erpascua          #+#    #+#             */
-/*   Updated: 2025/10/21 18:41:17 by gpollast         ###   ########.fr       */
+/*   Updated: 2025/10/24 13:50:57 by gpollast         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,8 @@ t_data					*data_add_back(t_data *data, t_data *new);
 t_process				*pre_exec(t_msh *msh);
 // EXPAND
 char					*expand(t_msh *msh, char *s);
+char					*expand_all_vars(t_msh *msh, char *s);
+char					*replace_env_var(t_msh *msh, char *s);
 // BUILT-IN
 t_builtin_type			get_builtin_type(t_msh *msh, t_data *data);
 bool					execute_builtin(t_msh *msh, t_process *process);
